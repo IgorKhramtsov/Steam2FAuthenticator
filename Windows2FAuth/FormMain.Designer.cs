@@ -31,9 +31,14 @@
             this.labelStatus = new System.Windows.Forms.Label();
             this.flowLayoutPanelLogin = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLoginPass = new System.Windows.Forms.Panel();
+            this.defTextBoxUsername = new Windows2FAuth.defTextBox();
+            this.defTextBoxPassword = new Windows2FAuth.defTextBox();
             this.panelEmailCode = new System.Windows.Forms.Panel();
+            this.defTextBoxEmailCode = new Windows2FAuth.defTextBox();
             this.panelTwoFactorCode = new System.Windows.Forms.Panel();
+            this.defTextBoxTwoFactorCode = new Windows2FAuth.defTextBox();
             this.panelCaptcha = new System.Windows.Forms.Panel();
+            this.defTextBoxCaptcha = new Windows2FAuth.defTextBox();
             this.pictureBoxCaptcha = new System.Windows.Forms.PictureBox();
             this.panelLoginButton = new System.Windows.Forms.Panel();
             this.buttonLogin = new System.Windows.Forms.Button();
@@ -43,7 +48,9 @@
             this.panelLinkButton = new System.Windows.Forms.Panel();
             this.buttonLink = new System.Windows.Forms.Button();
             this.panelSMS = new System.Windows.Forms.Panel();
+            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
             this.panelPhone = new System.Windows.Forms.Panel();
+            this.defTextBoxPhone = new Windows2FAuth.defTextBox();
             this.panelFinalizeLink = new System.Windows.Forms.Panel();
             this.buttonFinalize = new System.Windows.Forms.Button();
             this.panelLoadingLink = new System.Windows.Forms.Panel();
@@ -61,13 +68,6 @@
             this.buttonShowRevocationCode = new System.Windows.Forms.Button();
             this.panelTwoFactorLoading = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
-            this.defTextBoxPhone = new Windows2FAuth.defTextBox();
-            this.defTextBoxUsername = new Windows2FAuth.defTextBox();
-            this.defTextBoxPassword = new Windows2FAuth.defTextBox();
-            this.defTextBoxEmailCode = new Windows2FAuth.defTextBox();
-            this.defTextBoxTwoFactorCode = new Windows2FAuth.defTextBox();
-            this.defTextBoxCaptcha = new Windows2FAuth.defTextBox();
             this.flowLayoutPanelLogin.SuspendLayout();
             this.panelLoginPass.SuspendLayout();
             this.panelEmailCode.SuspendLayout();
@@ -128,6 +128,33 @@
             this.panelLoginPass.Size = new System.Drawing.Size(300, 91);
             this.panelLoginPass.TabIndex = 0;
             // 
+            // defTextBoxUsername
+            // 
+            this.defTextBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.defTextBoxUsername.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxUsername.Location = new System.Drawing.Point(47, 15);
+            this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxUsername.Name = "defTextBoxUsername";
+            this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
+            this.defTextBoxUsername.TabIndex = 1;
+            this.defTextBoxUsername.Text = "Username";
+            this.defTextBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
+            // defTextBoxPassword
+            // 
+            this.defTextBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.defTextBoxPassword.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxPassword.Location = new System.Drawing.Point(47, 55);
+            this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxPassword.Name = "defTextBoxPassword";
+            this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
+            this.defTextBoxPassword.TabIndex = 2;
+            this.defTextBoxPassword.Text = "Password";
+            this.defTextBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxPassword.UseSystemPasswordChar = true;
+            this.defTextBoxPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
             // panelEmailCode
             // 
             this.panelEmailCode.Controls.Add(this.defTextBoxEmailCode);
@@ -137,6 +164,21 @@
             this.panelEmailCode.Size = new System.Drawing.Size(300, 36);
             this.panelEmailCode.TabIndex = 6;
             this.panelEmailCode.Visible = false;
+            // 
+            // defTextBoxEmailCode
+            // 
+            this.defTextBoxEmailCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.defTextBoxEmailCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxEmailCode.Location = new System.Drawing.Point(79, 5);
+            this.defTextBoxEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxEmailCode.MaxLength = 5;
+            this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
+            this.defTextBoxEmailCode.Size = new System.Drawing.Size(141, 26);
+            this.defTextBoxEmailCode.TabIndex = 3;
+            this.defTextBoxEmailCode.Text = "EMAIL CODE";
+            this.defTextBoxEmailCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxEmailCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
             // panelTwoFactorCode
             // 
@@ -148,6 +190,21 @@
             this.panelTwoFactorCode.TabIndex = 7;
             this.panelTwoFactorCode.Visible = false;
             // 
+            // defTextBoxTwoFactorCode
+            // 
+            this.defTextBoxTwoFactorCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.defTextBoxTwoFactorCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
+            this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxTwoFactorCode.MaxLength = 5;
+            this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
+            this.defTextBoxTwoFactorCode.Size = new System.Drawing.Size(92, 26);
+            this.defTextBoxTwoFactorCode.TabIndex = 3;
+            this.defTextBoxTwoFactorCode.Text = "2FA CODE";
+            this.defTextBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxTwoFactorCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
             // panelCaptcha
             // 
             this.panelCaptcha.Controls.Add(this.defTextBoxCaptcha);
@@ -157,6 +214,15 @@
             this.panelCaptcha.Size = new System.Drawing.Size(301, 78);
             this.panelCaptcha.TabIndex = 9;
             this.panelCaptcha.Visible = false;
+            // 
+            // defTextBoxCaptcha
+            // 
+            this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
+            this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
+            this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
+            this.defTextBoxCaptcha.TabIndex = 4;
+            this.defTextBoxCaptcha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxCaptcha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
             // pictureBoxCaptcha
             // 
@@ -251,6 +317,18 @@
             this.panelSMS.TabIndex = 10;
             this.panelSMS.Visible = false;
             // 
+            // defTextBoxSMS
+            // 
+            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
+            this.defTextBoxSMS.MaxLength = 5;
+            this.defTextBoxSMS.Name = "defTextBoxSMS";
+            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
+            this.defTextBoxSMS.TabIndex = 0;
+            this.defTextBoxSMS.Text = "SMS Code";
+            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // panelPhone
             // 
             this.panelPhone.Controls.Add(this.defTextBoxPhone);
@@ -259,6 +337,19 @@
             this.panelPhone.Size = new System.Drawing.Size(298, 38);
             this.panelPhone.TabIndex = 9;
             this.panelPhone.Visible = false;
+            // 
+            // defTextBoxPhone
+            // 
+            this.defTextBoxPhone.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxPhone.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxPhone.Location = new System.Drawing.Point(89, 5);
+            this.defTextBoxPhone.MaxLength = 12;
+            this.defTextBoxPhone.Name = "defTextBoxPhone";
+            this.defTextBoxPhone.Size = new System.Drawing.Size(120, 29);
+            this.defTextBoxPhone.TabIndex = 0;
+            this.defTextBoxPhone.Text = "+12345678900";
+            this.defTextBoxPhone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxPhone_KeyPress);
             // 
             // panelFinalizeLink
             // 
@@ -428,97 +519,6 @@
             this.pictureBox2.Size = new System.Drawing.Size(80, 80);
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
-            // 
-            // defTextBoxSMS
-            // 
-            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
-            this.defTextBoxSMS.MaxLength = 5;
-            this.defTextBoxSMS.Name = "defTextBoxSMS";
-            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
-            this.defTextBoxSMS.TabIndex = 0;
-            this.defTextBoxSMS.Text = "SMS Code";
-            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // defTextBoxPhone
-            // 
-            this.defTextBoxPhone.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxPhone.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxPhone.Location = new System.Drawing.Point(89, 5);
-            this.defTextBoxPhone.MaxLength = 12;
-            this.defTextBoxPhone.Name = "defTextBoxPhone";
-            this.defTextBoxPhone.Size = new System.Drawing.Size(120, 29);
-            this.defTextBoxPhone.TabIndex = 0;
-            this.defTextBoxPhone.Text = "+12345678900";
-            this.defTextBoxPhone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxPhone_KeyPress);
-            // 
-            // defTextBoxUsername
-            // 
-            this.defTextBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxUsername.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxUsername.Location = new System.Drawing.Point(47, 15);
-            this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxUsername.Name = "defTextBoxUsername";
-            this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxUsername.TabIndex = 1;
-            this.defTextBoxUsername.Text = "Username";
-            this.defTextBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxPassword
-            // 
-            this.defTextBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxPassword.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxPassword.Location = new System.Drawing.Point(47, 55);
-            this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxPassword.Name = "defTextBoxPassword";
-            this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxPassword.TabIndex = 2;
-            this.defTextBoxPassword.Text = "Password";
-            this.defTextBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxPassword.UseSystemPasswordChar = true;
-            this.defTextBoxPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxEmailCode
-            // 
-            this.defTextBoxEmailCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.defTextBoxEmailCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxEmailCode.Location = new System.Drawing.Point(79, 5);
-            this.defTextBoxEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxEmailCode.MaxLength = 5;
-            this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
-            this.defTextBoxEmailCode.Size = new System.Drawing.Size(141, 26);
-            this.defTextBoxEmailCode.TabIndex = 3;
-            this.defTextBoxEmailCode.Text = "EMAIL CODE";
-            this.defTextBoxEmailCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxEmailCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxTwoFactorCode
-            // 
-            this.defTextBoxTwoFactorCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.defTextBoxTwoFactorCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
-            this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxTwoFactorCode.MaxLength = 5;
-            this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
-            this.defTextBoxTwoFactorCode.Size = new System.Drawing.Size(92, 26);
-            this.defTextBoxTwoFactorCode.TabIndex = 3;
-            this.defTextBoxTwoFactorCode.Text = "2FA CODE";
-            this.defTextBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxTwoFactorCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxCaptcha
-            // 
-            this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
-            this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
-            this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
-            this.defTextBoxCaptcha.TabIndex = 4;
-            this.defTextBoxCaptcha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxCaptcha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
             // FormMain
             // 

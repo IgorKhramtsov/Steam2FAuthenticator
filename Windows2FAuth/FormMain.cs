@@ -20,6 +20,7 @@ namespace Windows2FAuth
         string sTwoFactorCode;
         int iTwoFactorCodeTime;
         Timer TimerTwoFactorTextBoxUpdate;
+        const string Programmname = "Steam authenticator";
         public FormMain()
         {
             InitializeComponent();
@@ -35,9 +36,7 @@ namespace Windows2FAuth
             {
                 if (!cSteamAuth.LoadAuthenticator())
                     return;
-                flowLayoutPanelLogin.Visible = false;
-                flowLayoutPanelTwoFactorCodes.Visible = true;
-                RefreshCode().Forget();
+                OpenCodesTab();
             }
         }
 
@@ -122,9 +121,7 @@ namespace Windows2FAuth
                     defTextBoxSMS.Text = "";
                     break;
                 case SteamAuth.AuthenticatorLinker.FinalizeResult.Success:
-                    flowLayoutPanelLinker.Visible = false;
-                    flowLayoutPanelTwoFactorCodes.Visible = true;
-                    RefreshCode().Forget();
+                    OpenCodesTab();
                     break;
             }
         }
@@ -170,6 +167,14 @@ namespace Windows2FAuth
                 buttonLink.Enabled = true;
             if (buttonLogin.Enabled == false)
                 buttonLogin.Enabled = true;
+        }
+        private void OpenCodesTab()
+        {
+            flowLayoutPanelLogin.Visible = false;
+            flowLayoutPanelLinker.Visible = false;
+            flowLayoutPanelTwoFactorCodes.Visible = true;
+            this.Text = $"{Programmname} ({cSteamAuth.GetAccountName()})";
+            RefreshCode().Forget();
         }
         private async Task ShowRevocationCode()
         {

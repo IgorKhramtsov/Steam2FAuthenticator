@@ -77,6 +77,12 @@ namespace _2FAuthAndroidLibrary
 
             return steamGuardAccount != null;
         } // Load steam guard account
+        public string GetAccountName()
+        {
+            if (steamGuardAccount == null)
+                return "";
+            return steamGuardAccount.AccountName;
+        }
         public async Task<string> Get2FACode()
         {
             if (steamGuardAccount == null)
