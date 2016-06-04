@@ -2,12 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="5BS3A"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/textView1"
+        android:textSize="35dp"
+        android:textStyle="normal"
+        android:typeface="normal"
+        android:textAlignment="textStart"
+        android:inputType="none"
+        android:maxLength="5"
+        android:editable="false"
+        android:enabled="true"
+        android:focusable="false"
+        android:singleLine="true"
+        android:visibility="visible"
+        android:gravity="center" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar1" />
+    <TextView
+        android:text="10"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:clickable="false"
+        android:editable="false"
+        android:enabled="true"
+        android:focusable="false"
+        android:visibility="visible"
+        android:singleLine="true"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:numeric="integer" />
+    <Button
+        android:id="@+id/MyButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Hello" />
 </LinearLayout>

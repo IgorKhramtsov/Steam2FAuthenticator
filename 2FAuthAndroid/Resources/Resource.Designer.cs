@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("_2FAuthentificatorForAndroid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("_2FAuthAndroid.Resource", IsApplication=true)]
 
-namespace _2FAuthentificatorForAndroid
+namespace _2FAuthAndroid
 {
 	
 	
@@ -26,6 +26,8 @@ namespace _2FAuthentificatorForAndroid
 		
 		public static void UpdateIdValues()
 		{
+			global::_2FAuthAndroidLibrary.Resource.String.ApplicationName = global::_2FAuthAndroid.Resource.String.ApplicationName;
+			global::_2FAuthAndroidLibrary.Resource.String.Hello = global::_2FAuthAndroid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -60,17 +62,8 @@ namespace _2FAuthentificatorForAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int MyButton = 2131034115;
-			
-			// aapt resource value: 0x7f050001
-			public const int progressBar1 = 2131034113;
-			
 			// aapt resource value: 0x7f050000
-			public const int textView1 = 2131034112;
-			
-			// aapt resource value: 0x7f050002
-			public const int textView2 = 2131034114;
+			public const int MyButton = 2131034112;
 			
 			static Id()
 			{
