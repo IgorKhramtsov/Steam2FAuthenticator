@@ -15,49 +15,41 @@ namespace SteamAuth
     public class SteamGuardAccount
     {
         [JsonProperty("shared_secret")]
-        public string SharedSecret { get; set; }
-
+        public string SharedSecret { get; set; } // Must be crypted
         [JsonProperty("serial_number")]
-        public string SerialNumber { get; set; }
-
+        public string SerialNumber { get; set; } // Doesn`t used
         [JsonProperty("revocation_code")]
-        public string RevocationCode { get; set; }
-
+        public string RevocationCode { get; set; } // Must be crypted
         [JsonProperty("uri")]
-        public string URI { get; set; }
-
+        public string URI { get; set; } // Doesn`t used
         [JsonProperty("server_time")]
-        public long ServerTime { get; set; }
-
+        public long ServerTime { get; set; } // Doesn`t used
         [JsonProperty("account_name")]
         public string AccountName { get; set; }
-
         [JsonProperty("token_gid")]
-        public string TokenGID { get; set; }
-
+        public string TokenGID { get; set; } // Doesn`t used
         [JsonProperty("identity_secret")]
-        public string IdentitySecret { get; set; }
-
+        public string IdentitySecret { get; set; } // Must be crypted
         [JsonProperty("secret_1")]
-        public string Secret1 { get; set; }
-
+        public string Secret1 { get; set; } // Doesn`t used
         [JsonProperty("status")]
         public int Status { get; set; }
-
         [JsonProperty("device_id")]
-        public string DeviceID { get; set; }
+        public string DeviceID { get; set; } // Must be crypted
         [JsonProperty("timeDiff")]
         private int timeDiference { get; set; } = 0;
-
+        [JsonProperty]
+        public SessionData Session { get; set; }
         /// <summary>
         /// Set to true if the authenticator has actually been applied to the account.
         /// </summary>
         [JsonProperty("fully_enrolled")]
         public bool FullyEnrolled { get; set; }
 
-        private bool NetAvailable = false;
-        public SessionData Session { get; set; }
-
+        [JsonIgnore]
+        public bool NetAvailable = false;
+        [JsonIgnore]
+        public int secret;
         private static byte[] steamGuardCodeTranslations = new byte[] { 50, 51, 52, 53, 54, 55, 56, 57, 66, 67, 68, 70, 71, 72, 74, 75, 77, 78, 80, 81, 82, 84, 86, 87, 88, 89 };
 
         public async Task<bool> DeactivateAuthenticator(int scheme = 2)
@@ -122,9 +114,7 @@ namespace SteamAuth
         public string GenerateSteamGuardCodeForTime(long time)
         {
             if (this.SharedSecret == null || this.SharedSecret.Length == 0)
-            {
                 return "";
-            }
 
             byte[] sharedSecretArray = Convert.FromBase64String(this.SharedSecret);
             byte[] timeArray = new byte[8];
@@ -219,9 +209,20 @@ namespace SteamAuth
             string url = this.GenerateConfirmationURL();
 
             CookieContainer cookies = new CookieContainer();
+            try { 
             this.Session.AddCookies(cookies);
+            }
+            catch(Exception e) { }
 
             string response = await SteamWeb.RequestAsync(url, "GET", null, cookies);
+
+            /*
+             <div class="mobileconf_list_entry_description">
+			    <div>Sell - Market Listing</div>
+			    <div>Wandering Zombie 5 pуб. (4,36 pуб.)</div>
+			    <div>20 hours ago</div>
+		    </div>
+             */
 
             /*So you're going to see this abomination and you're going to be upset.
               It's understandable. But the thing is, regex for HTML -- while awful -- makes this way faster than parsing a DOM, plus we don't need another library.
@@ -231,6 +232,7 @@ namespace SteamAuth
             Regex confIDRegex = new Regex("data-confid=\"(\\d+)\"");
             Regex confKeyRegex = new Regex("data-key=\"(\\d+)\"");
             Regex confDescRegex = new Regex("<div>((Confirm|Trade with|Sell -) .+)</div>");
+            Regex confNameRegex = new Regex("<div>(.+\\(.+\\))</div>");
 
             if (response == null || !(confIDRegex.IsMatch(response) && confKeyRegex.IsMatch(response) && confDescRegex.IsMatch(response)))
             {
@@ -245,6 +247,7 @@ namespace SteamAuth
             MatchCollection confIDs = confIDRegex.Matches(response);
             MatchCollection confKeys = confKeyRegex.Matches(response);
             MatchCollection confDescs = confDescRegex.Matches(response);
+            MatchCollection confNames = confNameRegex.Matches(response);
 
             List<Confirmation> ret = new List<Confirmation>();
             for (int i = 0; i < confIDs.Count; i++)
@@ -252,11 +255,17 @@ namespace SteamAuth
                 string confID = confIDs[i].Groups[1].Value;
                 string confKey = confKeys[i].Groups[1].Value;
                 string confDesc = confDescs[i].Groups[1].Value;
+                string confName = "Trade";
+                if (confNames.Count > 0)
+                    confName = confNames[i].Groups[1].Value;
+
+
                 Confirmation conf = new Confirmation()
                 {
                     Description = confDesc,
                     ID = confID,
-                    Key = confKey
+                    Key = confKey,
+                    Name = confName
                 };
                 ret.Add(conf);
             }
@@ -274,14 +283,14 @@ namespace SteamAuth
             return long.Parse(tradeOfferIDRegex.Match(confDetails.HTML).Groups[1].Value);
         }
 
-        public bool AcceptConfirmation(Confirmation conf)
+        public async Task<bool> AcceptConfirmation(Confirmation conf)
         {
-            return _sendConfirmationAjax(conf, "allow");
+            return await _sendConfirmationAjaxAsync(conf, "allow");
         }
 
-        public bool DenyConfirmation(Confirmation conf)
+        public async Task<bool> DenyConfirmation(Confirmation conf)
         {
-            return _sendConfirmationAjax(conf, "cancel");
+            return await _sendConfirmationAjaxAsync(conf, "cancel");
         }
 
         /// <summary>
@@ -290,6 +299,10 @@ namespace SteamAuth
         /// <returns></returns>
         public bool RefreshSession()
         {
+            CheckInternet();
+            if (NetAvailable == false)
+                return false;
+
             string url = APIEndpoints.MOBILEAUTH_GETWGTOKEN;
             var postData = new NameValueCollection();
             postData.Add("access_token", this.Session.OAuthToken);
@@ -322,11 +335,15 @@ namespace SteamAuth
         /// <returns></returns>
         public async Task<bool> RefreshSessionAsync()
         {
+            CheckInternet();
+            if (NetAvailable == false)
+                return false;
+
             string url = APIEndpoints.MOBILEAUTH_GETWGTOKEN;
             var postData = new NameValueCollection();
             postData.Add("access_token", this.Session.OAuthToken);
 
-            string response = await SteamWeb.RequestAsync(url, "POST", postData);
+            string response = await SteamWeb.RequestAsync(url, "POST", postData).ConfigureAwait(true);
             if (response == null) return false;
 
             try
@@ -365,7 +382,24 @@ namespace SteamAuth
             if (confResponse == null) return null;
             return confResponse;
         }
+        private async Task<bool> _sendConfirmationAjaxAsync(Confirmation conf, string op)
+        {
+            string url = APIEndpoints.COMMUNITY_BASE + "/mobileconf/ajaxop";
+            string queryString = "?op=" + op + "&";
+            queryString += GenerateConfirmationQueryParams(op);
+            queryString += "&cid=" + conf.ID + "&ck=" + conf.Key;
+            url += queryString;
 
+            CookieContainer cookies = new CookieContainer();
+            this.Session.AddCookies(cookies);
+            string referer = GenerateConfirmationURL();
+
+            string response = await SteamWeb.RequestAsync(url, "GET", null, cookies, null).ConfigureAwait(true);
+            if (response == null) return false;
+
+            SendConfirmationResponse confResponse = JsonConvert.DeserializeObject<SendConfirmationResponse>(response);
+            return confResponse.Success;
+        }
         private bool _sendConfirmationAjax(Confirmation conf, string op)
         {
             string url = APIEndpoints.COMMUNITY_BASE + "/mobileconf/ajaxop";

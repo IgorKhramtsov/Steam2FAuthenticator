@@ -44,8 +44,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="zxing.portable">
+      <HintPath>..\ZXing.Net.0.14.0.0\portable\zxing.portable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logging.cs" />
     <Compile Include="SteamAuth\APIEndpoints.cs" />
     <Compile Include="SteamAuth\AuthenticatorLinker.cs" />
     <Compile Include="CSteamAuth.cs" />

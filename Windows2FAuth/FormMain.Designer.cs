@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelStatus = new System.Windows.Forms.Label();
             this.flowLayoutPanelLogin = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLoginPass = new System.Windows.Forms.Panel();
@@ -47,10 +48,13 @@
             this.flowLayoutPanelLinker = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLinkButton = new System.Windows.Forms.Panel();
             this.buttonLink = new System.Windows.Forms.Button();
-            this.panelSMS = new System.Windows.Forms.Panel();
-            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
             this.panelPhone = new System.Windows.Forms.Panel();
             this.defTextBoxPhone = new Windows2FAuth.defTextBox();
+            this.panelSMS = new System.Windows.Forms.Panel();
+            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
+            this.panelSecret = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.defTextBoxSecret = new Windows2FAuth.defTextBox();
             this.panelFinalizeLink = new System.Windows.Forms.Panel();
             this.buttonFinalize = new System.Windows.Forms.Button();
             this.panelLoadingLink = new System.Windows.Forms.Panel();
@@ -62,12 +66,37 @@
             this.panelRevocationCode = new System.Windows.Forms.Panel();
             this.progressBarRevocationCode = new System.Windows.Forms.ProgressBar();
             this.textBoxRevocationCode = new System.Windows.Forms.TextBox();
-            this.panelDeleteTwoFactor = new System.Windows.Forms.Panel();
-            this.buttonDeLink = new System.Windows.Forms.Button();
+            this.panelGoToPending = new System.Windows.Forms.Panel();
+            this.buttonGoToPendings = new System.Windows.Forms.Button();
             this.panelShowRevocationCode = new System.Windows.Forms.Panel();
             this.buttonShowRevocationCode = new System.Windows.Forms.Button();
+            this.panelDeleteTwoFactor = new System.Windows.Forms.Panel();
+            this.buttonDeLink = new System.Windows.Forms.Button();
             this.panelTwoFactorLoading = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.flowLayoutPanelPendingConfirmation = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelPendingsLoading = new System.Windows.Forms.Panel();
+            this.pictureBoxPendingLoading = new System.Windows.Forms.PictureBox();
+            this.panelPendingNothing = new System.Windows.Forms.Panel();
+            this.labelPendingListEmpty = new System.Windows.Forms.Label();
+            this.checkedListBoxPendings = new System.Windows.Forms.CheckedListBox();
+            this.contextMenuStripPendingsActions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deSelectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelPendingButtons = new System.Windows.Forms.Panel();
+            this.buttonPendingDeny = new System.Windows.Forms.Button();
+            this.buttonPendingAccept = new System.Windows.Forms.Button();
+            this.panelGoToCodes = new System.Windows.Forms.Panel();
+            this.buttonGoToCodes = new System.Windows.Forms.Button();
+            this.notifyIconMain = new System.Windows.Forms.NotifyIcon(this.components);
+            this.flowLayoutPanelCrypto = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelCryptoCode = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.defTextBoxCryptoCode = new Windows2FAuth.defTextBox();
+            this.toolStripMain = new System.Windows.Forms.ToolStrip();
+            this.toolStripDropDownMenu = new System.Windows.Forms.ToolStripDropDownButton();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelLogin.SuspendLayout();
             this.panelLoginPass.SuspendLayout();
             this.panelEmailCode.SuspendLayout();
@@ -79,28 +108,41 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).BeginInit();
             this.flowLayoutPanelLinker.SuspendLayout();
             this.panelLinkButton.SuspendLayout();
-            this.panelSMS.SuspendLayout();
             this.panelPhone.SuspendLayout();
+            this.panelSMS.SuspendLayout();
+            this.panelSecret.SuspendLayout();
             this.panelFinalizeLink.SuspendLayout();
             this.panelLoadingLink.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanelTwoFactorCodes.SuspendLayout();
             this.panelTwoFactorCodes.SuspendLayout();
             this.panelRevocationCode.SuspendLayout();
-            this.panelDeleteTwoFactor.SuspendLayout();
+            this.panelGoToPending.SuspendLayout();
             this.panelShowRevocationCode.SuspendLayout();
+            this.panelDeleteTwoFactor.SuspendLayout();
             this.panelTwoFactorLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.flowLayoutPanelPendingConfirmation.SuspendLayout();
+            this.panelPendingsLoading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).BeginInit();
+            this.panelPendingNothing.SuspendLayout();
+            this.contextMenuStripPendingsActions.SuspendLayout();
+            this.panelPendingButtons.SuspendLayout();
+            this.panelGoToCodes.SuspendLayout();
+            this.flowLayoutPanelCrypto.SuspendLayout();
+            this.panelCryptoCode.SuspendLayout();
+            this.toolStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(1, 417);
+            this.labelStatus.Location = new System.Drawing.Point(313, 422);
             this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(0, 15);
+            this.labelStatus.Size = new System.Drawing.Size(39, 15);
             this.labelStatus.TabIndex = 0;
+            this.labelStatus.Text = "Status";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // flowLayoutPanelLogin
@@ -116,7 +158,7 @@
             this.flowLayoutPanelLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanelLogin.Name = "flowLayoutPanelLogin";
             this.flowLayoutPanelLogin.Size = new System.Drawing.Size(305, 412);
-            this.flowLayoutPanelLogin.TabIndex = 4;
+            this.flowLayoutPanelLogin.TabIndex = 0;
             // 
             // panelLoginPass
             // 
@@ -136,7 +178,7 @@
             this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.defTextBoxUsername.Name = "defTextBoxUsername";
             this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxUsername.TabIndex = 1;
+            this.defTextBoxUsername.TabIndex = 0;
             this.defTextBoxUsername.Text = "Username";
             this.defTextBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
@@ -149,7 +191,7 @@
             this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.defTextBoxPassword.Name = "defTextBoxPassword";
             this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxPassword.TabIndex = 2;
+            this.defTextBoxPassword.TabIndex = 1;
             this.defTextBoxPassword.Text = "Password";
             this.defTextBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxPassword.UseSystemPasswordChar = true;
@@ -175,7 +217,7 @@
             this.defTextBoxEmailCode.MaxLength = 5;
             this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
             this.defTextBoxEmailCode.Size = new System.Drawing.Size(141, 26);
-            this.defTextBoxEmailCode.TabIndex = 3;
+            this.defTextBoxEmailCode.TabIndex = 0;
             this.defTextBoxEmailCode.Text = "EMAIL CODE";
             this.defTextBoxEmailCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxEmailCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
@@ -197,10 +239,10 @@
             this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
             this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
             this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxTwoFactorCode.MaxLength = 5;
+            this.defTextBoxTwoFactorCode.MaxLength = 10;
             this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
             this.defTextBoxTwoFactorCode.Size = new System.Drawing.Size(92, 26);
-            this.defTextBoxTwoFactorCode.TabIndex = 3;
+            this.defTextBoxTwoFactorCode.TabIndex = 0;
             this.defTextBoxTwoFactorCode.Text = "2FA CODE";
             this.defTextBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxTwoFactorCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
@@ -220,7 +262,7 @@
             this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
             this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
             this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
-            this.defTextBoxCaptcha.TabIndex = 4;
+            this.defTextBoxCaptcha.TabIndex = 0;
             this.defTextBoxCaptcha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxCaptcha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
@@ -278,15 +320,16 @@
             // flowLayoutPanelLinker
             // 
             this.flowLayoutPanelLinker.Controls.Add(this.panelLinkButton);
-            this.flowLayoutPanelLinker.Controls.Add(this.panelSMS);
             this.flowLayoutPanelLinker.Controls.Add(this.panelPhone);
+            this.flowLayoutPanelLinker.Controls.Add(this.panelSMS);
+            this.flowLayoutPanelLinker.Controls.Add(this.panelSecret);
             this.flowLayoutPanelLinker.Controls.Add(this.panelFinalizeLink);
             this.flowLayoutPanelLinker.Controls.Add(this.panelLoadingLink);
             this.flowLayoutPanelLinker.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLinker.Location = new System.Drawing.Point(311, 0);
             this.flowLayoutPanelLinker.Name = "flowLayoutPanelLinker";
             this.flowLayoutPanelLinker.Size = new System.Drawing.Size(305, 412);
-            this.flowLayoutPanelLinker.TabIndex = 7;
+            this.flowLayoutPanelLinker.TabIndex = 1;
             this.flowLayoutPanelLinker.Visible = false;
             // 
             // panelLinkButton
@@ -308,31 +351,10 @@
             this.buttonLink.UseVisualStyleBackColor = true;
             this.buttonLink.Click += new System.EventHandler(this.buttonLink_Click);
             // 
-            // panelSMS
-            // 
-            this.panelSMS.Controls.Add(this.defTextBoxSMS);
-            this.panelSMS.Location = new System.Drawing.Point(3, 63);
-            this.panelSMS.Name = "panelSMS";
-            this.panelSMS.Size = new System.Drawing.Size(298, 40);
-            this.panelSMS.TabIndex = 10;
-            this.panelSMS.Visible = false;
-            // 
-            // defTextBoxSMS
-            // 
-            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
-            this.defTextBoxSMS.MaxLength = 5;
-            this.defTextBoxSMS.Name = "defTextBoxSMS";
-            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
-            this.defTextBoxSMS.TabIndex = 0;
-            this.defTextBoxSMS.Text = "SMS Code";
-            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // panelPhone
             // 
             this.panelPhone.Controls.Add(this.defTextBoxPhone);
-            this.panelPhone.Location = new System.Drawing.Point(3, 109);
+            this.panelPhone.Location = new System.Drawing.Point(3, 63);
             this.panelPhone.Name = "panelPhone";
             this.panelPhone.Size = new System.Drawing.Size(298, 38);
             this.panelPhone.TabIndex = 9;
@@ -351,10 +373,65 @@
             this.defTextBoxPhone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.defTextBoxPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxPhone_KeyPress);
             // 
+            // panelSMS
+            // 
+            this.panelSMS.Controls.Add(this.defTextBoxSMS);
+            this.panelSMS.Location = new System.Drawing.Point(3, 107);
+            this.panelSMS.Name = "panelSMS";
+            this.panelSMS.Size = new System.Drawing.Size(298, 40);
+            this.panelSMS.TabIndex = 10;
+            this.panelSMS.Visible = false;
+            // 
+            // defTextBoxSMS
+            // 
+            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
+            this.defTextBoxSMS.MaxLength = 5;
+            this.defTextBoxSMS.Name = "defTextBoxSMS";
+            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
+            this.defTextBoxSMS.TabIndex = 0;
+            this.defTextBoxSMS.Text = "SMS Code";
+            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // panelSecret
+            // 
+            this.panelSecret.Controls.Add(this.label2);
+            this.panelSecret.Controls.Add(this.defTextBoxSecret);
+            this.panelSecret.Location = new System.Drawing.Point(3, 153);
+            this.panelSecret.Name = "panelSecret";
+            this.panelSecret.Size = new System.Drawing.Size(298, 86);
+            this.panelSecret.TabIndex = 11;
+            this.panelSecret.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label2.Location = new System.Drawing.Point(39, 5);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(234, 42);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Enter combination of 4 numbers\r\nRemember this combination!";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // defTextBoxSecret
+            // 
+            this.defTextBoxSecret.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxSecret.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSecret.Location = new System.Drawing.Point(106, 52);
+            this.defTextBoxSecret.MaxLength = 4;
+            this.defTextBoxSecret.Name = "defTextBoxSecret";
+            this.defTextBoxSecret.Size = new System.Drawing.Size(98, 29);
+            this.defTextBoxSecret.TabIndex = 0;
+            this.defTextBoxSecret.Text = "Secret code";
+            this.defTextBoxSecret.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxSecret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
+            // 
             // panelFinalizeLink
             // 
             this.panelFinalizeLink.Controls.Add(this.buttonFinalize);
-            this.panelFinalizeLink.Location = new System.Drawing.Point(3, 153);
+            this.panelFinalizeLink.Location = new System.Drawing.Point(3, 245);
             this.panelFinalizeLink.Name = "panelFinalizeLink";
             this.panelFinalizeLink.Size = new System.Drawing.Size(299, 54);
             this.panelFinalizeLink.TabIndex = 1;
@@ -374,7 +451,7 @@
             // panelLoadingLink
             // 
             this.panelLoadingLink.Controls.Add(this.pictureBox1);
-            this.panelLoadingLink.Location = new System.Drawing.Point(3, 213);
+            this.panelLoadingLink.Location = new System.Drawing.Point(308, 3);
             this.panelLoadingLink.Name = "panelLoadingLink";
             this.panelLoadingLink.Size = new System.Drawing.Size(302, 110);
             this.panelLoadingLink.TabIndex = 8;
@@ -395,14 +472,15 @@
             // 
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelTwoFactorCodes);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelRevocationCode);
-            this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelDeleteTwoFactor);
+            this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelGoToPending);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelShowRevocationCode);
+            this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelDeleteTwoFactor);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelTwoFactorLoading);
             this.flowLayoutPanelTwoFactorCodes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelTwoFactorCodes.Location = new System.Drawing.Point(623, 0);
             this.flowLayoutPanelTwoFactorCodes.Name = "flowLayoutPanelTwoFactorCodes";
             this.flowLayoutPanelTwoFactorCodes.Size = new System.Drawing.Size(305, 412);
-            this.flowLayoutPanelTwoFactorCodes.TabIndex = 8;
+            this.flowLayoutPanelTwoFactorCodes.TabIndex = 2;
             this.flowLayoutPanelTwoFactorCodes.Visible = false;
             // 
             // panelTwoFactorCodes
@@ -425,11 +503,11 @@
             // textBoxTwoFactorCode
             // 
             this.textBoxTwoFactorCode.Font = new System.Drawing.Font("Segoe UI", 18F);
-            this.textBoxTwoFactorCode.Location = new System.Drawing.Point(105, 10);
+            this.textBoxTwoFactorCode.Location = new System.Drawing.Point(99, 10);
             this.textBoxTwoFactorCode.MaxLength = 5;
             this.textBoxTwoFactorCode.Name = "textBoxTwoFactorCode";
             this.textBoxTwoFactorCode.ReadOnly = true;
-            this.textBoxTwoFactorCode.Size = new System.Drawing.Size(98, 39);
+            this.textBoxTwoFactorCode.Size = new System.Drawing.Size(110, 39);
             this.textBoxTwoFactorCode.TabIndex = 0;
             this.textBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -454,37 +532,37 @@
             // textBoxRevocationCode
             // 
             this.textBoxRevocationCode.Font = new System.Drawing.Font("Segoe UI", 18F);
-            this.textBoxRevocationCode.Location = new System.Drawing.Point(105, 7);
+            this.textBoxRevocationCode.Location = new System.Drawing.Point(99, 7);
             this.textBoxRevocationCode.MaxLength = 5;
             this.textBoxRevocationCode.Name = "textBoxRevocationCode";
             this.textBoxRevocationCode.ReadOnly = true;
-            this.textBoxRevocationCode.Size = new System.Drawing.Size(98, 39);
+            this.textBoxRevocationCode.Size = new System.Drawing.Size(110, 39);
             this.textBoxRevocationCode.TabIndex = 1;
             this.textBoxRevocationCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // panelDeleteTwoFactor
+            // panelGoToPending
             // 
-            this.panelDeleteTwoFactor.Controls.Add(this.buttonDeLink);
-            this.panelDeleteTwoFactor.Location = new System.Drawing.Point(3, 143);
-            this.panelDeleteTwoFactor.Name = "panelDeleteTwoFactor";
-            this.panelDeleteTwoFactor.Size = new System.Drawing.Size(302, 45);
-            this.panelDeleteTwoFactor.TabIndex = 1;
+            this.panelGoToPending.Controls.Add(this.buttonGoToPendings);
+            this.panelGoToPending.Location = new System.Drawing.Point(3, 143);
+            this.panelGoToPending.Name = "panelGoToPending";
+            this.panelGoToPending.Size = new System.Drawing.Size(302, 42);
+            this.panelGoToPending.TabIndex = 10;
             // 
-            // buttonDeLink
+            // buttonGoToPendings
             // 
-            this.buttonDeLink.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.buttonDeLink.Location = new System.Drawing.Point(66, 5);
-            this.buttonDeLink.Name = "buttonDeLink";
-            this.buttonDeLink.Size = new System.Drawing.Size(170, 34);
-            this.buttonDeLink.TabIndex = 0;
-            this.buttonDeLink.Text = "Delete authenticator";
-            this.buttonDeLink.UseVisualStyleBackColor = true;
-            this.buttonDeLink.Click += new System.EventHandler(this.buttonDeLink_Click);
+            this.buttonGoToPendings.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonGoToPendings.Location = new System.Drawing.Point(82, 3);
+            this.buttonGoToPendings.Name = "buttonGoToPendings";
+            this.buttonGoToPendings.Size = new System.Drawing.Size(136, 35);
+            this.buttonGoToPendings.TabIndex = 0;
+            this.buttonGoToPendings.Text = "Pendings";
+            this.buttonGoToPendings.UseVisualStyleBackColor = true;
+            this.buttonGoToPendings.Click += new System.EventHandler(this.buttonGoToPendings_Click);
             // 
             // panelShowRevocationCode
             // 
             this.panelShowRevocationCode.Controls.Add(this.buttonShowRevocationCode);
-            this.panelShowRevocationCode.Location = new System.Drawing.Point(3, 194);
+            this.panelShowRevocationCode.Location = new System.Drawing.Point(3, 191);
             this.panelShowRevocationCode.Name = "panelShowRevocationCode";
             this.panelShowRevocationCode.Size = new System.Drawing.Size(302, 45);
             this.panelShowRevocationCode.TabIndex = 2;
@@ -500,10 +578,29 @@
             this.buttonShowRevocationCode.UseVisualStyleBackColor = true;
             this.buttonShowRevocationCode.Click += new System.EventHandler(this.buttonShowRevocationCode_Click);
             // 
+            // panelDeleteTwoFactor
+            // 
+            this.panelDeleteTwoFactor.Controls.Add(this.buttonDeLink);
+            this.panelDeleteTwoFactor.Location = new System.Drawing.Point(3, 242);
+            this.panelDeleteTwoFactor.Name = "panelDeleteTwoFactor";
+            this.panelDeleteTwoFactor.Size = new System.Drawing.Size(302, 45);
+            this.panelDeleteTwoFactor.TabIndex = 1;
+            // 
+            // buttonDeLink
+            // 
+            this.buttonDeLink.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonDeLink.Location = new System.Drawing.Point(66, 5);
+            this.buttonDeLink.Name = "buttonDeLink";
+            this.buttonDeLink.Size = new System.Drawing.Size(170, 34);
+            this.buttonDeLink.TabIndex = 0;
+            this.buttonDeLink.Text = "Delete authenticator";
+            this.buttonDeLink.UseVisualStyleBackColor = true;
+            this.buttonDeLink.Click += new System.EventHandler(this.buttonDeLink_Click);
+            // 
             // panelTwoFactorLoading
             // 
             this.panelTwoFactorLoading.Controls.Add(this.pictureBox2);
-            this.panelTwoFactorLoading.Location = new System.Drawing.Point(3, 245);
+            this.panelTwoFactorLoading.Location = new System.Drawing.Point(3, 293);
             this.panelTwoFactorLoading.Name = "panelTwoFactorLoading";
             this.panelTwoFactorLoading.Size = new System.Drawing.Size(302, 110);
             this.panelTwoFactorLoading.TabIndex = 9;
@@ -520,15 +617,252 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // flowLayoutPanelPendingConfirmation
+            // 
+            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingsLoading);
+            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingNothing);
+            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.checkedListBoxPendings);
+            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingButtons);
+            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelGoToCodes);
+            this.flowLayoutPanelPendingConfirmation.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelPendingConfirmation.Location = new System.Drawing.Point(934, 0);
+            this.flowLayoutPanelPendingConfirmation.Name = "flowLayoutPanelPendingConfirmation";
+            this.flowLayoutPanelPendingConfirmation.Size = new System.Drawing.Size(305, 412);
+            this.flowLayoutPanelPendingConfirmation.TabIndex = 3;
+            this.flowLayoutPanelPendingConfirmation.Visible = false;
+            // 
+            // panelPendingsLoading
+            // 
+            this.panelPendingsLoading.Controls.Add(this.pictureBoxPendingLoading);
+            this.panelPendingsLoading.Location = new System.Drawing.Point(3, 3);
+            this.panelPendingsLoading.Name = "panelPendingsLoading";
+            this.panelPendingsLoading.Size = new System.Drawing.Size(302, 110);
+            this.panelPendingsLoading.TabIndex = 12;
+            this.panelPendingsLoading.Visible = false;
+            // 
+            // pictureBoxPendingLoading
+            // 
+            this.pictureBoxPendingLoading.ErrorImage = null;
+            this.pictureBoxPendingLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
+            this.pictureBoxPendingLoading.InitialImage = null;
+            this.pictureBoxPendingLoading.Location = new System.Drawing.Point(109, 12);
+            this.pictureBoxPendingLoading.Name = "pictureBoxPendingLoading";
+            this.pictureBoxPendingLoading.Size = new System.Drawing.Size(80, 80);
+            this.pictureBoxPendingLoading.TabIndex = 0;
+            this.pictureBoxPendingLoading.TabStop = false;
+            // 
+            // panelPendingNothing
+            // 
+            this.panelPendingNothing.Controls.Add(this.labelPendingListEmpty);
+            this.panelPendingNothing.Location = new System.Drawing.Point(3, 119);
+            this.panelPendingNothing.Name = "panelPendingNothing";
+            this.panelPendingNothing.Size = new System.Drawing.Size(302, 100);
+            this.panelPendingNothing.TabIndex = 10;
+            this.panelPendingNothing.Visible = false;
+            // 
+            // labelPendingListEmpty
+            // 
+            this.labelPendingListEmpty.AutoSize = true;
+            this.labelPendingListEmpty.Font = new System.Drawing.Font("Segoe UI", 15F);
+            this.labelPendingListEmpty.Location = new System.Drawing.Point(58, 37);
+            this.labelPendingListEmpty.Name = "labelPendingListEmpty";
+            this.labelPendingListEmpty.Size = new System.Drawing.Size(192, 28);
+            this.labelPendingListEmpty.TabIndex = 0;
+            this.labelPendingListEmpty.Text = "Pending list is empty";
+            // 
+            // checkedListBoxPendings
+            // 
+            this.checkedListBoxPendings.CheckOnClick = true;
+            this.checkedListBoxPendings.ContextMenuStrip = this.contextMenuStripPendingsActions;
+            this.checkedListBoxPendings.FormattingEnabled = true;
+            this.checkedListBoxPendings.HorizontalScrollbar = true;
+            this.checkedListBoxPendings.Location = new System.Drawing.Point(3, 225);
+            this.checkedListBoxPendings.Name = "checkedListBoxPendings";
+            this.checkedListBoxPendings.Size = new System.Drawing.Size(300, 76);
+            this.checkedListBoxPendings.TabIndex = 0;
+            this.checkedListBoxPendings.ThreeDCheckBoxes = true;
+            this.checkedListBoxPendings.Visible = false;
+            this.checkedListBoxPendings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedListBoxPendings_MouseDown);
+            // 
+            // contextMenuStripPendingsActions
+            // 
+            this.contextMenuStripPendingsActions.DropShadowEnabled = false;
+            this.contextMenuStripPendingsActions.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.contextMenuStripPendingsActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deSelectAllToolStripMenuItem,
+            this.sToolStripMenuItem});
+            this.contextMenuStripPendingsActions.Name = "contextMenuStripPendingsActions";
+            this.contextMenuStripPendingsActions.Size = new System.Drawing.Size(147, 52);
+            // 
+            // deSelectAllToolStripMenuItem
+            // 
+            this.deSelectAllToolStripMenuItem.Name = "deSelectAllToolStripMenuItem";
+            this.deSelectAllToolStripMenuItem.Size = new System.Drawing.Size(146, 24);
+            this.deSelectAllToolStripMenuItem.Text = "Select all";
+            this.deSelectAllToolStripMenuItem.Click += new System.EventHandler(this.deSelectAllToolStripMenuItem_Click);
+            // 
+            // sToolStripMenuItem
+            // 
+            this.sToolStripMenuItem.Name = "sToolStripMenuItem";
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(146, 24);
+            this.sToolStripMenuItem.Text = "Deselect all";
+            this.sToolStripMenuItem.Click += new System.EventHandler(this.sToolStripMenuItem_Click);
+            // 
+            // panelPendingButtons
+            // 
+            this.panelPendingButtons.Controls.Add(this.buttonPendingDeny);
+            this.panelPendingButtons.Controls.Add(this.buttonPendingAccept);
+            this.panelPendingButtons.Location = new System.Drawing.Point(3, 307);
+            this.panelPendingButtons.Name = "panelPendingButtons";
+            this.panelPendingButtons.Size = new System.Drawing.Size(302, 46);
+            this.panelPendingButtons.TabIndex = 1;
+            this.panelPendingButtons.Visible = false;
+            // 
+            // buttonPendingDeny
+            // 
+            this.buttonPendingDeny.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonPendingDeny.Location = new System.Drawing.Point(179, 4);
+            this.buttonPendingDeny.Name = "buttonPendingDeny";
+            this.buttonPendingDeny.Size = new System.Drawing.Size(120, 35);
+            this.buttonPendingDeny.TabIndex = 1;
+            this.buttonPendingDeny.Text = "Deny";
+            this.buttonPendingDeny.UseVisualStyleBackColor = true;
+            this.buttonPendingDeny.Click += new System.EventHandler(this.buttonPendingDeny_Click);
+            // 
+            // buttonPendingAccept
+            // 
+            this.buttonPendingAccept.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonPendingAccept.Location = new System.Drawing.Point(3, 4);
+            this.buttonPendingAccept.Name = "buttonPendingAccept";
+            this.buttonPendingAccept.Size = new System.Drawing.Size(120, 35);
+            this.buttonPendingAccept.TabIndex = 0;
+            this.buttonPendingAccept.Text = "Accept";
+            this.buttonPendingAccept.UseVisualStyleBackColor = true;
+            this.buttonPendingAccept.Click += new System.EventHandler(this.buttonPendingAccept_Click);
+            // 
+            // panelGoToCodes
+            // 
+            this.panelGoToCodes.Controls.Add(this.buttonGoToCodes);
+            this.panelGoToCodes.Location = new System.Drawing.Point(3, 359);
+            this.panelGoToCodes.Name = "panelGoToCodes";
+            this.panelGoToCodes.Size = new System.Drawing.Size(302, 42);
+            this.panelGoToCodes.TabIndex = 11;
+            // 
+            // buttonGoToCodes
+            // 
+            this.buttonGoToCodes.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonGoToCodes.Location = new System.Drawing.Point(82, 3);
+            this.buttonGoToCodes.Name = "buttonGoToCodes";
+            this.buttonGoToCodes.Size = new System.Drawing.Size(136, 35);
+            this.buttonGoToCodes.TabIndex = 0;
+            this.buttonGoToCodes.Text = "Codes";
+            this.buttonGoToCodes.UseVisualStyleBackColor = true;
+            this.buttonGoToCodes.Click += new System.EventHandler(this.buttonGoToCodes_Click);
+            // 
+            // notifyIconMain
+            // 
+            this.notifyIconMain.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIconMain.BalloonTipText = "text";
+            this.notifyIconMain.BalloonTipTitle = "title";
+            this.notifyIconMain.Text = "Notify Icon";
+            this.notifyIconMain.Visible = true;
+            // 
+            // flowLayoutPanelCrypto
+            // 
+            this.flowLayoutPanelCrypto.Controls.Add(this.panelCryptoCode);
+            this.flowLayoutPanelCrypto.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelCrypto.Location = new System.Drawing.Point(3, 422);
+            this.flowLayoutPanelCrypto.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanelCrypto.Name = "flowLayoutPanelCrypto";
+            this.flowLayoutPanelCrypto.Size = new System.Drawing.Size(302, 412);
+            this.flowLayoutPanelCrypto.TabIndex = 4;
+            // 
+            // panelCryptoCode
+            // 
+            this.panelCryptoCode.Controls.Add(this.label1);
+            this.panelCryptoCode.Controls.Add(this.defTextBoxCryptoCode);
+            this.panelCryptoCode.Location = new System.Drawing.Point(3, 3);
+            this.panelCryptoCode.Name = "panelCryptoCode";
+            this.panelCryptoCode.Size = new System.Drawing.Size(299, 100);
+            this.panelCryptoCode.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.label1.Location = new System.Drawing.Point(47, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(195, 25);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Type your secret code";
+            // 
+            // defTextBoxCryptoCode
+            // 
+            this.defTextBoxCryptoCode.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.defTextBoxCryptoCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxCryptoCode.Location = new System.Drawing.Point(86, 42);
+            this.defTextBoxCryptoCode.MaxLength = 4;
+            this.defTextBoxCryptoCode.Name = "defTextBoxCryptoCode";
+            this.defTextBoxCryptoCode.Size = new System.Drawing.Size(116, 32);
+            this.defTextBoxCryptoCode.TabIndex = 0;
+            this.defTextBoxCryptoCode.Text = "Secret code";
+            this.defTextBoxCryptoCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxCryptoCode.TextChanged += new System.EventHandler(this.defTextBoxCryptoCode_TextChanged);
+            this.defTextBoxCryptoCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
+            // 
+            // toolStripMain
+            // 
+            this.toolStripMain.AllowMerge = false;
+            this.toolStripMain.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownMenu});
+            this.toolStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStripMain.Location = new System.Drawing.Point(0, 0);
+            this.toolStripMain.Name = "toolStripMain";
+            this.toolStripMain.Size = new System.Drawing.Size(1243, 26);
+            this.toolStripMain.TabIndex = 11;
+            this.toolStripMain.Text = "Tool Strip";
+            this.toolStripMain.Visible = false;
+            // 
+            // toolStripDropDownMenu
+            // 
+            this.toolStripDropDownMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToolStripMenuItem,
+            this.importToolStripMenuItem});
+            this.toolStripDropDownMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownMenu.Name = "toolStripDropDownMenu";
+            this.toolStripDropDownMenu.Size = new System.Drawing.Size(42, 23);
+            this.toolStripDropDownMenu.Text = "File";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Visible = false;
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.importToolStripMenuItem.Text = "Import";
+            this.importToolStripMenuItem.Visible = false;
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(931, 435);
+            this.ClientSize = new System.Drawing.Size(1243, 741);
+            this.Controls.Add(this.labelStatus);
+            this.Controls.Add(this.toolStripMain);
+            this.Controls.Add(this.flowLayoutPanelCrypto);
+            this.Controls.Add(this.flowLayoutPanelPendingConfirmation);
             this.Controls.Add(this.flowLayoutPanelTwoFactorCodes);
             this.Controls.Add(this.flowLayoutPanelLinker);
             this.Controls.Add(this.flowLayoutPanelLogin);
-            this.Controls.Add(this.labelStatus);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -536,6 +870,7 @@
             this.Name = "FormMain";
             this.Text = "Steam authenticator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.flowLayoutPanelLogin.ResumeLayout(false);
             this.panelLoginPass.ResumeLayout(false);
             this.panelLoginPass.PerformLayout();
@@ -551,10 +886,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).EndInit();
             this.flowLayoutPanelLinker.ResumeLayout(false);
             this.panelLinkButton.ResumeLayout(false);
-            this.panelSMS.ResumeLayout(false);
-            this.panelSMS.PerformLayout();
             this.panelPhone.ResumeLayout(false);
             this.panelPhone.PerformLayout();
+            this.panelSMS.ResumeLayout(false);
+            this.panelSMS.PerformLayout();
+            this.panelSecret.ResumeLayout(false);
+            this.panelSecret.PerformLayout();
             this.panelFinalizeLink.ResumeLayout(false);
             this.panelLoadingLink.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -563,10 +900,24 @@
             this.panelTwoFactorCodes.PerformLayout();
             this.panelRevocationCode.ResumeLayout(false);
             this.panelRevocationCode.PerformLayout();
-            this.panelDeleteTwoFactor.ResumeLayout(false);
+            this.panelGoToPending.ResumeLayout(false);
             this.panelShowRevocationCode.ResumeLayout(false);
+            this.panelDeleteTwoFactor.ResumeLayout(false);
             this.panelTwoFactorLoading.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.flowLayoutPanelPendingConfirmation.ResumeLayout(false);
+            this.panelPendingsLoading.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).EndInit();
+            this.panelPendingNothing.ResumeLayout(false);
+            this.panelPendingNothing.PerformLayout();
+            this.contextMenuStripPendingsActions.ResumeLayout(false);
+            this.panelPendingButtons.ResumeLayout(false);
+            this.panelGoToCodes.ResumeLayout(false);
+            this.flowLayoutPanelCrypto.ResumeLayout(false);
+            this.panelCryptoCode.ResumeLayout(false);
+            this.panelCryptoCode.PerformLayout();
+            this.toolStripMain.ResumeLayout(false);
+            this.toolStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -614,6 +965,34 @@
         private System.Windows.Forms.TextBox textBoxRevocationCode;
         private System.Windows.Forms.ProgressBar progressBarTwoFactorCode;
         private System.Windows.Forms.ProgressBar progressBarRevocationCode;
+        private System.Windows.Forms.Panel panelGoToPending;
+        private System.Windows.Forms.Button buttonGoToPendings;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPendingConfirmation;
+        private System.Windows.Forms.Panel panelPendingNothing;
+        private System.Windows.Forms.Label labelPendingListEmpty;
+        private System.Windows.Forms.CheckedListBox checkedListBoxPendings;
+        private System.Windows.Forms.Panel panelPendingButtons;
+        private System.Windows.Forms.Button buttonPendingDeny;
+        private System.Windows.Forms.Button buttonPendingAccept;
+        private System.Windows.Forms.Panel panelGoToCodes;
+        private System.Windows.Forms.Button buttonGoToCodes;
+        private System.Windows.Forms.Panel panelPendingsLoading;
+        private System.Windows.Forms.PictureBox pictureBoxPendingLoading;
+        private System.Windows.Forms.NotifyIcon notifyIconMain;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripPendingsActions;
+        private System.Windows.Forms.ToolStripMenuItem deSelectAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCrypto;
+        private System.Windows.Forms.Panel panelCryptoCode;
+        private defTextBox defTextBoxCryptoCode;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panelSecret;
+        private defTextBox defTextBoxSecret;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStrip toolStripMain;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownMenu;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
     }
 }
 

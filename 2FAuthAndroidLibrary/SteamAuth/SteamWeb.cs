@@ -72,8 +72,9 @@ namespace SteamAuth
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _2FAuthAndroidLibrary.Logging.LogError("Cant get response :"+e.Message);
                 return null;
             }
         }
@@ -119,6 +120,7 @@ namespace SteamAuth
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
+                    _2FAuthAndroidLibrary.Logging.LogError("Status code:" + response.StatusCode + "url:"+request.RequestUri);
                     return null;
                 }
 
@@ -130,6 +132,7 @@ namespace SteamAuth
             }
             catch (Exception e)
             {
+                _2FAuthAndroidLibrary.Logging.LogError("Cant get response :" + e.Message);
                 return null;
             }
         }

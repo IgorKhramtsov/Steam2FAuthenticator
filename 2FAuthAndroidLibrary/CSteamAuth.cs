@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace _2FAuthAndroidLibrary
 {
@@ -14,9 +16,12 @@ namespace _2FAuthAndroidLibrary
     {
         private UserLogin userLogin;
         private AuthenticatorLinker linker;
-        private SteamGuardAccount steamGuardAccount;
+        internal static SteamGuardAccount steamGuardAccount;
+        
         public string captchaGID;
         public const string SGAccountFile = "steamguard.json";
+        private const byte MinSessionTTL = 15;
+        internal static DateTime LastRefresh;
         public CSteamAuth()
         {
             userLogin = new UserLogin();
@@ -41,41 +46,90 @@ namespace _2FAuthAndroidLibrary
 
             return res;
         }
-        public async Task<AuthenticatorLinker.LinkResult> Link(string phone=null)
+        public async Task<LinkResult> Link(string phone=null)
         {
             if (linker._session == null)
-                return AuthenticatorLinker.LinkResult.GeneralFailure;
+                return LinkResult.GeneralFailure;
 
             linker.PhoneNumber = phone;
             var res = await linker.AddAuthenticator().ConfigureAwait(false);
 
             return res;
         }
-        public async Task<AuthenticatorLinker.FinalizeResult> FinalizeLink(string smscode)
+        public async Task<FinalizeResult> FinalizeLink(string smscode,string secret)
         {
             if (string.IsNullOrEmpty(smscode) || smscode.Length != 5)
-                return AuthenticatorLinker.FinalizeResult.BadSMSCode;
+                return FinalizeResult.BadSMSCode;
+            if (!string.IsNullOrEmpty(secret) && secret.Length < 4)
+                return FinalizeResult.GeneralFailure;
 
             var res = await linker.FinalizeAddAuthenticator(smscode).ConfigureAwait(true);
-            if (res == AuthenticatorLinker.FinalizeResult.Success)
+            if (res == FinalizeResult.Success)
             {
-                this.steamGuardAccount = linker.LinkedAccount;
+                steamGuardAccount = linker.LinkedAccount;
                 await steamGuardAccount.AlignTimeAsync().ConfigureAwait(true);
-                SaveSGAccount();
+                var saveRes = SaveSGAccount(secret);
+                if (saveRes == SaveResult.FileError)
+                {
+                    File.WriteAllText("YOUR REVOCATION CODE.txt", "Cant save sga account data, here your revocation code to delete authenticator(" + steamGuardAccount.RevocationCode + ")");
+                }
+                if (saveRes == SaveResult.IncorrectSecretCode)
+                    return FinalizeResult.IncorrectSecretCode;
             }
 
             return res;
         }
-        public bool LoadAuthenticator()
+        public bool LoadAuthenticator(string secret)
         {
-            if (!File.Exists(SGAccountFile))
+            if (secret.Length < 4 || !File.Exists(SGAccountFile))
                 return false;
 
-            var res = LoadSGAccount();
-            steamGuardAccount = res;
-            steamGuardAccount.AlignTime();
+            SteamGuardAccount acc;
+            try {
+                acc = JsonConvert.DeserializeObject<SteamGuardAccount>(File.ReadAllText(SGAccountFile));
+            } catch (Exception) { return false; }
+            if (acc == null)
+                return false;
+            
+            using (var crypto = new RijndaelManaged()) // Decrypt data
+            {
+                crypto.Padding = PaddingMode.Zeros;
+                crypto.KeySize = 128;          // in bits
+                var keysDeriver = new Rfc2898DeriveBytes(secret, Encoding.ASCII.GetBytes("There is something"));
 
-            return steamGuardAccount != null;
+                crypto.Key = keysDeriver.GetBytes(crypto.KeySize / 8);
+                crypto.IV = keysDeriver.GetBytes(crypto.BlockSize / 8);
+
+                string[] sIn = { acc.DeviceID, acc.IdentitySecret, acc.RevocationCode, acc.SharedSecret, acc.Session.WebCookie, acc.Session.SessionID, acc.Session.OAuthToken };
+
+                string[] sOut = new string[7];
+                for (int i = 0; i < 7; i++)
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, crypto.CreateDecryptor(), CryptoStreamMode.Write))
+                        {
+                            var byteArr = Convert.FromBase64String(sIn[i]);
+                            try { 
+                            cs.Write(byteArr, 0, byteArr.Length);
+                            } catch(Exception) { return false; }
+                        }
+                        sOut[i] = Encoding.ASCII.GetString(ms.ToArray()).Replace("\0","");
+                    }
+                
+                acc.DeviceID = sOut[0];
+                acc.IdentitySecret = sOut[1];
+                acc.RevocationCode = sOut[2];
+                acc.SharedSecret = sOut[3];
+                acc.Session.WebCookie = sOut[4];
+                acc.Session.SessionID = sOut[5];
+                acc.Session.OAuthToken = sOut[6];
+            }
+            
+            steamGuardAccount = acc;
+            steamGuardAccount.AlignTime();
+            RefreshSessionIfNeed().ConfigureAwait(true);
+
+            return true;
         } // Load steam guard account
         public string GetAccountName()
         {
@@ -93,40 +147,105 @@ namespace _2FAuthAndroidLibrary
         {
             return await steamGuardAccount.GetLeftTime().ConfigureAwait(true);
         }
-        public async Task DeleteAuthenticator()
+        public async Task<bool> DeleteAuthenticator()
         {
             if (steamGuardAccount == null)
-                return;
-            await steamGuardAccount.DeactivateAuthenticator().ConfigureAwait(true);
+                return true;
+
+            var res = await steamGuardAccount.DeactivateAuthenticator().ConfigureAwait(true);
+            if (res)
+                File.Delete(SGAccountFile);
+            return res;
         } 
-        public string getRevocationCode()
+        public string GetRevocationCode()
         {
             if (steamGuardAccount == null)
                 return "";
             return steamGuardAccount.RevocationCode;
         }
-        public bool SaveSGAccount()
+        public SaveResult SaveSGAccount(string secret, string Path = SGAccountFile)
         {
-            if (steamGuardAccount == null)
-                return false;
+            if (secret.Length < 4)
+                return SaveResult.IncorrectSecretCode;
+            if (!File.Exists(Path))
+            {
+                var stream = File.Create(Path);
+                stream.Close();
+            }
+            SteamAuth.SteamGuardAccount acc = new SteamGuardAccount();
+            acc = steamGuardAccount;
+            #region cryptography
+            using (var crypto = new RijndaelManaged())
+            {
+                crypto.Padding = PaddingMode.Zeros;
+                crypto.KeySize = 128;          // in bits
+                var keysDeriver = new Rfc2898DeriveBytes(secret, Encoding.ASCII.GetBytes("There is something"));
 
-            try
-            {
-                File.WriteAllText(SGAccountFile, JsonConvert.SerializeObject(steamGuardAccount));
+                crypto.Key = keysDeriver.GetBytes(crypto.KeySize / 8);
+                crypto.IV = keysDeriver.GetBytes(crypto.BlockSize / 8);
+                string[] sIn = {
+                    acc.DeviceID,
+                    acc.IdentitySecret,
+                    acc.RevocationCode,
+                    acc.SharedSecret,
+                    acc.Session.WebCookie,
+                    acc.Session.SessionID,
+                    acc.Session.OAuthToken
+                };
+                string[] sOut = new string[7];
+
+                for (int i = 0; i < 7; i++)
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, crypto.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            var byteArr = Encoding.ASCII.GetBytes(sIn[i]);
+                            try
+                            {
+                                cs.Write(byteArr, 0, byteArr.Length);
+                            }
+                            catch (Exception) { return SaveResult.FileError; }
+                        }
+
+                        sOut[i] = Convert.ToBase64String(ms.ToArray());
+                    }
+                acc.DeviceID = sOut[0];
+                acc.IdentitySecret = sOut[1];
+                acc.RevocationCode = sOut[2];
+                acc.SharedSecret = sOut[3];
+                acc.Session.WebCookie = sOut[4];
+                acc.Session.SessionID = sOut[5];
+                acc.Session.OAuthToken = sOut[6];
             }
-            catch (Exception e) { return false; }
-            return true;
+            #endregion
+            bool saved = false;
+            for (byte i = 0; i < 5 && saved == false; i++)
+            {
+                try
+                {
+                    File.WriteAllText(Path, JsonConvert.SerializeObject(acc));
+                }
+                catch (Exception e)
+                {
+                    Logging.LogError("Cant save steam guard file: " + e.Message);
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                saved = true;
+            }
+            if(!saved)
+                return SaveResult.FileError;
+
+            return SaveResult.Ok;
         } // Save steam guard account to file (SGAccountFile)
-        private SteamGuardAccount LoadSGAccount()
+        internal static async Task RefreshSessionIfNeed()
         {
-            SteamGuardAccount acc;
-            try
+            if (DateTime.Now.Subtract(LastRefresh) > TimeSpan.FromSeconds(MinSessionTTL))
             {
-                acc = JsonConvert.DeserializeObject<SteamGuardAccount>(File.ReadAllText(SGAccountFile));
+                await steamGuardAccount.RefreshSessionAsync().ConfigureAwait(true);
+                LastRefresh = DateTime.Now;
             }
-            catch (Exception e) { return null; }
-            return acc;
-        } // Load steam guard account from file (SGAccountFile)
+        }
         public string GetCaptchaFile(string gid)
         {
             if (string.IsNullOrEmpty(gid))
@@ -142,5 +261,118 @@ namespace _2FAuthAndroidLibrary
             wc.DownloadFile(url, filePath);
             return filePath;
         } // Download captcha, and return path of downloaded captcha
+        public string GetSteamGuardFile(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+            WebClient wc = new WebClient();
+            wc.DownloadFile(url, SGAccountFile);
+            return SGAccountFile;
+        } //Download SG file
+        public async Task<List<Confirmation_light>> GetConfirmations()
+        {
+            await RefreshSessionIfNeed();
+            var list = await steamGuardAccount.FetchConfirmationsAsync().ConfigureAwait(true);
+            List<Confirmation_light> res = new List<Confirmation_light>(list.Count());
+            foreach (var confirmation in list)
+            {
+                res.Add(new Confirmation_light() {
+                    ConfType = (Confirmation_light.ConfirmationType)((int)confirmation.ConfType),
+                    Description = confirmation.Description,
+                    ID = confirmation.ID,
+                    Key = confirmation.Key,
+                    Name = confirmation.Name
+                });
+            }
+
+            return res;
+        }
+    }
+
+    public class Confirmation_light
+    {
+        public string ID;
+        public string Key;
+        public string Description;
+        public string Name;
+        public ConfirmationType ConfType;
+
+        public async Task<bool> Confirm()
+        {
+            await CSteamAuth.RefreshSessionIfNeed();
+            Confirmation confirmation = new Confirmation() { Description = this.Description, ID = this.ID, Key = this.Key };
+            return await CSteamAuth.steamGuardAccount.AcceptConfirmation(confirmation);
+        }
+        public async Task<bool> Deny()
+        {
+            await CSteamAuth.RefreshSessionIfNeed();
+            Confirmation confirmation = new Confirmation() { Description = this.Description, ID = this.ID, Key = this.Key };
+            return await CSteamAuth.steamGuardAccount.DenyConfirmation(confirmation);
+        }
+        public override string ToString()
+        {
+            return $"({Description}) {Name}";
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (!(obj is Confirmation_light || obj is Confirmation))
+                return false;
+
+            string id, key;
+
+            if (obj is Confirmation_light)
+            {
+                id = (obj as Confirmation_light).ID;
+                key = (obj as Confirmation_light).Key;
+            }
+            else
+            {
+                id = (obj as Confirmation).ID;
+                key = (obj as Confirmation).Key;
+            }
+
+            if (id == this.ID && key == this.Key)
+                return true;
+
+            return false;
+        }
+
+        public enum ConfirmationType
+        {
+            GenericConfirmation = 0,
+            Trade = 1,
+            MarketSellTransaction = 2,
+            Unknown = 3
+        }
+    }
+    public enum SaveResult
+    {
+        Ok,
+        IncorrectSecretCode,
+        FileError
+    }
+    public enum FinalizeResult
+    {
+        BadSMSCode,
+        UnableToGenerateCorrectCodes,
+        Success,
+        GeneralFailure,
+        CantSaveAccountData,
+        IncorrectSecretCode,
+        FileError
+    }
+    public enum LinkResult
+    {
+        MustProvidePhoneNumber, //No phone number on the account
+        MustRemovePhoneNumber, //A phone number is already on the account
+        AwaitingFinalization, //Must provide an SMS code
+        GeneralFailure, //General failure (really now!)
+        AuthenticatorPresent
+    }
+    public static class Extensions
+    {
+        public static void Forget(this Task task) { }
     }
 }

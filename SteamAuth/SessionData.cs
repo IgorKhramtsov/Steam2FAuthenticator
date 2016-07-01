@@ -1,20 +1,16 @@
 ﻿using System.Net;
+using Newtonsoft.Json;
 
 namespace SteamAuth
 {
     public class SessionData
     {
-        public string SessionID { get; set; }
-
-        public string SteamLogin { get; set; }
-
-        public string SteamLoginSecure { get; set; }
-
-        public string WebCookie { get; set; }
-
-        public string OAuthToken { get; set; }
-
-        public ulong SteamID { get; set; }
+        public string SessionID { get; set; } // Must be crypted
+        public string SteamLogin { get; set; } // Doesn`t needed, generating after session refreshing
+        public string SteamLoginSecure { get; set; } // Doesn`t needed, generating after session refreshing
+        public string WebCookie { get; set; } // maybe crypted, dont know what is it
+        public string OAuthToken { get; set; } // Must be crypted
+        public ulong SteamID { get; set; } // Dont crypt!
 
         public void AddCookies(CookieContainer cookies)
         {

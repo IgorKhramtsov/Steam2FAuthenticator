@@ -177,7 +177,7 @@ namespace SteamAuth
             return ret.ToArray();
         }
 
-        public async Task<Confirmation[]> FetchConfirmationsAsync()
+        public async Task<List<Confirmation>> FetchConfirmationsAsync()
         {
             string url = this.GenerateConfirmationURL();
 
@@ -202,7 +202,7 @@ namespace SteamAuth
                     throw new WGTokenInvalidException();
                 }
 
-                return new Confirmation[0];
+                return new List<Confirmation>(0);
             }
 
             MatchCollection confIDs = confIDRegex.Matches(response);
@@ -224,7 +224,7 @@ namespace SteamAuth
                 ret.Add(conf);
             }
 
-            return ret.ToArray();
+            return ret;
         }
 
         public long GetConfirmationTradeOfferID(Confirmation conf)

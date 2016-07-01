@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="_2FAuthAndroid._2FAuthAndroid" android:versionCode="1" android:versionName="1.0">
-  <uses-sdk android:minSdkVersion="16" />
-  <application android:label="_2FAuthAndroid"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="x_2FAuthAndroid.x_2FAuthAndroid" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="16" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<application android:label="_2FAuthAndroid" android:icon="@drawable/Icon"></application>
 </manifest>

@@ -7,6 +7,7 @@ namespace SteamAuth
         public string ID;
         public string Key;
         public string Description;
+        public string Name;
 
         public ConfirmationType ConfType
         {

@@ -9,6 +9,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using _2FAuthAndroidLibrary;
 
 namespace SteamAuth
 {
@@ -54,7 +55,7 @@ namespace SteamAuth
         {
             bool hasPhone = await _hasPhoneAttached().ConfigureAwait(true);
 
-            if (hasPhone && PhoneNumber != null)
+            if (hasPhone && !string.IsNullOrEmpty(PhoneNumber))
                 return LinkResult.MustRemovePhoneNumber;
             if (!hasPhone && PhoneNumber == null)
                 return LinkResult.MustProvidePhoneNumber;
@@ -75,19 +76,13 @@ namespace SteamAuth
 
             var addAuthenticatorResponse = JsonConvert.DeserializeObject<AddAuthenticatorResponse>(response);
             if (addAuthenticatorResponse == null || addAuthenticatorResponse.Response == null)
-            {
                 return LinkResult.GeneralFailure;
-            }
 
             if (addAuthenticatorResponse.Response.Status == 29)
-            {
                 return LinkResult.AuthenticatorPresent;
-            }
 
             if (addAuthenticatorResponse.Response.Status != 1)
-            {
                 return LinkResult.GeneralFailure;
-            }
 
             this.LinkedAccount = addAuthenticatorResponse.Response;
             LinkedAccount.Session = this._session;
@@ -198,22 +193,6 @@ namespace SteamAuth
             return hasPhoneResponse.HasPhone;
         }
 
-        public enum LinkResult
-        {
-            MustProvidePhoneNumber, //No phone number on the account
-            MustRemovePhoneNumber, //A phone number is already on the account
-            AwaitingFinalization, //Must provide an SMS code
-            GeneralFailure, //General failure (really now!)
-            AuthenticatorPresent
-        }
-
-        public enum FinalizeResult
-        {
-            BadSMSCode,
-            UnableToGenerateCorrectCodes,
-            Success,
-            GeneralFailure
-        }
 
         private class AddAuthenticatorResponse
         {
