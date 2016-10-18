@@ -243,3 +243,11 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Not worked shit
+2FAuthAndroid/
+SteamAuth/
+ZXing.Net.0.14.0.0/
+packages/
+Backup/
+FastAndroidCamera-master/
