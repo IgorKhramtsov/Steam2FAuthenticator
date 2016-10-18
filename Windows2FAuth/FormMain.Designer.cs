@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.labelStatus = new System.Windows.Forms.Label();
             this.flowLayoutPanelLogin = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLoginPass = new System.Windows.Forms.Panel();
@@ -89,6 +90,9 @@
             this.panelGoToCodes = new System.Windows.Forms.Panel();
             this.buttonGoToCodes = new System.Windows.Forms.Button();
             this.notifyIconMain = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripTextBox2FACodes = new System.Windows.Forms.ToolStripTextBox();
+            this.closeToolStripMenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanelCrypto = new System.Windows.Forms.FlowLayoutPanel();
             this.panelCryptoCode = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -129,6 +133,7 @@
             this.contextMenuStripPendingsActions.SuspendLayout();
             this.panelPendingButtons.SuspendLayout();
             this.panelGoToCodes.SuspendLayout();
+            this.contextMenuStripNotifyIcon.SuspendLayout();
             this.flowLayoutPanelCrypto.SuspendLayout();
             this.panelCryptoCode.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -510,6 +515,7 @@
             this.textBoxTwoFactorCode.Size = new System.Drawing.Size(110, 39);
             this.textBoxTwoFactorCode.TabIndex = 0;
             this.textBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxTwoFactorCode.Click += new System.EventHandler(this.textBoxTwoFactorCode_Click);
             // 
             // panelRevocationCode
             // 
@@ -764,8 +770,36 @@
             this.notifyIconMain.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIconMain.BalloonTipText = "text";
             this.notifyIconMain.BalloonTipTitle = "title";
-            this.notifyIconMain.Text = "Notify Icon";
+            this.notifyIconMain.ContextMenuStrip = this.contextMenuStripNotifyIcon;
+            this.notifyIconMain.Text = "Steam authenticator";
             this.notifyIconMain.Visible = true;
+            this.notifyIconMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconMain_MouseDoubleClick);
+            // 
+            // contextMenuStripNotifyIcon
+            // 
+            this.contextMenuStripNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox2FACodes,
+            this.closeToolStripMenuItemClose});
+            this.contextMenuStripNotifyIcon.Name = "contextMenuStrip1";
+            this.contextMenuStripNotifyIcon.Size = new System.Drawing.Size(161, 59);
+            // 
+            // toolStripTextBox2FACodes
+            // 
+            this.toolStripTextBox2FACodes.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.toolStripTextBox2FACodes.Name = "toolStripTextBox2FACodes";
+            this.toolStripTextBox2FACodes.ReadOnly = true;
+            this.toolStripTextBox2FACodes.Size = new System.Drawing.Size(100, 29);
+            this.toolStripTextBox2FACodes.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolStripTextBox2FACodes.Visible = false;
+            this.toolStripTextBox2FACodes.Click += new System.EventHandler(this.toolStripTextBox2FACodes_Click);
+            // 
+            // closeToolStripMenuItemClose
+            // 
+            this.closeToolStripMenuItemClose.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.closeToolStripMenuItemClose.Name = "closeToolStripMenuItemClose";
+            this.closeToolStripMenuItemClose.Size = new System.Drawing.Size(160, 24);
+            this.closeToolStripMenuItemClose.Text = "Close";
+            this.closeToolStripMenuItemClose.Click += new System.EventHandler(this.closeToolStripMenuItemClose_Click);
             // 
             // flowLayoutPanelCrypto
             // 
@@ -855,7 +889,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1243, 741);
+            this.ClientSize = new System.Drawing.Size(1243, 733);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.flowLayoutPanelCrypto);
@@ -864,6 +898,7 @@
             this.Controls.Add(this.flowLayoutPanelLinker);
             this.Controls.Add(this.flowLayoutPanelLogin);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -913,6 +948,8 @@
             this.contextMenuStripPendingsActions.ResumeLayout(false);
             this.panelPendingButtons.ResumeLayout(false);
             this.panelGoToCodes.ResumeLayout(false);
+            this.contextMenuStripNotifyIcon.ResumeLayout(false);
+            this.contextMenuStripNotifyIcon.PerformLayout();
             this.flowLayoutPanelCrypto.ResumeLayout(false);
             this.panelCryptoCode.ResumeLayout(false);
             this.panelCryptoCode.PerformLayout();
@@ -993,6 +1030,9 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownMenu;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripNotifyIcon;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2FACodes;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItemClose;
     }
 }
 

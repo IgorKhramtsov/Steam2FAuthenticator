@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using _2FAuthAndroidLibrary;
 using System.IO;
+using Microsoft.Win32;
 
 namespace Windows2FAuth
 {
@@ -18,20 +19,30 @@ namespace Windows2FAuth
         CSteamAuth cSteamAuth;
         bool keepRefreshCode;
         bool keepRefreshPendings;
+        private bool WantClose = false;
         const string Programmname = "Steam authenticator";
+        private string _secret = "";
+        private string sgaPath = "";
         public FormMain()
         {
             InitializeComponent();
-            notifyIconMain.Icon = SystemIcons.Application;
-            this.Width = 320;
-            this.Height = 420;
-            flowLayoutPanelLogin.Location = new Point(0, 26);
-            flowLayoutPanelLinker.Location = new Point(0, 26);
-            flowLayoutPanelTwoFactorCodes.Location = new Point(0, 26);
-            flowLayoutPanelPendingConfirmation.Location = new Point(0, 26);
-            flowLayoutPanelCrypto.Location = new Point(0, 0);
+            notifyIconMain.Icon = global::Windows2FAuth.Properties.Resources.icon_closed;
+            this.Width = 320; // Change width
+            this.Height = 420; // and height
             labelStatus.Location = new Point(0, this.Height - labelStatus.Height - 40 /*Magick number*/ );
-            
+            foreach (var contr in this.Controls) { // Center all ours controls
+                if (contr is FlowLayoutPanel && contr != flowLayoutPanelCrypto)
+                {
+                    (contr as Control).Location = new Point(0, 26);
+                    (contr as Control).Width = 305;
+                    (contr as Control).Height = 410;
+                }
+                if (contr == flowLayoutPanelCrypto)
+                    (contr as Control).Location = new Point(0, 0);
+                if (contr is defTextBox || (contr is Button) || contr is TextBox || contr is PictureBox || (contr is Label && contr != labelStatus))
+                    (contr as Control).Center();
+            }
+
             cSteamAuth = new CSteamAuth();
 
             flowLayoutPanelLinker.Visible = false;
@@ -39,6 +50,7 @@ namespace Windows2FAuth
             flowLayoutPanelTwoFactorCodes.Visible = false;
             flowLayoutPanelLogin.Visible = false;
             flowLayoutPanelCrypto.Visible = false;
+
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -65,10 +77,19 @@ namespace Windows2FAuth
         {
             Logging.LogInfo("==============Program close==============");
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if(e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = !WantClose; // Hide if user dont wanna close
+                this.Hide();
+            }
+        }
 
         public async Task Login()
         {
-
             string username = defTextBoxUsername.text;
             string password = defTextBoxPassword.text;
             string emailcode = defTextBoxEmailCode.text;
@@ -80,8 +101,10 @@ namespace Windows2FAuth
                 buttonLogin.Enabled = true;
                 return;
             }
-
+            
             LoadingOn();
+            panelCaptcha.Visible = false;
+            panelEmailCode.Visible = false;
 
             var res = await cSteamAuth.Login(username,password,captcha,emailcode,twoFactorCode).ConfigureAwait(true);
             switch (res)
@@ -117,6 +140,7 @@ namespace Windows2FAuth
             }
             labelStatus.Text = res.ToString();
             LoadingOff();
+            buttonLogin.Enabled = true;
         }
         public async Task Link()
         {
@@ -128,7 +152,6 @@ namespace Windows2FAuth
             panelSecret.Visible = false;
 
             var res = await cSteamAuth.Link(phoneNumber).ConfigureAwait(true);
-            
             switch(res)
             {
                 case LinkResult.MustProvidePhoneNumber:
@@ -154,6 +177,7 @@ namespace Windows2FAuth
             }
             labelStatus.Text = res.ToString();
             LoadingOff();
+            buttonLink.Enabled = true;
         }
         public async Task FinalizeLink()
         {
@@ -197,6 +221,7 @@ namespace Windows2FAuth
                     break;
             }
             buttonFinalize.Enabled = true;
+            labelStatus.Text = res.ToString();
             LoadingOff();
         }
         public async Task DeLink()
@@ -214,53 +239,45 @@ namespace Windows2FAuth
 
             LoadingOff();
         }
-        private void captchaUpdate()
+        private async Task ShowRevocationCode()
         {
-            panelCaptcha.Visible = true;
-            defTextBoxCaptcha.Text = "";
-
-            if (string.IsNullOrEmpty(cSteamAuth.captchaGID))
-                return;
-
-            string filepath = cSteamAuth.GetCaptchaFile(cSteamAuth.captchaGID);
-            if (string.IsNullOrEmpty(filepath))
-                return;
-            using (FileStream stream = new FileStream(filepath, FileMode.Open, FileAccess.Read))
+            var code = cSteamAuth.GetRevocationCode();
+            if (string.IsNullOrEmpty(code))
             {
-                pictureBoxCaptcha.Image = Image.FromStream(stream);
+                buttonShowRevocationCode.Enabled = true;
+                return;
             }
-        }
-        private void LoadingOn()
-        {
-            labelStatus.Text = "";
-            panelLoadingLogin.Visible = true;
-            panelLoadingLink.Visible = true;
+            panelRevocationCode.Visible = true;
+            textBoxRevocationCode.Text = code;
 
-            panelCaptcha.Visible = false;
-            panelEmailCode.Visible = false;
-            panelTwoFactorCode.Visible = false;
-        }
-        private void LoadingOff()
-        {
-            panelLoadingLogin.Visible = false;
-            panelLoadingLink.Visible = false;
-            if (buttonLink.Enabled == false)
-                buttonLink.Enabled = true;
-            if (buttonLogin.Enabled == false)
-                buttonLogin.Enabled = true;
+            Timer TimerRevocationCode = new Timer() { Interval = 1000, Enabled = true };
+            TimerRevocationCode.Tick += TimerRevocationCode_Tick;
+            TimerRevocationCode_Tick(null, null);
+            await Task.Delay(TimeSpan.FromSeconds(10));
+            TimerRevocationCode.Stop();
+            progressBarRevocationCode.Value = 0;
+
+            panelRevocationCode.Visible = false;
+            textBoxRevocationCode.Text = "";
+            buttonShowRevocationCode.Enabled = true;
         }
         private void LoadSGAccount(string secret)
         {
+            defTextBoxCryptoCode.Reset(); // Reset text box
             if (secret.Length < 4)
                 return;
+            _secret = secret;
 
-            if (cSteamAuth.LoadAuthenticator(secret))
+            if (cSteamAuth.LoadAuthenticator(secret,sgaPath))
             {
                 OpenCodesTab();
                 toolStripMain.Visible = true;
                 exportToolStripMenuItem.Visible = true;
+                importToolStripMenuItem.Visible = false;
                 RefreshPendings().Forget();
                 this.Focus();
+                notifyIconMain.Icon = Properties.Resources.icon_opened;
+                this.Icon = Properties.Resources.icon_opened;
                 return;
             }
             labelStatus.Text = "Cant load steam guard file!";
@@ -283,32 +300,11 @@ namespace Windows2FAuth
             flowLayoutPanelTwoFactorCodes.Visible = false;
             flowLayoutPanelPendingConfirmation.Visible = true;
         }
-        private async Task ShowRevocationCode()
-        {
-            var code = cSteamAuth.GetRevocationCode();
-            if (string.IsNullOrEmpty(code))
-            {
-                buttonShowRevocationCode.Enabled = true;
-                return;
-            }
-            panelRevocationCode.Visible = true;
-            textBoxRevocationCode.Text = code;
-
-            Timer TimerRevocationCode = new Timer() { Interval = 1000,Enabled = true};
-            TimerRevocationCode.Tick += TimerRevocationCode_Tick;
-            TimerRevocationCode_Tick(null,null);
-            await Task.Delay(TimeSpan.FromSeconds(10));
-            TimerRevocationCode.Stop();
-            progressBarRevocationCode.Value = 0;
-
-            panelRevocationCode.Visible = false;
-            textBoxRevocationCode.Text = "";
-            buttonShowRevocationCode.Enabled = true;
-        }
         private async Task RefreshCode()
         {
             if (keepRefreshCode == false) //Starting
                 keepRefreshCode = true;
+            toolStripTextBox2FACodes.Visible = true;
 
             while (keepRefreshCode)//Updating
             {
@@ -324,12 +320,14 @@ namespace Windows2FAuth
 
                         if (!(string.IsNullOrEmpty(sTwoFactorCode) || textBoxTwoFactorCode.Text == sTwoFactorCode))
                             textBoxTwoFactorCode.Text = sTwoFactorCode;
+                        if (toolStripTextBox2FACodes.Text != sTwoFactorCode)
+                            toolStripTextBox2FACodes.Text = sTwoFactorCode;
 
                         if (!keepRefreshCode)
                             textBoxTwoFactorCode.Text = "";
                     }));
                 }
-                catch (Exception e) { }
+                catch (Exception e) { Logging.LogError("Cant invoke to UI: " + e.Message); }
                 await Task.Delay(1000);
             }
             return;
@@ -370,53 +368,70 @@ namespace Windows2FAuth
                 await Task.Delay(1000); // Wait 1 sec
             }
         }
+        private void captchaUpdate()
+        {
+            panelCaptcha.Visible = true;
+            defTextBoxCaptcha.Text = "";
+
+            if (string.IsNullOrEmpty(cSteamAuth.captchaGID))
+                return;
+
+            string filepath = cSteamAuth.GetCaptchaFile(cSteamAuth.captchaGID);
+            if (string.IsNullOrEmpty(filepath))
+                return;
+            using (FileStream stream = new FileStream(filepath, FileMode.Open, FileAccess.Read))
+            {
+                pictureBoxCaptcha.Image = Image.FromStream(stream);
+            }
+        }
+        private void LoadingOn()
+        {
+            labelStatus.Text = "";
+            panelLoadingLogin.Visible = true;
+            panelLoadingLink.Visible = true;
+
+            panelTwoFactorCode.Visible = false;
+        }
+        private void LoadingOff()
+        {
+            panelLoadingLogin.Visible = false;
+            panelLoadingLink.Visible = false;
+        }
 
         private void buttonLogin_Click(object sender, EventArgs e){
             ((Button)sender).Enabled = false;
             Login().Forget();
         } //Login button
-        private void textBox_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode != Keys.Enter) return;
-            buttonLogin.Enabled = false;
-            Login().Forget();
-        } //Username, password, captcha, email textboxes
         private void buttonLink_Click(object sender, EventArgs e){
             ((Button)sender).Enabled = false;
             Link().Forget();
         } // LinkButton
-        
-        private void defTextBoxPhone_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 43)
-                e.Handled = true;
-        } // Phone textBox filter
         private void buttonFinalize_Click(object sender, EventArgs e)
         {
             buttonFinalize.Enabled = false;
             FinalizeLink().Forget();
         } // Finalize link button
-        private void buttonDeLink_Click(object sender, EventArgs e)
+        private void buttonGoToPendings_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are u sure?","Warning",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2) != DialogResult.OK)
-                return;
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+            this.Show();
 
-            ((Button)sender).Enabled = false;
-            DeLink().Forget();
-        } // Delete authenticator button
+            OpenPendingsTab();
+        } // Go to pendings tab
         private void buttonShowRevocationCode_Click(object sender, EventArgs e)
         {
             ((Button)sender).Enabled = false;
             ShowRevocationCode().Forget();
         } // Show revocation code button
-        private void buttonGoToPendings_Click(object sender, EventArgs e)
+        private void buttonDeLink_Click(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
-                this.WindowState = FormWindowState.Normal;
-            if (!this.Focused)
-                this.Activate();
+            if (MessageBox.Show("Are u sure?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK)
+                return;
 
-            OpenPendingsTab();
-        } // Go to pendings tab
+            ((Button)sender).Enabled = false;
+            DeLink().Forget();
+        } // Delete authenticator button
         private async void buttonPendingAccept_Click(object sender, EventArgs e)
         {
             if (checkedListBoxPendings.CheckedItems.Count <= 0)
@@ -463,12 +478,11 @@ namespace Windows2FAuth
         {
             OpenCodesTab();
         } // Go to codes Tab
-
         private void deSelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (checkedListBoxPendings.Items.Count <= 0)
                 return;
-            for(int i = 0;i<checkedListBoxPendings.Items.Count;i++)
+            for (int i = 0; i < checkedListBoxPendings.Items.Count; i++)
                 checkedListBoxPendings.SetItemChecked(i, true);
         } // Deselct all pendings
         private void sToolStripMenuItem_Click(object sender, EventArgs e)
@@ -478,7 +492,69 @@ namespace Windows2FAuth
             for (int i = 0; i < checkedListBoxPendings.Items.Count; i++)
                 checkedListBoxPendings.SetItemChecked(i, false);
         } // Select all pendings
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_secret))
+                return;
 
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "json files (*.json)|*.json";
+            var dialogRes = saveDialog.ShowDialog();
+            if (dialogRes == DialogResult.OK)
+                labelStatus.Text = "Saving result: " + cSteamAuth.SaveSGAccount(_secret, saveDialog.FileName);
+        } // Export steamguard file
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Turn all off
+            flowLayoutPanelLinker.Visible = false;
+            flowLayoutPanelLogin.Visible = false;
+            flowLayoutPanelPendingConfirmation.Visible = false;
+            flowLayoutPanelTwoFactorCodes.Visible = false;
+            toolStripMain.Visible = false;
+            keepRefreshCode = false;
+            keepRefreshPendings = false;
+
+            var openDialog = new OpenFileDialog() { Filter = "json files (*.json)|*.json" };
+            var dialogRes = openDialog.ShowDialog();
+            if (dialogRes == DialogResult.OK && !string.IsNullOrEmpty(openDialog.FileName))
+            {
+                flowLayoutPanelCrypto.Visible = true;
+                sgaPath = openDialog.FileName;
+            }
+        } // Import steamguard file
+        private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+            this.Show();
+        } // Show form after double click
+        private void closeToolStripMenuItemClose_Click(object sender, EventArgs e)
+        {
+            WantClose = true;
+            this.Close();
+        } // Close form
+        private void defTextBoxPhone_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8 && e.KeyChar != 43)
+                e.Handled = true;
+        } // Phone textBox filter
+        private void defTextBoxCryptoCode_KeyPress(object sender, KeyPressEventArgs e) 
+        {
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8)
+                e.Handled = true;
+        }// Secret code filter
+        private void textBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+            buttonLogin.Enabled = false;
+            Login().Forget();
+        } //Username, password, captcha, email textboxes
+        private void defTextBoxCryptoCode_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty((sender as defTextBox).text))
+                if ((sender as defTextBox).text.Length == 4)
+                    LoadSGAccount(defTextBoxCryptoCode.text);
+        } // Load sga if user enter 4 numbers
         private void checkedListBoxPendings_MouseDown(object sender, MouseEventArgs e)
         {
             int y = e.Y / ((ListBox)sender).ItemHeight;
@@ -486,39 +562,36 @@ namespace Windows2FAuth
                 ((ListBox)sender).SelectedIndex = y;
             else
                 ((ListBox)sender).SelectedIndex = -1;
-        }
+        } // Selecting empty zones
+        private void toolStripTextBox2FACodes_Click(object sender, EventArgs e)
+        {
+            //toolStripTextBox2FACodes.SelectAll();
+            Clipboard.SetText(toolStripTextBox2FACodes.Text);
+            notifyIconMain.ShowBalloonTip(1000, "Copy to clipboard", "Two factor code was copied to clipboard.", ToolTipIcon.Info);
+        } // Copy 2fa code from toolstrip to clipboard
+        private void textBoxTwoFactorCode_Click(object sender, EventArgs e)
+        {
+            //textBoxTwoFactorCode.SelectAll();
+            Clipboard.SetText(textBoxTwoFactorCode.Text);
+            notifyIconMain.ShowBalloonTip(1000, "Copy to clipboard", "Two factor code was copied to clipboard.", ToolTipIcon.Info);
+        }// Copy 2fa code from form to clipboard
 
         private void TimerRevocationCode_Tick(object sender, EventArgs e)
         {
             progressBarRevocationCode.Increment(10);
         } // Revocation code showing timer
-
-        private void defTextBoxCryptoCode_KeyPress(object sender, KeyPressEventArgs e) // Secret code filter
-        {
-            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && e.KeyChar != 8)
-                e.Handled = true;
-        }
-
-        private void defTextBoxCryptoCode_TextChanged(object sender, EventArgs e)
-        {
-            if ((sender as defTextBox).text.Length == 4)
-                LoadSGAccount(defTextBoxCryptoCode.text);
-        }
-
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // TODO: Export function
-        }
-
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // TODO: Import function
-        }
     }
     public static class Extensions
     {
         public static void Forget(this Task task){ }
+        public static void Center(this Control contr)
+        {
+            if (contr.Parent != null)
+                if (!(contr.Parent is FormMain))
+                    contr.Location = new Point((contr.Parent.Width - contr.Width) / 2, contr.Location.Y);
+        }
     }
+    // TODO: custom textbox for 2fa code with progress bar
     public class defTextBox : TextBox
     {
         private string defText;

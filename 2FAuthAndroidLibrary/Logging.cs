@@ -48,11 +48,6 @@ namespace _2FAuthAndroidLibrary
                 return;
 #endif
 
-            /*
-             *   [15.18.1992 22:05] *ERROR* GetTime() Cant get time
-             * 
-             * 
-            */
             if (!File.Exists(logPath))
             {
                 var stream = File.Create(logPath);
@@ -63,7 +58,11 @@ namespace _2FAuthAndroidLibrary
             try {                
             File.AppendAllText(logPath, Text);
             }
-            catch(Exception e) { throw new NotImplementedException(e.Message); }
+            catch(Exception e) {
+#if DEBUG
+                throw new NotImplementedException(e.Message);
+#endif
+            }
         }
     }
 }

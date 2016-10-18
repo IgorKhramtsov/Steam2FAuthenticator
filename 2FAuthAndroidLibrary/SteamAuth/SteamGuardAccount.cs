@@ -15,29 +15,29 @@ namespace SteamAuth
     public class SteamGuardAccount
     {
         [JsonProperty("shared_secret")]
-        public string SharedSecret { get; set; } // Must be crypted
+        public string SharedSecret { get; set; } // Must be crypted (base64 string)
         [JsonProperty("serial_number")]
-        public string SerialNumber { get; set; } // Doesn`t used
+        public string SerialNumber { get; set; }
         [JsonProperty("revocation_code")]
-        public string RevocationCode { get; set; } // Must be crypted
+        public string RevocationCode { get; set; }
         [JsonProperty("uri")]
-        public string URI { get; set; } // Doesn`t used
+        public string URI { get; set; }
         [JsonProperty("server_time")]
-        public long ServerTime { get; set; } // Doesn`t used
+        public long ServerTime { get; set; }
         [JsonProperty("account_name")]
         public string AccountName { get; set; }
         [JsonProperty("token_gid")]
-        public string TokenGID { get; set; } // Doesn`t used
+        public string TokenGID { get; set; }
         [JsonProperty("identity_secret")]
-        public string IdentitySecret { get; set; } // Must be crypted
+        public string IdentitySecret { get; set; } // Must be crypted (base64 string)
         [JsonProperty("secret_1")]
-        public string Secret1 { get; set; } // Doesn`t used
+        public string Secret1 { get; set; }
         [JsonProperty("status")]
         public int Status { get; set; }
         [JsonProperty("device_id")]
-        public string DeviceID { get; set; } // Must be crypted
+        public string DeviceID { get; set; }
         [JsonProperty("timeDiff")]
-        private int timeDiference { get; set; } = 0;
+        private long timeDiference { get; set; } = 0;
         [JsonProperty]
         public SessionData Session { get; set; }
         /// <summary>
@@ -52,6 +52,26 @@ namespace SteamAuth
         public int secret;
         private static byte[] steamGuardCodeTranslations = new byte[] { 50, 51, 52, 53, 54, 55, 56, 57, 66, 67, 68, 70, 71, 72, 74, 75, 77, 78, 80, 81, 82, 84, 86, 87, 88, 89 };
 
+        public SteamGuardAccount() { }
+        public SteamGuardAccount(SteamGuardAccount acc)
+        {
+            this.AccountName = acc.AccountName;
+            this.DeviceID = acc.DeviceID;
+            this.FullyEnrolled = acc.FullyEnrolled;
+            this.IdentitySecret = acc.IdentitySecret;
+            this.NetAvailable = acc.NetAvailable;
+            this.secret = acc.secret;
+            this.Secret1 = acc.Secret1;
+            this.SerialNumber = acc.SerialNumber;
+            this.RevocationCode = acc.RevocationCode;
+            this.ServerTime = acc.ServerTime;
+            this.Session = new SessionData(acc.Session);
+            this.SharedSecret = acc.SharedSecret;
+            this.Status = acc.Status;
+            this.timeDiference = acc.timeDiference;
+            this.TokenGID = acc.TokenGID;
+            this.URI = acc.URI;
+        }
         public async Task<bool> DeactivateAuthenticator(int scheme = 2)
         {
             var postData = new NameValueCollection();
@@ -93,13 +113,13 @@ namespace SteamAuth
         {
             CheckInternet();
             if (NetAvailable)
-                this.timeDiference = (int)(Util.GetSystemUnixTime() - TimeAligner.GetSteamTime());
+                this.timeDiference = (long)(Util.GetSystemUnixTime() - TimeAligner.GetSteamTime());
         }
         public async Task AlignTimeAsync()
         {
             CheckInternet();
             if (NetAvailable)
-                this.timeDiference = (int)(await TimeAligner.GetSteamTimeAsync().ConfigureAwait(true) - Util.GetSystemUnixTime());
+                this.timeDiference = (long)(await TimeAligner.GetSteamTimeAsync().ConfigureAwait(true) - Util.GetSystemUnixTime());
         }
         public void CheckInternet()
         {
@@ -171,76 +191,20 @@ namespace SteamAuth
             Regex confIDRegex = new Regex("data-confid=\"(\\d+)\"");
             Regex confKeyRegex = new Regex("data-key=\"(\\d+)\"");
             Regex confDescRegex = new Regex("<div>((Confirm|Trade with|Sell -) .+)</div>");
-
-            if (response == null || !(confIDRegex.IsMatch(response) && confKeyRegex.IsMatch(response) && confDescRegex.IsMatch(response)))
-            {
-                if (response == null || !response.Contains("<div>Nothing to confirm</div>"))
-                {
-                    throw new WGTokenInvalidException();
-                }
-
-                return new Confirmation[0];
-            }
-
-            MatchCollection confIDs = confIDRegex.Matches(response);
-            MatchCollection confKeys = confKeyRegex.Matches(response);
-            MatchCollection confDescs = confDescRegex.Matches(response);
-
-            List<Confirmation> ret = new List<Confirmation>();
-            for (int i = 0; i < confIDs.Count; i++)
-            {
-                string confID = confIDs[i].Groups[1].Value;
-                string confKey = confKeys[i].Groups[1].Value;
-                string confDesc = confDescs[i].Groups[1].Value;
-                Confirmation conf = new Confirmation()
-                {
-                    Description = confDesc,
-                    ID = confID,
-                    Key = confKey
-                };
-                ret.Add(conf);
-            }
-
-            return ret.ToArray();
-        }
-
-        public async Task<Confirmation[]> FetchConfirmationsAsync()
-        {
-            string url = this.GenerateConfirmationURL();
-
-            CookieContainer cookies = new CookieContainer();
-            try { 
-            this.Session.AddCookies(cookies);
-            }
-            catch(Exception e) { }
-
-            string response = await SteamWeb.RequestAsync(url, "GET", null, cookies);
-
-            /*
-             <div class="mobileconf_list_entry_description">
-			    <div>Sell - Market Listing</div>
-			    <div>Wandering Zombie 5 pуб. (4,36 pуб.)</div>
-			    <div>20 hours ago</div>
-		    </div>
-             */
-
-            /*So you're going to see this abomination and you're going to be upset.
-              It's understandable. But the thing is, regex for HTML -- while awful -- makes this way faster than parsing a DOM, plus we don't need another library.
-              And because the data is always in the same place and same format... It's not as if we're trying to naturally understand HTML here. Just extract strings.
-              I'm sorry. */
-
-            Regex confIDRegex = new Regex("data-confid=\"(\\d+)\"");
-            Regex confKeyRegex = new Regex("data-key=\"(\\d+)\"");
-            Regex confDescRegex = new Regex("<div>((Confirm|Trade with|Sell -) .+)</div>");
             Regex confNameRegex = new Regex("<div>(.+\\(.+\\))</div>");
 
-            if (response == null || !(confIDRegex.IsMatch(response) && confKeyRegex.IsMatch(response) && confDescRegex.IsMatch(response)))
+            if (string.IsNullOrEmpty(response) || !(confIDRegex.IsMatch(response) && confKeyRegex.IsMatch(response) && confDescRegex.IsMatch(response)))
             {
-                if (response == null || !response.Contains("<div>Nothing to confirm</div>"))
+                if (!string.IsNullOrEmpty(response) && response.Contains("<div>Oh nooooooes!</div>"))
                 {
-                    throw new WGTokenInvalidException();
+                    _2FAuthAndroidLibrary.Logging.LogError("Steam server cant get confirmations page.");
+                    return new Confirmation[0];
                 }
-
+                else if (!string.IsNullOrEmpty(response) && !response.Contains("<div>Nothing to confirm</div>"))
+                {
+                    _2FAuthAndroidLibrary.Logging.LogError("Sometinhs strange with confirmations response: (" + response + ")");
+                    return new Confirmation[0];
+                }
                 return new Confirmation[0];
             }
 
@@ -272,7 +236,80 @@ namespace SteamAuth
 
             return ret.ToArray();
         }
+        public async Task<Confirmation[]> FetchConfirmationsAsync()
+        {
+            string url = this.GenerateConfirmationURL();
 
+            CookieContainer cookies = new CookieContainer();
+            this.Session.AddCookies(cookies);
+
+            string response = "";
+            for (byte i = 0; i < 3 && string.IsNullOrEmpty(response); i++)
+                response = await SteamWeb.RequestAsync(url, "GET", null, cookies);
+
+            /*
+             <div class="mobileconf_list_entry_description">
+			    <div>Sell - Market Listing</div>
+			    <div>Wandering Zombie 5 pуб. (4,36 pуб.)</div>
+			    <div>20 hours ago</div>
+		    </div>
+             */
+
+            /*So you're going to see this abomination and you're going to be upset.
+              It's understandable. But the thing is, regex for HTML -- while awful -- makes this way faster than parsing a DOM, plus we don't need another library.
+              And because the data is always in the same place and same format... It's not as if we're trying to naturally understand HTML here. Just extract strings.
+              I'm sorry. */
+            Regex confInfoRegex = new Regex("<div class=\"mobileconf_list_entry\" id=\"\\w+\" data-confid=\"(\\d+)\" data-key=\"(\\d+)\"");
+            Regex confDescRegex = new Regex("<div>((Confirm|Trade with|Sell -) .+)</div>");
+            Regex confNameRegex = new Regex("<div>(.+\\(.+\\))</div>");
+            /*
+            Regex confIDRegex = new Regex("data-confid=\"(\\d+)\"");
+            Regex confKeyRegex = new Regex("data-key=\"(\\d+)\"");
+            Regex confDescRegex = new Regex("<div>((Confirm|Trade with|Sell -) .+)</div>");
+            Regex confNameRegex = new Regex("<div>(.+\\(.+\\))</div>");
+            */
+            if (string.IsNullOrEmpty(response) || !(confInfoRegex.IsMatch(response) && confDescRegex.IsMatch(response)))
+            {
+                if(!string.IsNullOrEmpty(response) && response.Contains("<div>Oh nooooooes!</div>"))
+                {
+                    _2FAuthAndroidLibrary.Logging.LogError("Steam server cant get confirmations page.");
+                    return new Confirmation[0];
+                }
+                else if (!string.IsNullOrEmpty(response) && !response.Contains("<div>Nothing to confirm</div>"))
+                {
+                    _2FAuthAndroidLibrary.Logging.LogError("Sometinhs strange with confirmations response: (" + response + ")");
+                    return new Confirmation[0];
+                }
+                return new Confirmation[0];
+            }
+
+            MatchCollection confInfos = confInfoRegex.Matches(response);
+            MatchCollection confDescs = confDescRegex.Matches(response);
+            MatchCollection confNames = confNameRegex.Matches(response);
+
+            List<Confirmation> ret = new List<Confirmation>();
+            for (int i = 0; i < confInfos.Count; i++)
+            {
+                string confID = confInfos[i].Groups[1].Value;
+                string confKey = confInfos[i].Groups[2].Value;
+                string confDesc = confDescs[i].Groups[1].Value;
+                string confName = "Trade";
+                if (confNames.Count > 0)
+                    confName = confNames[i].Groups[1].Value;
+
+
+                Confirmation conf = new Confirmation()
+                {
+                    Description = confDesc,
+                    ID = confID,
+                    Key = confKey,
+                    Name = confName
+                };
+                ret.Add(conf);
+            }
+
+            return ret.ToArray();
+        }
         public long GetConfirmationTradeOfferID(Confirmation conf)
         {
             var confDetails = _getConfirmationDetails(conf);
@@ -282,17 +319,14 @@ namespace SteamAuth
             if (!tradeOfferIDRegex.IsMatch(confDetails.HTML)) return -1;
             return long.Parse(tradeOfferIDRegex.Match(confDetails.HTML).Groups[1].Value);
         }
-
         public async Task<bool> AcceptConfirmation(Confirmation conf)
         {
             return await _sendConfirmationAjaxAsync(conf, "allow");
         }
-
         public async Task<bool> DenyConfirmation(Confirmation conf)
         {
             return await _sendConfirmationAjaxAsync(conf, "cancel");
         }
-
         /// <summary>
         /// Refreshes the Steam session. Necessary to perform confirmations if your session has expired or changed.
         /// </summary>
@@ -313,7 +347,7 @@ namespace SteamAuth
             try
             {
                 var refreshResponse = JsonConvert.DeserializeObject<RefreshSessionDataResponse>(response);
-                if (refreshResponse == null || refreshResponse.Response == null || String.IsNullOrEmpty(refreshResponse.Response.Token))
+                if (refreshResponse == null || refreshResponse.Response == null || string.IsNullOrEmpty(refreshResponse.Response.Token))
                     return false;
 
                 string token = this.Session.SteamID + "%7C%7C" + refreshResponse.Response.Token;
@@ -328,7 +362,6 @@ namespace SteamAuth
                 return false;
             }
         }
-
         /// <summary>
         /// Refreshes the Steam session. Necessary to perform confirmations if your session has expired or changed.
         /// </summary>
@@ -364,7 +397,6 @@ namespace SteamAuth
                 return false;
             }
         }
-
         private ConfirmationDetailsResponse _getConfirmationDetails(Confirmation conf)
         {
             string url = APIEndpoints.COMMUNITY_BASE + "/mobileconf/details/" + conf.ID + "?";
@@ -418,26 +450,34 @@ namespace SteamAuth
             SendConfirmationResponse confResponse = JsonConvert.DeserializeObject<SendConfirmationResponse>(response);
             return confResponse.Success;
         }
-
         public string GenerateConfirmationURL(string tag = "conf")
         {
             string endpoint = APIEndpoints.COMMUNITY_BASE + "/mobileconf/conf?";
             string queryString = GenerateConfirmationQueryParams(tag);
             return endpoint + queryString;
         }
-
         public string GenerateConfirmationQueryParams(string tag)
         {
-            if (String.IsNullOrEmpty(DeviceID))
+            if (string.IsNullOrEmpty(DeviceID))
+            {
+
+                _2FAuthAndroidLibrary.Logging.LogError("Device ID is not present");
+#if DEBUG
                 throw new ArgumentException("Device ID is not present");
+#endif
+
+            }
 
             long time = TimeAligner.GetSteamTime();
             return "p=" + this.DeviceID + "&a=" + this.Session.SteamID.ToString() + "&k=" + _generateConfirmationHashForTime(time, tag) + "&t=" + time + "&m=android&tag=" + tag;
         }
-
         private string _generateConfirmationHashForTime(long time, string tag)
         {
-            byte[] decode = Convert.FromBase64String(this.IdentitySecret);
+            byte[] decode;
+            try
+            {
+                decode = Convert.FromBase64String(this.IdentitySecret);
+            } catch (Exception) { return null; }
             int n2 = 8;
             if (tag != null)
             {
@@ -483,11 +523,9 @@ namespace SteamAuth
             }
         }
 
-        //TODO: Determine how to detect an invalid session.
         public class WGTokenInvalidException : Exception
         {
         }
-
         private class RefreshSessionDataResponse
         {
             [JsonProperty("response")]
@@ -501,7 +539,6 @@ namespace SteamAuth
                 public string TokenSecure { get; set; }
             }
         }
-
         private class RemoveAuthenticatorResponse
         {
             [JsonProperty("response")]
@@ -513,13 +550,11 @@ namespace SteamAuth
                 public bool Success { get; set; }
             }
         }
-
         private class SendConfirmationResponse
         {
             [JsonProperty("success")]
             public bool Success { get; set; }
         }
-
         private class ConfirmationDetailsResponse
         {
             [JsonProperty("success")]

@@ -22,6 +22,7 @@ namespace _2FAuthAndroidLibrary
         public const string SGAccountFile = "steamguard.json";
         private const byte MinSessionTTL = 15;
         internal static DateTime LastRefresh;
+        private const string salt = "There is something";
         public CSteamAuth()
         {
             userLogin = new UserLogin();
@@ -79,31 +80,37 @@ namespace _2FAuthAndroidLibrary
 
             return res;
         }
-        public bool LoadAuthenticator(string secret)
+        public bool LoadAuthenticator(string secret, string Path = SGAccountFile)
         {
-            if (secret.Length < 4 || !File.Exists(SGAccountFile))
+            if (string.IsNullOrEmpty(Path))
+                Path = SGAccountFile;
+
+            if (secret.Length < 4 || !File.Exists(Path))
                 return false;
 
             SteamGuardAccount acc;
             try {
-                acc = JsonConvert.DeserializeObject<SteamGuardAccount>(File.ReadAllText(SGAccountFile));
+                acc = JsonConvert.DeserializeObject<SteamGuardAccount>(File.ReadAllText(Path));
             } catch (Exception) { return false; }
             if (acc == null)
                 return false;
-            
+            #region crypto
             using (var crypto = new RijndaelManaged()) // Decrypt data
             {
-                crypto.Padding = PaddingMode.Zeros;
+                crypto.Padding = PaddingMode.None;
                 crypto.KeySize = 128;          // in bits
                 var keysDeriver = new Rfc2898DeriveBytes(secret, Encoding.ASCII.GetBytes("There is something"));
 
                 crypto.Key = keysDeriver.GetBytes(crypto.KeySize / 8);
                 crypto.IV = keysDeriver.GetBytes(crypto.BlockSize / 8);
 
-                string[] sIn = { acc.DeviceID, acc.IdentitySecret, acc.RevocationCode, acc.SharedSecret, acc.Session.WebCookie, acc.Session.SessionID, acc.Session.OAuthToken };
+                string[] sIn = {
+                    acc.IdentitySecret,
+                    acc.SharedSecret
+                    };
 
-                string[] sOut = new string[7];
-                for (int i = 0; i < 7; i++)
+                string[] sOut = new string[2];
+                for (int i = 0; i < 2; i++)
                     using (MemoryStream ms = new MemoryStream())
                     {
                         using (CryptoStream cs = new CryptoStream(ms, crypto.CreateDecryptor(), CryptoStreamMode.Write))
@@ -113,18 +120,19 @@ namespace _2FAuthAndroidLibrary
                             cs.Write(byteArr, 0, byteArr.Length);
                             } catch(Exception) { return false; }
                         }
-                        sOut[i] = Encoding.ASCII.GetString(ms.ToArray()).Replace("\0","");
+                        sOut[i] = Convert.ToBase64String(ms.ToArray());
                     }
                 
-                acc.DeviceID = sOut[0];
-                acc.IdentitySecret = sOut[1];
-                acc.RevocationCode = sOut[2];
-                acc.SharedSecret = sOut[3];
-                acc.Session.WebCookie = sOut[4];
-                acc.Session.SessionID = sOut[5];
-                acc.Session.OAuthToken = sOut[6];
+                acc.IdentitySecret = sOut[0];
+                acc.SharedSecret = sOut[1];
+                int iSecret = 0;
+                int.TryParse(secret, out iSecret);
+                int newRcode = int.Parse(acc.RevocationCode.Substring(1)) - 375 - iSecret;
+                if (newRcode.ToString().Length < 5)
+                    newRcode = int.Parse(acc.RevocationCode.Substring(1)) + 375 + iSecret;
+                acc.RevocationCode = "R" + newRcode;
             }
-            
+            #endregion
             steamGuardAccount = acc;
             steamGuardAccount.AlignTime();
             RefreshSessionIfNeed().ConfigureAwait(true);
@@ -165,6 +173,8 @@ namespace _2FAuthAndroidLibrary
         }
         public SaveResult SaveSGAccount(string secret, string Path = SGAccountFile)
         {
+            if (string.IsNullOrEmpty(Path))
+                Path = SGAccountFile;
             if (secret.Length < 4)
                 return SaveResult.IncorrectSecretCode;
             if (!File.Exists(Path))
@@ -172,8 +182,7 @@ namespace _2FAuthAndroidLibrary
                 var stream = File.Create(Path);
                 stream.Close();
             }
-            SteamAuth.SteamGuardAccount acc = new SteamGuardAccount();
-            acc = steamGuardAccount;
+            SteamGuardAccount acc = new SteamGuardAccount(steamGuardAccount);
             #region cryptography
             using (var crypto = new RijndaelManaged())
             {
@@ -184,49 +193,45 @@ namespace _2FAuthAndroidLibrary
                 crypto.Key = keysDeriver.GetBytes(crypto.KeySize / 8);
                 crypto.IV = keysDeriver.GetBytes(crypto.BlockSize / 8);
                 string[] sIn = {
-                    acc.DeviceID,
                     acc.IdentitySecret,
-                    acc.RevocationCode,
-                    acc.SharedSecret,
-                    acc.Session.WebCookie,
-                    acc.Session.SessionID,
-                    acc.Session.OAuthToken
+                    acc.SharedSecret
                 };
-                string[] sOut = new string[7];
+                string[] sOut = new string[2];
 
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 2; i++)
                     using (MemoryStream ms = new MemoryStream())
                     {
                         using (CryptoStream cs = new CryptoStream(ms, crypto.CreateEncryptor(), CryptoStreamMode.Write))
                         {
-                            var byteArr = Encoding.ASCII.GetBytes(sIn[i]);
+                            var byteArr = Convert.FromBase64String(sIn[i]);
                             try
                             {
                                 cs.Write(byteArr, 0, byteArr.Length);
                             }
-                            catch (Exception) { return SaveResult.FileError; }
+                            catch (Exception e) {
+                                Logging.LogError("Cant write to crypto stream: " + e.Message);
+                                return SaveResult.CryptoError;
+                            }
                         }
 
                         sOut[i] = Convert.ToBase64String(ms.ToArray());
                     }
-                acc.DeviceID = sOut[0];
-                acc.IdentitySecret = sOut[1];
-                acc.RevocationCode = sOut[2];
-                acc.SharedSecret = sOut[3];
-                acc.Session.WebCookie = sOut[4];
-                acc.Session.SessionID = sOut[5];
-                acc.Session.OAuthToken = sOut[6];
+                acc.IdentitySecret = sOut[0];
+                acc.SharedSecret = sOut[1];
+                int iSecret = 0;
+                int.TryParse(secret, out iSecret);
+                int newRcode = int.Parse(acc.RevocationCode.Substring(1)) + 375 + iSecret;
+                if (newRcode.ToString().Length > 5)
+                    newRcode = int.Parse(acc.RevocationCode.Substring(1)) - 375 - iSecret;
+                acc.RevocationCode = "R" + newRcode;
             }
             #endregion
             bool saved = false;
             for (byte i = 0; i < 5 && saved == false; i++)
             {
-                try
-                {
+                try {
                     File.WriteAllText(Path, JsonConvert.SerializeObject(acc));
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     Logging.LogError("Cant save steam guard file: " + e.Message);
                     Thread.Sleep(1000);
                     continue;
@@ -284,6 +289,57 @@ namespace _2FAuthAndroidLibrary
                     Name = confirmation.Name
                 });
             }
+
+            return res;
+        }
+        private string EnCrypt(string data, string key, CryptType type)
+        {
+            var res = "";
+
+            using (var crypto = new RijndaelManaged())
+            {
+                crypto.Padding = PaddingMode.Zeros;
+                crypto.KeySize = 128;
+                var keyDeriver = new Rfc2898DeriveBytes(key, Encoding.ASCII.GetBytes(salt));
+                crypto.Key = keyDeriver.GetBytes(crypto.KeySize / 8);
+                crypto.IV = keyDeriver.GetBytes(crypto.BlockSize / 8);
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms,crypto.CreateEncryptor(),CryptoStreamMode.Write))
+                    {
+                        byte[] byteArr;
+                        switch (type)
+                        {
+                            case CryptType.base64:
+                                byteArr = Convert.FromBase64String(data);
+                                break;
+                            case CryptType.ASCII:
+                            default:
+                                byteArr = Encoding.ASCII.GetBytes(data);
+                                break;
+                        }
+                        try {
+                            cs.Write(byteArr, 0, byteArr.Length);
+                        } catch(Exception e) {
+                            Logging.LogError("Cant write to crypto stream: " + e.Message);
+                            return res;
+                        }
+                        var resArr = ms.ToArray();
+                        int index = 0;
+                        for (; index < resArr.Length; index++) // Looking for null bytes
+                            if (resArr[index] == 0)
+                                break;
+                        res = Convert.ToBase64String(resArr, 0, index);
+                    }
+                }
+            }
+
+                return res;
+        }
+        private string DeCrypt(string data, string key, CryptType type)
+        {
+            var res = "";
 
             return res;
         }
@@ -347,10 +403,16 @@ namespace _2FAuthAndroidLibrary
             Unknown = 3
         }
     }
+    public enum CryptType
+    {
+        base64,
+        ASCII
+    }
     public enum SaveResult
     {
         Ok,
         IncorrectSecretCode,
+        CryptoError,
         FileError
     }
     public enum FinalizeResult
