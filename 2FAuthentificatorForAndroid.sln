@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows2FAuth", "Windows2FAuth\Windows2FAuth.csproj", "{AAC15088-F7CA-4455-88DA-D2C752994426}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -11,12 +11,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2FAuthAndroid", "2FAuthAndroid\2FAuthAndroid.csproj", "{E64F9687-3682-40A7-BF49-A8AB9671E1DC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{847DDA6A-9788-4B74-86FE-E7471F7E5D77} = {847DDA6A-9788-4B74-86FE-E7471F7E5D77}
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B} = {B544C08C-7F75-4B68-91F5-3B0AFE17937B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2FAuthAndroidLibrary", "2FAuthAndroidLibrary\2FAuthAndroidLibrary.csproj", "{847DDA6A-9788-4B74-86FE-E7471F7E5D77}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastAndroidCamera", "FastAndroidCamera-master\FastAndroidCamera.csproj", "{B544C08C-7F75-4B68-91F5-3B0AFE17937B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -182,46 +179,6 @@ Global
 		{847DDA6A-9788-4B74-86FE-E7471F7E5D77}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{847DDA6A-9788-4B74-86FE-E7471F7E5D77}.Release|x86.ActiveCfg = Release|Any CPU
 		{847DDA6A-9788-4B74-86FE-E7471F7E5D77}.Release|x86.Build.0 = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|Any CPU.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|Any CPU.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|ARM.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|ARM.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|iPhone.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|iPhone.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|iPhoneSimulator.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|iPhoneSimulator.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|x86.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.AppStore|x86.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|ARM.Build.0 = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Debug|x86.Build.0 = Debug|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|Any CPU.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|Any CPU.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|ARM.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|ARM.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|iPhone.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|iPhone.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|iPhoneSimulator.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|iPhoneSimulator.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|x86.ActiveCfg = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Droid|x86.Build.0 = Droid|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|ARM.ActiveCfg = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|ARM.Build.0 = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|iPhone.Build.0 = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|x86.ActiveCfg = Release|Any CPU
-		{B544C08C-7F75-4B68-91F5-3B0AFE17937B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
