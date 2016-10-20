@@ -247,7 +247,7 @@ ModelManifest.xml
 # Not worked shit
 2FAuthAndroid/
 SteamAuth/
-ZXing.Net.0.14.0.0/
+ZXing/
 packages/
 Backup/
-FastAndroidCamera-master/
+FastAndroidCamera/
