@@ -346,14 +346,14 @@ namespace Windows2FAuth
                 bool AddedNew = false; // Are we added a new element to the list?
                 var confirmationList = await cSteamAuth.GetConfirmations().ConfigureAwait(true);
                 foreach (var confirmation in confirmationList)
-                    if (!checkedListBoxPendings.Items.Contains(confirmation))
+                    if (!checkedListBoxPendings.checkedListBox.Items.Contains(confirmation))
                     {
-                        checkedListBoxPendings.Items.Add(confirmation);
+                        checkedListBoxPendings.checkedListBox.Items.Add(confirmation);
                         AddedNew = true;
                     }
 
                 panelPendingsLoading.Visible = false;
-                bool empty = (checkedListBoxPendings.Items.Count <= 0);
+                bool empty = (checkedListBoxPendings.checkedListBox.Items.Count <= 0);
                 checkedListBoxPendings.Visible = !empty;
                 panelPendingButtons.Visible = !empty;
                 panelPendingNothing.Visible = empty;
@@ -434,19 +434,19 @@ namespace Windows2FAuth
         } // Delete authenticator button
         private async void buttonPendingAccept_Click(object sender, EventArgs e)
         {
-            if (checkedListBoxPendings.CheckedItems.Count <= 0)
+            if (checkedListBoxPendings.checkedListBox.CheckedItems.Count <= 0)
                 return;
             (sender as Button).Enabled = false;
 
             keepRefreshPendings = false;// Turn off list modifing
 
             List<Confirmation_light> confirmationList = new List<Confirmation_light>();
-            confirmationList = checkedListBoxPendings.CheckedItems.Cast<Confirmation_light>().ToList();
+            confirmationList = checkedListBoxPendings.checkedListBox.CheckedItems.Cast<Confirmation_light>().ToList();
 
             foreach (var confirmation in confirmationList)
             {
                 if (await (confirmation as Confirmation_light).Confirm().ConfigureAwait(true))
-                    checkedListBoxPendings.Items.Remove(confirmation);
+                    checkedListBoxPendings.checkedListBox.Items.Remove(confirmation);
                 checkedListBoxPendings.Update();
             }
 
@@ -455,19 +455,19 @@ namespace Windows2FAuth
         } // Pending Accept
         private async void buttonPendingDeny_Click(object sender, EventArgs e)
         {
-            if (checkedListBoxPendings.CheckedItems.Count <= 0)
+            if (checkedListBoxPendings.checkedListBox.CheckedItems.Count <= 0)
                 return;
             (sender as Button).Enabled = false;
 
             keepRefreshPendings = false;// Turn off list modifing
 
             List<Confirmation_light> confirmationList = new List<Confirmation_light>();
-            confirmationList = checkedListBoxPendings.CheckedItems.Cast<Confirmation_light>().ToList();
+            confirmationList = checkedListBoxPendings.checkedListBox.CheckedItems.Cast<Confirmation_light>().ToList();
 
             foreach (var confirmation in confirmationList)
             {
                 if (await (confirmation as Confirmation_light).Deny().ConfigureAwait(true))
-                    checkedListBoxPendings.Items.Remove(confirmation);
+                    checkedListBoxPendings.checkedListBox.Items.Remove(confirmation);
                 checkedListBoxPendings.Update();
             }
 
@@ -477,21 +477,8 @@ namespace Windows2FAuth
         private void buttonGoToCodes_Click(object sender, EventArgs e)
         {
             OpenCodesTab();
+            // TODO: Create refresh button
         } // Go to codes Tab
-        private void deSelectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (checkedListBoxPendings.Items.Count <= 0)
-                return;
-            for (int i = 0; i < checkedListBoxPendings.Items.Count; i++)
-                checkedListBoxPendings.SetItemChecked(i, true);
-        } // Deselct all pendings
-        private void sToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (checkedListBoxPendings.Items.Count <= 0)
-                return;
-            for (int i = 0; i < checkedListBoxPendings.Items.Count; i++)
-                checkedListBoxPendings.SetItemChecked(i, false);
-        } // Select all pendings
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_secret))
@@ -505,7 +492,8 @@ namespace Windows2FAuth
         } // Export steamguard file
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Turn all off
+            // TODO FIX: If close dialog without selecting, nothing work
+            // Turn all off
             flowLayoutPanelLinker.Visible = false;
             flowLayoutPanelLogin.Visible = false;
             flowLayoutPanelPendingConfirmation.Visible = false;
@@ -632,6 +620,50 @@ namespace Windows2FAuth
                 this.ForeColor = Color.Black;
             }
             base.OnEnter(e);
+        }
+    }
+    public class CheckedListBoxExtended : Control
+    {
+        public CheckBox CheckAll = new CheckBox() { Text = "Select all", Dock = DockStyle.Top };
+        public CheckedListBox checkedListBox = new CheckedListBox() { CheckOnClick = true };
+        bool manualCheckChange;
+        public CheckedListBoxExtended()
+        {
+            this.Controls.Add(CheckAll);
+            this.Controls.Add(checkedListBox);
+
+            CheckAll.CheckedChanged += new EventHandler(this.CheckAll_checkChange);
+            checkedListBox.ItemCheck += CheckedListBox_ItemCheck;
+            checkedListBox.Location = new Point(0, CheckAll.Height);
+        }
+
+        private void CheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (checkedListBox.Items.Count == checkedListBox.CheckedItems.Count && e.NewValue == CheckState.Unchecked)
+            {
+                manualCheckChange = true;
+                CheckAll.Checked = false;
+            }
+            else if ((checkedListBox.Items.Count - 1) == checkedListBox.CheckedItems.Count && e.NewValue == CheckState.Checked)
+            {
+                manualCheckChange = true;
+                CheckAll.Checked = true;
+            }
+        }
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+            checkedListBox.Size = new Size(this.Size.Width, this.Size.Height - CheckAll.Size.Height);
+        }
+        void CheckAll_checkChange(object sender,EventArgs e)
+        {
+            if(!manualCheckChange)
+                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                    checkedListBox.SetItemChecked(i, CheckAll.Checked);
+            CheckAll.Text = CheckAll.Checked ? "Deselect all" : "Select all";
+
+            manualCheckChange = false;
         }
     }
 }
