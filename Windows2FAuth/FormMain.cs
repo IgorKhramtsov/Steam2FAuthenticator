@@ -492,7 +492,6 @@ namespace Windows2FAuth
         } // Export steamguard file
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO FIX: If close dialog without selecting, nothing work
             // Turn all off
             flowLayoutPanelLinker.Visible = false;
             flowLayoutPanelLogin.Visible = false;
@@ -508,6 +507,11 @@ namespace Windows2FAuth
             {
                 flowLayoutPanelCrypto.Visible = true;
                 sgaPath = openDialog.FileName;
+            }
+            else
+            {
+                flowLayoutPanelLogin.Visible = true;
+                toolStripMain.Visible = true;
             }
         } // Import steamguard file
         private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e)
