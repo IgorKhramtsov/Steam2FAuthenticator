@@ -33,25 +33,29 @@
             this.labelStatus = new System.Windows.Forms.Label();
             this.flowLayoutPanelLogin = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLoginPass = new System.Windows.Forms.Panel();
+            this.defTextBoxUsername = new Windows2FAuth.defTextBox();
+            this.defTextBoxPassword = new Windows2FAuth.defTextBox();
             this.panelEmailCode = new System.Windows.Forms.Panel();
+            this.defTextBoxEmailCode = new Windows2FAuth.defTextBox();
             this.panelTwoFactorCode = new System.Windows.Forms.Panel();
+            this.defTextBoxTwoFactorCode = new Windows2FAuth.defTextBox();
             this.panelCaptcha = new System.Windows.Forms.Panel();
+            this.defTextBoxCaptcha = new Windows2FAuth.defTextBox();
             this.pictureBoxCaptcha = new System.Windows.Forms.PictureBox();
             this.panelLoginButton = new System.Windows.Forms.Panel();
             this.buttonLogin = new System.Windows.Forms.Button();
-            this.panelLoadingLogin = new System.Windows.Forms.Panel();
-            this.pictureBoxLoading = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelLinker = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLinkButton = new System.Windows.Forms.Panel();
             this.buttonLink = new System.Windows.Forms.Button();
             this.panelPhone = new System.Windows.Forms.Panel();
+            this.defTextBoxPhone = new Windows2FAuth.defTextBox();
             this.panelSMS = new System.Windows.Forms.Panel();
+            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
             this.panelSecret = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.defTextBoxSecret = new Windows2FAuth.defTextBox();
             this.panelFinalizeLink = new System.Windows.Forms.Panel();
             this.buttonFinalize = new System.Windows.Forms.Button();
-            this.panelLoadingLink = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelTwoFactorCodes = new System.Windows.Forms.FlowLayoutPanel();
             this.panelTwoFactorCodes = new System.Windows.Forms.Panel();
             this.progressBarTwoFactorCode = new System.Windows.Forms.ProgressBar();
@@ -65,13 +69,8 @@
             this.buttonShowRevocationCode = new System.Windows.Forms.Button();
             this.panelDeleteTwoFactor = new System.Windows.Forms.Panel();
             this.buttonDeLink = new System.Windows.Forms.Button();
-            this.panelTwoFactorLoading = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelPendingConfirmation = new System.Windows.Forms.FlowLayoutPanel();
-            this.panelPendingsLoading = new System.Windows.Forms.Panel();
-            this.pictureBoxPendingLoading = new System.Windows.Forms.PictureBox();
-            this.panelPendingNothing = new System.Windows.Forms.Panel();
-            this.labelPendingListEmpty = new System.Windows.Forms.Label();
+            this.checkedListBoxPendings = new Windows2FAuth.CheckedListBoxExtended();
             this.panelPendingButtons = new System.Windows.Forms.Panel();
             this.buttonPendingDeny = new System.Windows.Forms.Button();
             this.buttonPendingAccept = new System.Windows.Forms.Button();
@@ -84,20 +83,13 @@
             this.flowLayoutPanelCrypto = new System.Windows.Forms.FlowLayoutPanel();
             this.panelCryptoCode = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.defTextBoxCryptoCode = new Windows2FAuth.defTextBox();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.defTextBoxCryptoCode = new Windows2FAuth.defTextBox();
-            this.checkedListBoxPendings = new Windows2FAuth.CheckedListBoxExtended();
-            this.defTextBoxPhone = new Windows2FAuth.defTextBox();
-            this.defTextBoxSMS = new Windows2FAuth.defTextBox();
-            this.defTextBoxSecret = new Windows2FAuth.defTextBox();
-            this.defTextBoxUsername = new Windows2FAuth.defTextBox();
-            this.defTextBoxPassword = new Windows2FAuth.defTextBox();
-            this.defTextBoxEmailCode = new Windows2FAuth.defTextBox();
-            this.defTextBoxTwoFactorCode = new Windows2FAuth.defTextBox();
-            this.defTextBoxCaptcha = new Windows2FAuth.defTextBox();
+            this.panelLoading = new Windows2FAuth.TransparentPanel();
+            this.pictureBoxLoading = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelLogin.SuspendLayout();
             this.panelLoginPass.SuspendLayout();
             this.panelEmailCode.SuspendLayout();
@@ -105,40 +97,33 @@
             this.panelCaptcha.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).BeginInit();
             this.panelLoginButton.SuspendLayout();
-            this.panelLoadingLogin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).BeginInit();
             this.flowLayoutPanelLinker.SuspendLayout();
             this.panelLinkButton.SuspendLayout();
             this.panelPhone.SuspendLayout();
             this.panelSMS.SuspendLayout();
             this.panelSecret.SuspendLayout();
             this.panelFinalizeLink.SuspendLayout();
-            this.panelLoadingLink.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanelTwoFactorCodes.SuspendLayout();
             this.panelTwoFactorCodes.SuspendLayout();
             this.panelRevocationCode.SuspendLayout();
             this.panelGoToPending.SuspendLayout();
             this.panelShowRevocationCode.SuspendLayout();
             this.panelDeleteTwoFactor.SuspendLayout();
-            this.panelTwoFactorLoading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.flowLayoutPanelPendingConfirmation.SuspendLayout();
-            this.panelPendingsLoading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).BeginInit();
-            this.panelPendingNothing.SuspendLayout();
             this.panelPendingButtons.SuspendLayout();
             this.panelGoToCodes.SuspendLayout();
             this.contextMenuStripNotifyIcon.SuspendLayout();
             this.flowLayoutPanelCrypto.SuspendLayout();
             this.panelCryptoCode.SuspendLayout();
             this.toolStripMain.SuspendLayout();
+            this.panelLoading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(313, 422);
+            this.labelStatus.Location = new System.Drawing.Point(626, 422);
             this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(39, 15);
@@ -153,7 +138,6 @@
             this.flowLayoutPanelLogin.Controls.Add(this.panelTwoFactorCode);
             this.flowLayoutPanelLogin.Controls.Add(this.panelCaptcha);
             this.flowLayoutPanelLogin.Controls.Add(this.panelLoginButton);
-            this.flowLayoutPanelLogin.Controls.Add(this.panelLoadingLogin);
             this.flowLayoutPanelLogin.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLogin.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -171,6 +155,33 @@
             this.panelLoginPass.Size = new System.Drawing.Size(300, 91);
             this.panelLoginPass.TabIndex = 0;
             // 
+            // defTextBoxUsername
+            // 
+            this.defTextBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.defTextBoxUsername.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxUsername.Location = new System.Drawing.Point(47, 15);
+            this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxUsername.Name = "defTextBoxUsername";
+            this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
+            this.defTextBoxUsername.TabIndex = 0;
+            this.defTextBoxUsername.Text = "Username";
+            this.defTextBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
+            // defTextBoxPassword
+            // 
+            this.defTextBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.defTextBoxPassword.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxPassword.Location = new System.Drawing.Point(47, 55);
+            this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxPassword.Name = "defTextBoxPassword";
+            this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
+            this.defTextBoxPassword.TabIndex = 1;
+            this.defTextBoxPassword.Text = "Password";
+            this.defTextBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxPassword.UseSystemPasswordChar = true;
+            this.defTextBoxPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
             // panelEmailCode
             // 
             this.panelEmailCode.Controls.Add(this.defTextBoxEmailCode);
@@ -180,6 +191,21 @@
             this.panelEmailCode.Size = new System.Drawing.Size(300, 36);
             this.panelEmailCode.TabIndex = 6;
             this.panelEmailCode.Visible = false;
+            // 
+            // defTextBoxEmailCode
+            // 
+            this.defTextBoxEmailCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.defTextBoxEmailCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxEmailCode.Location = new System.Drawing.Point(79, 5);
+            this.defTextBoxEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxEmailCode.MaxLength = 5;
+            this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
+            this.defTextBoxEmailCode.Size = new System.Drawing.Size(141, 26);
+            this.defTextBoxEmailCode.TabIndex = 0;
+            this.defTextBoxEmailCode.Text = "EMAIL CODE";
+            this.defTextBoxEmailCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxEmailCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
             // panelTwoFactorCode
             // 
@@ -191,6 +217,21 @@
             this.panelTwoFactorCode.TabIndex = 7;
             this.panelTwoFactorCode.Visible = false;
             // 
+            // defTextBoxTwoFactorCode
+            // 
+            this.defTextBoxTwoFactorCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.defTextBoxTwoFactorCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
+            this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxTwoFactorCode.MaxLength = 10;
+            this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
+            this.defTextBoxTwoFactorCode.Size = new System.Drawing.Size(92, 26);
+            this.defTextBoxTwoFactorCode.TabIndex = 0;
+            this.defTextBoxTwoFactorCode.Text = "2FA CODE";
+            this.defTextBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxTwoFactorCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            // 
             // panelCaptcha
             // 
             this.panelCaptcha.Controls.Add(this.defTextBoxCaptcha);
@@ -200,6 +241,15 @@
             this.panelCaptcha.Size = new System.Drawing.Size(301, 78);
             this.panelCaptcha.TabIndex = 9;
             this.panelCaptcha.Visible = false;
+            // 
+            // defTextBoxCaptcha
+            // 
+            this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
+            this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
+            this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
+            this.defTextBoxCaptcha.TabIndex = 0;
+            this.defTextBoxCaptcha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxCaptcha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
             // 
             // pictureBoxCaptcha
             // 
@@ -232,26 +282,6 @@
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
-            // panelLoadingLogin
-            // 
-            this.panelLoadingLogin.Controls.Add(this.pictureBoxLoading);
-            this.panelLoadingLogin.Location = new System.Drawing.Point(311, 3);
-            this.panelLoadingLogin.Name = "panelLoadingLogin";
-            this.panelLoadingLogin.Size = new System.Drawing.Size(302, 110);
-            this.panelLoadingLogin.TabIndex = 7;
-            this.panelLoadingLogin.Visible = false;
-            // 
-            // pictureBoxLoading
-            // 
-            this.pictureBoxLoading.ErrorImage = null;
-            this.pictureBoxLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBoxLoading.InitialImage = null;
-            this.pictureBoxLoading.Location = new System.Drawing.Point(109, 12);
-            this.pictureBoxLoading.Name = "pictureBoxLoading";
-            this.pictureBoxLoading.Size = new System.Drawing.Size(80, 80);
-            this.pictureBoxLoading.TabIndex = 0;
-            this.pictureBoxLoading.TabStop = false;
-            // 
             // flowLayoutPanelLinker
             // 
             this.flowLayoutPanelLinker.Controls.Add(this.panelLinkButton);
@@ -259,7 +289,6 @@
             this.flowLayoutPanelLinker.Controls.Add(this.panelSMS);
             this.flowLayoutPanelLinker.Controls.Add(this.panelSecret);
             this.flowLayoutPanelLinker.Controls.Add(this.panelFinalizeLink);
-            this.flowLayoutPanelLinker.Controls.Add(this.panelLoadingLink);
             this.flowLayoutPanelLinker.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLinker.Location = new System.Drawing.Point(311, 0);
             this.flowLayoutPanelLinker.Name = "flowLayoutPanelLinker";
@@ -295,6 +324,19 @@
             this.panelPhone.TabIndex = 9;
             this.panelPhone.Visible = false;
             // 
+            // defTextBoxPhone
+            // 
+            this.defTextBoxPhone.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxPhone.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxPhone.Location = new System.Drawing.Point(89, 5);
+            this.defTextBoxPhone.MaxLength = 12;
+            this.defTextBoxPhone.Name = "defTextBoxPhone";
+            this.defTextBoxPhone.Size = new System.Drawing.Size(120, 29);
+            this.defTextBoxPhone.TabIndex = 0;
+            this.defTextBoxPhone.Text = "+12345678900";
+            this.defTextBoxPhone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxPhone_KeyPress);
+            // 
             // panelSMS
             // 
             this.panelSMS.Controls.Add(this.defTextBoxSMS);
@@ -303,6 +345,18 @@
             this.panelSMS.Size = new System.Drawing.Size(298, 40);
             this.panelSMS.TabIndex = 10;
             this.panelSMS.Visible = false;
+            // 
+            // defTextBoxSMS
+            // 
+            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
+            this.defTextBoxSMS.MaxLength = 5;
+            this.defTextBoxSMS.Name = "defTextBoxSMS";
+            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
+            this.defTextBoxSMS.TabIndex = 0;
+            this.defTextBoxSMS.Text = "SMS Code";
+            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panelSecret
             // 
@@ -325,6 +379,19 @@
             this.label2.Text = "Enter combination of 4 numbers\r\nRemember this combination!";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // defTextBoxSecret
+            // 
+            this.defTextBoxSecret.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.defTextBoxSecret.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSecret.Location = new System.Drawing.Point(106, 52);
+            this.defTextBoxSecret.MaxLength = 4;
+            this.defTextBoxSecret.Name = "defTextBoxSecret";
+            this.defTextBoxSecret.Size = new System.Drawing.Size(98, 29);
+            this.defTextBoxSecret.TabIndex = 0;
+            this.defTextBoxSecret.Text = "Secret code";
+            this.defTextBoxSecret.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxSecret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
+            // 
             // panelFinalizeLink
             // 
             this.panelFinalizeLink.Controls.Add(this.buttonFinalize);
@@ -345,26 +412,6 @@
             this.buttonFinalize.UseVisualStyleBackColor = true;
             this.buttonFinalize.Click += new System.EventHandler(this.buttonFinalize_Click);
             // 
-            // panelLoadingLink
-            // 
-            this.panelLoadingLink.Controls.Add(this.pictureBox1);
-            this.panelLoadingLink.Location = new System.Drawing.Point(308, 3);
-            this.panelLoadingLink.Name = "panelLoadingLink";
-            this.panelLoadingLink.Size = new System.Drawing.Size(302, 110);
-            this.panelLoadingLink.TabIndex = 8;
-            this.panelLoadingLink.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(109, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(80, 80);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // flowLayoutPanelTwoFactorCodes
             // 
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelTwoFactorCodes);
@@ -372,7 +419,6 @@
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelGoToPending);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelShowRevocationCode);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelDeleteTwoFactor);
-            this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelTwoFactorLoading);
             this.flowLayoutPanelTwoFactorCodes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelTwoFactorCodes.Location = new System.Drawing.Point(623, 0);
             this.flowLayoutPanelTwoFactorCodes.Name = "flowLayoutPanelTwoFactorCodes";
@@ -495,30 +541,8 @@
             this.buttonDeLink.UseVisualStyleBackColor = true;
             this.buttonDeLink.Click += new System.EventHandler(this.buttonDeLink_Click);
             // 
-            // panelTwoFactorLoading
-            // 
-            this.panelTwoFactorLoading.Controls.Add(this.pictureBox2);
-            this.panelTwoFactorLoading.Location = new System.Drawing.Point(3, 293);
-            this.panelTwoFactorLoading.Name = "panelTwoFactorLoading";
-            this.panelTwoFactorLoading.Size = new System.Drawing.Size(302, 110);
-            this.panelTwoFactorLoading.TabIndex = 9;
-            this.panelTwoFactorLoading.Visible = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(109, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(80, 80);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
-            // 
             // flowLayoutPanelPendingConfirmation
             // 
-            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingsLoading);
-            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingNothing);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.checkedListBoxPendings);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingButtons);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelGoToCodes);
@@ -529,52 +553,22 @@
             this.flowLayoutPanelPendingConfirmation.TabIndex = 3;
             this.flowLayoutPanelPendingConfirmation.Visible = false;
             // 
-            // panelPendingsLoading
+            // checkedListBoxPendings
             // 
-            this.panelPendingsLoading.Controls.Add(this.pictureBoxPendingLoading);
-            this.panelPendingsLoading.Location = new System.Drawing.Point(3, 3);
-            this.panelPendingsLoading.Name = "panelPendingsLoading";
-            this.panelPendingsLoading.Size = new System.Drawing.Size(302, 110);
-            this.panelPendingsLoading.TabIndex = 12;
-            this.panelPendingsLoading.Visible = false;
-            // 
-            // pictureBoxPendingLoading
-            // 
-            this.pictureBoxPendingLoading.ErrorImage = null;
-            this.pictureBoxPendingLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBoxPendingLoading.InitialImage = null;
-            this.pictureBoxPendingLoading.Location = new System.Drawing.Point(109, 12);
-            this.pictureBoxPendingLoading.Name = "pictureBoxPendingLoading";
-            this.pictureBoxPendingLoading.Size = new System.Drawing.Size(80, 80);
-            this.pictureBoxPendingLoading.TabIndex = 0;
-            this.pictureBoxPendingLoading.TabStop = false;
-            // 
-            // panelPendingNothing
-            // 
-            this.panelPendingNothing.Controls.Add(this.labelPendingListEmpty);
-            this.panelPendingNothing.Location = new System.Drawing.Point(3, 119);
-            this.panelPendingNothing.Name = "panelPendingNothing";
-            this.panelPendingNothing.Size = new System.Drawing.Size(302, 100);
-            this.panelPendingNothing.TabIndex = 10;
-            this.panelPendingNothing.Visible = false;
-            // 
-            // labelPendingListEmpty
-            // 
-            this.labelPendingListEmpty.AutoSize = true;
-            this.labelPendingListEmpty.Font = new System.Drawing.Font("Segoe UI", 15F);
-            this.labelPendingListEmpty.Location = new System.Drawing.Point(58, 37);
-            this.labelPendingListEmpty.Name = "labelPendingListEmpty";
-            this.labelPendingListEmpty.Size = new System.Drawing.Size(192, 28);
-            this.labelPendingListEmpty.TabIndex = 0;
-            this.labelPendingListEmpty.Text = "Pending list is empty";
+            this.checkedListBoxPendings.Enabled = false;
+            this.checkedListBoxPendings.Location = new System.Drawing.Point(3, 3);
+            this.checkedListBoxPendings.Name = "checkedListBoxPendings";
+            this.checkedListBoxPendings.Size = new System.Drawing.Size(300, 213);
+            this.checkedListBoxPendings.TabIndex = 0;
+            this.checkedListBoxPendings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedListBoxPendings_MouseDown);
             // 
             // panelPendingButtons
             // 
             this.panelPendingButtons.Controls.Add(this.buttonPendingDeny);
             this.panelPendingButtons.Controls.Add(this.buttonPendingAccept);
-            this.panelPendingButtons.Location = new System.Drawing.Point(3, 331);
+            this.panelPendingButtons.Location = new System.Drawing.Point(3, 222);
             this.panelPendingButtons.Name = "panelPendingButtons";
-            this.panelPendingButtons.Size = new System.Drawing.Size(302, 46);
+            this.panelPendingButtons.Size = new System.Drawing.Size(302, 43);
             this.panelPendingButtons.TabIndex = 1;
             this.panelPendingButtons.Visible = false;
             // 
@@ -603,7 +597,7 @@
             // panelGoToCodes
             // 
             this.panelGoToCodes.Controls.Add(this.buttonGoToCodes);
-            this.panelGoToCodes.Location = new System.Drawing.Point(311, 3);
+            this.panelGoToCodes.Location = new System.Drawing.Point(3, 271);
             this.panelGoToCodes.Name = "panelGoToCodes";
             this.panelGoToCodes.Size = new System.Drawing.Size(302, 42);
             this.panelGoToCodes.TabIndex = 11;
@@ -684,6 +678,20 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Type your secret code";
             // 
+            // defTextBoxCryptoCode
+            // 
+            this.defTextBoxCryptoCode.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.defTextBoxCryptoCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxCryptoCode.Location = new System.Drawing.Point(86, 42);
+            this.defTextBoxCryptoCode.MaxLength = 4;
+            this.defTextBoxCryptoCode.Name = "defTextBoxCryptoCode";
+            this.defTextBoxCryptoCode.Size = new System.Drawing.Size(116, 32);
+            this.defTextBoxCryptoCode.TabIndex = 0;
+            this.defTextBoxCryptoCode.Text = "Secret code";
+            this.defTextBoxCryptoCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.defTextBoxCryptoCode.TextChanged += new System.EventHandler(this.defTextBoxCryptoCode_TextChanged);
+            this.defTextBoxCryptoCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
+            // 
             // toolStripMain
             // 
             this.toolStripMain.AllowMerge = false;
@@ -725,138 +733,32 @@
             this.importToolStripMenuItem.Visible = false;
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
-            // defTextBoxCryptoCode
+            // panelLoading
             // 
-            this.defTextBoxCryptoCode.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.defTextBoxCryptoCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxCryptoCode.Location = new System.Drawing.Point(86, 42);
-            this.defTextBoxCryptoCode.MaxLength = 4;
-            this.defTextBoxCryptoCode.Name = "defTextBoxCryptoCode";
-            this.defTextBoxCryptoCode.Size = new System.Drawing.Size(116, 32);
-            this.defTextBoxCryptoCode.TabIndex = 0;
-            this.defTextBoxCryptoCode.Text = "Secret code";
-            this.defTextBoxCryptoCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxCryptoCode.TextChanged += new System.EventHandler(this.defTextBoxCryptoCode_TextChanged);
-            this.defTextBoxCryptoCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
+            this.panelLoading.BackColor = System.Drawing.Color.White;
+            this.panelLoading.Controls.Add(this.pictureBoxLoading);
+            this.panelLoading.Location = new System.Drawing.Point(316, 422);
+            this.panelLoading.Name = "panelLoading";
+            this.panelLoading.Size = new System.Drawing.Size(300, 400);
+            this.panelLoading.TabIndex = 12;
             // 
-            // checkedListBoxPendings
+            // pictureBoxLoading
             // 
-            this.checkedListBoxPendings.Location = new System.Drawing.Point(3, 225);
-            this.checkedListBoxPendings.Name = "checkedListBoxPendings";
-            this.checkedListBoxPendings.Size = new System.Drawing.Size(300, 100);
-            this.checkedListBoxPendings.TabIndex = 0;
-            this.checkedListBoxPendings.Visible = false;
-            this.checkedListBoxPendings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedListBoxPendings_MouseDown);
-            // 
-            // defTextBoxPhone
-            // 
-            this.defTextBoxPhone.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxPhone.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxPhone.Location = new System.Drawing.Point(89, 5);
-            this.defTextBoxPhone.MaxLength = 12;
-            this.defTextBoxPhone.Name = "defTextBoxPhone";
-            this.defTextBoxPhone.Size = new System.Drawing.Size(120, 29);
-            this.defTextBoxPhone.TabIndex = 0;
-            this.defTextBoxPhone.Text = "+12345678900";
-            this.defTextBoxPhone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxPhone_KeyPress);
-            // 
-            // defTextBoxSMS
-            // 
-            this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
-            this.defTextBoxSMS.MaxLength = 5;
-            this.defTextBoxSMS.Name = "defTextBoxSMS";
-            this.defTextBoxSMS.Size = new System.Drawing.Size(83, 29);
-            this.defTextBoxSMS.TabIndex = 0;
-            this.defTextBoxSMS.Text = "SMS Code";
-            this.defTextBoxSMS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // defTextBoxSecret
-            // 
-            this.defTextBoxSecret.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSecret.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxSecret.Location = new System.Drawing.Point(106, 52);
-            this.defTextBoxSecret.MaxLength = 4;
-            this.defTextBoxSecret.Name = "defTextBoxSecret";
-            this.defTextBoxSecret.Size = new System.Drawing.Size(98, 29);
-            this.defTextBoxSecret.TabIndex = 0;
-            this.defTextBoxSecret.Text = "Secret code";
-            this.defTextBoxSecret.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxSecret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.defTextBoxCryptoCode_KeyPress);
-            // 
-            // defTextBoxUsername
-            // 
-            this.defTextBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxUsername.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxUsername.Location = new System.Drawing.Point(47, 15);
-            this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxUsername.Name = "defTextBoxUsername";
-            this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxUsername.TabIndex = 0;
-            this.defTextBoxUsername.Text = "Username";
-            this.defTextBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxUsername.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxPassword
-            // 
-            this.defTextBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxPassword.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxPassword.Location = new System.Drawing.Point(47, 55);
-            this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxPassword.Name = "defTextBoxPassword";
-            this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
-            this.defTextBoxPassword.TabIndex = 1;
-            this.defTextBoxPassword.Text = "Password";
-            this.defTextBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxPassword.UseSystemPasswordChar = true;
-            this.defTextBoxPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxEmailCode
-            // 
-            this.defTextBoxEmailCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.defTextBoxEmailCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxEmailCode.Location = new System.Drawing.Point(79, 5);
-            this.defTextBoxEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxEmailCode.MaxLength = 5;
-            this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
-            this.defTextBoxEmailCode.Size = new System.Drawing.Size(141, 26);
-            this.defTextBoxEmailCode.TabIndex = 0;
-            this.defTextBoxEmailCode.Text = "EMAIL CODE";
-            this.defTextBoxEmailCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxEmailCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxTwoFactorCode
-            // 
-            this.defTextBoxTwoFactorCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.defTextBoxTwoFactorCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
-            this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.defTextBoxTwoFactorCode.MaxLength = 10;
-            this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
-            this.defTextBoxTwoFactorCode.Size = new System.Drawing.Size(92, 26);
-            this.defTextBoxTwoFactorCode.TabIndex = 0;
-            this.defTextBoxTwoFactorCode.Text = "2FA CODE";
-            this.defTextBoxTwoFactorCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxTwoFactorCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
-            // 
-            // defTextBoxCaptcha
-            // 
-            this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
-            this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
-            this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
-            this.defTextBoxCaptcha.TabIndex = 0;
-            this.defTextBoxCaptcha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.defTextBoxCaptcha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyUp);
+            this.pictureBoxLoading.ErrorImage = null;
+            this.pictureBoxLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
+            this.pictureBoxLoading.InitialImage = null;
+            this.pictureBoxLoading.Location = new System.Drawing.Point(110, 160);
+            this.pictureBoxLoading.Name = "pictureBoxLoading";
+            this.pictureBoxLoading.Size = new System.Drawing.Size(80, 80);
+            this.pictureBoxLoading.TabIndex = 1;
+            this.pictureBoxLoading.TabStop = false;
             // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1243, 733);
+            this.Controls.Add(this.panelLoading);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.flowLayoutPanelCrypto);
             this.Controls.Add(this.flowLayoutPanelPendingConfirmation);
@@ -884,8 +786,6 @@
             this.panelCaptcha.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).EndInit();
             this.panelLoginButton.ResumeLayout(false);
-            this.panelLoadingLogin.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).EndInit();
             this.flowLayoutPanelLinker.ResumeLayout(false);
             this.panelLinkButton.ResumeLayout(false);
             this.panelPhone.ResumeLayout(false);
@@ -895,8 +795,6 @@
             this.panelSecret.ResumeLayout(false);
             this.panelSecret.PerformLayout();
             this.panelFinalizeLink.ResumeLayout(false);
-            this.panelLoadingLink.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.flowLayoutPanelTwoFactorCodes.ResumeLayout(false);
             this.panelTwoFactorCodes.ResumeLayout(false);
             this.panelTwoFactorCodes.PerformLayout();
@@ -905,13 +803,7 @@
             this.panelGoToPending.ResumeLayout(false);
             this.panelShowRevocationCode.ResumeLayout(false);
             this.panelDeleteTwoFactor.ResumeLayout(false);
-            this.panelTwoFactorLoading.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.flowLayoutPanelPendingConfirmation.ResumeLayout(false);
-            this.panelPendingsLoading.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).EndInit();
-            this.panelPendingNothing.ResumeLayout(false);
-            this.panelPendingNothing.PerformLayout();
             this.panelPendingButtons.ResumeLayout(false);
             this.panelGoToCodes.ResumeLayout(false);
             this.contextMenuStripNotifyIcon.ResumeLayout(false);
@@ -921,6 +813,8 @@
             this.panelCryptoCode.PerformLayout();
             this.toolStripMain.ResumeLayout(false);
             this.toolStripMain.PerformLayout();
+            this.panelLoading.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -940,10 +834,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLinker;
         private System.Windows.Forms.Panel panelLinkButton;
         private System.Windows.Forms.Button buttonLink;
-        private System.Windows.Forms.Panel panelLoadingLogin;
-        private System.Windows.Forms.PictureBox pictureBoxLoading;
-        private System.Windows.Forms.Panel panelLoadingLink;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panelCaptcha;
         private System.Windows.Forms.PictureBox pictureBoxCaptcha;
         private defTextBox defTextBoxCaptcha;
@@ -959,8 +849,6 @@
         private System.Windows.Forms.Panel panelRevocationCode;
         private System.Windows.Forms.Panel panelDeleteTwoFactor;
         private System.Windows.Forms.Button buttonDeLink;
-        private System.Windows.Forms.Panel panelTwoFactorLoading;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panelFinalizeLink;
         private System.Windows.Forms.Button buttonFinalize;
         private System.Windows.Forms.Panel panelShowRevocationCode;
@@ -971,16 +859,12 @@
         private System.Windows.Forms.Panel panelGoToPending;
         private System.Windows.Forms.Button buttonGoToPendings;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPendingConfirmation;
-        private System.Windows.Forms.Panel panelPendingNothing;
-        private System.Windows.Forms.Label labelPendingListEmpty;
         private CheckedListBoxExtended checkedListBoxPendings;
         private System.Windows.Forms.Panel panelPendingButtons;
         private System.Windows.Forms.Button buttonPendingDeny;
         private System.Windows.Forms.Button buttonPendingAccept;
         private System.Windows.Forms.Panel panelGoToCodes;
         private System.Windows.Forms.Button buttonGoToCodes;
-        private System.Windows.Forms.Panel panelPendingsLoading;
-        private System.Windows.Forms.PictureBox pictureBoxPendingLoading;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCrypto;
         private System.Windows.Forms.Panel panelCryptoCode;
@@ -996,6 +880,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNotifyIcon;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2FACodes;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItemClose;
+        private TransparentPanel panelLoading;
+        private System.Windows.Forms.PictureBox pictureBoxLoading;
     }
 }
 

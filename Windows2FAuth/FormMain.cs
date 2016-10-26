@@ -51,6 +51,12 @@ namespace Windows2FAuth
             flowLayoutPanelLogin.Visible = false;
             flowLayoutPanelCrypto.Visible = false;
 
+            // TODO: Make panel transparent by rewriting base class like http://stackoverflow.com/questions/9358500/making-a-control-transparent
+            panelLoading.BackColor = Color.FromArgb(255, Color.White); 
+            panelLoading.Location = new Point(0, 0);
+            panelLoading.BringToFront();
+            panelLoading.Visible = false;
+            pictureBoxLoading.Center();
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -229,11 +235,16 @@ namespace Windows2FAuth
             LoadingOn();
 
             if (await cSteamAuth.DeleteAuthenticator().ConfigureAwait(true))
-            { 
+            {
                 flowLayoutPanelTwoFactorCodes.Visible = false;
                 flowLayoutPanelLogin.Visible = true;
                 keepRefreshCode = false;
                 keepRefreshPendings = false;
+            }
+            else
+            {
+                labelStatus.Text = "Cant delete authenticator!";
+                buttonDeLink.Enabled = true;
             }
 
 
@@ -334,10 +345,8 @@ namespace Windows2FAuth
         }
         private async Task RefreshPendings()
         {
-            panelPendingsLoading.Visible = true;
-            checkedListBoxPendings.Visible = false;
             panelPendingButtons.Visible = false;
-            panelPendingNothing.Visible = false;
+            panelLoading.Visible = true;
 
             if (keepRefreshPendings == false)
                 keepRefreshPendings = true;
@@ -352,11 +361,10 @@ namespace Windows2FAuth
                         AddedNew = true;
                     }
 
-                panelPendingsLoading.Visible = false;
+                panelLoading.Visible = false;
                 bool empty = (checkedListBoxPendings.checkedListBox.Items.Count <= 0);
-                checkedListBoxPendings.Visible = !empty;
                 panelPendingButtons.Visible = !empty;
-                panelPendingNothing.Visible = empty;
+                checkedListBoxPendings.Enabled = !empty;
 
                 if(AddedNew)
                 {
@@ -387,15 +395,13 @@ namespace Windows2FAuth
         private void LoadingOn()
         {
             labelStatus.Text = "";
-            panelLoadingLogin.Visible = true;
-            panelLoadingLink.Visible = true;
+            panelLoading.Visible = true;
 
             panelTwoFactorCode.Visible = false;
         }
         private void LoadingOff()
         {
-            panelLoadingLogin.Visible = false;
-            panelLoadingLink.Visible = false;
+            panelLoading.Visible = false;
         }
 
         private void buttonLogin_Click(object sender, EventArgs e){
@@ -426,6 +432,7 @@ namespace Windows2FAuth
         } // Show revocation code button
         private void buttonDeLink_Click(object sender, EventArgs e)
         {
+            // TODO: Show main menu, after delinking, and delete sga file?
             if (MessageBox.Show("Are u sure?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK)
                 return;
 
@@ -670,4 +677,46 @@ namespace Windows2FAuth
             manualCheckChange = false;
         }
     }
-}
+    public class TransparentPanel : Panel
+    {
+        
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+        }
+
+        
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+
+            Graphics g = e.Graphics;
+            Rectangle bound = e.ClipRectangle;
+            //Rectangle bound = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
+            Brush backBrush = default(Brush);
+            backBrush = new SolidBrush(Color.FromArgb(155,Color.Black));
+            g.FillRectangle(backBrush,bound);
+            backBrush.Dispose();
+            
+            
+            g.Dispose();
+        }
+        
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            if (this.Parent != null)
+            {
+                Parent.Invalidate(this.Bounds, true);
+            }
+            base.OnBackColorChanged(e);
+        }
+
+        protected override void OnParentBackColorChanged(EventArgs e)
+        {
+            this.Invalidate();
+            base.OnParentBackColorChanged(e);
+        }
+
+    }
+    }
