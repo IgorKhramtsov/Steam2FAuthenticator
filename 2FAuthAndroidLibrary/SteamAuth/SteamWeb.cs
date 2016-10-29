@@ -18,6 +18,8 @@ namespace SteamAuth
         /// <returns>response body</returns>
         public static async Task<string> MobileLoginRequest(string url, string method, NameValueCollection data = null, CookieContainer cookies = null, NameValueCollection headers = null)
         {
+            // oauth_client_id=DE45CD61
+            // also 7DC60112 and 7DC60112, be original
             return await RequestAsync(url, method, data, cookies, headers, APIEndpoints.COMMUNITY_BASE + "/mobilelogin?oauth_client_id=DE45CD61&oauth_scope=read_profile%20write_profile%20read_client%20write_client").ConfigureAwait(true);
         }
 
@@ -81,12 +83,13 @@ namespace SteamAuth
 
         public static async Task<string> RequestAsync(string url, string method, NameValueCollection data = null, CookieContainer cookies = null, NameValueCollection headers = null, string referer = APIEndpoints.COMMUNITY_BASE)
         {
+            
             string query = (data == null ? string.Empty : string.Join("&", Array.ConvertAll(data.AllKeys, key => String.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(data[key])))));
             if (method == "GET")
             {
                 url += (url.Contains("?") ? "&" : "?") + query;
             }
-
+            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
             request.Accept = "text/javascript, text/html, application/xml, text/xml, */*";
@@ -116,6 +119,7 @@ namespace SteamAuth
 
             try
             {
+                
                 HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
 
                 if (response.StatusCode != HttpStatusCode.OK)

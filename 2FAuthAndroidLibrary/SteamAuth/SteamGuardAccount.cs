@@ -77,7 +77,7 @@ namespace SteamAuth
             var postData = new NameValueCollection();
             postData.Add("steamid", this.Session.SteamID.ToString());
             postData.Add("steamguard_scheme", scheme.ToString());
-            postData.Add("revocation_code", this.RevocationCode);
+            postData.Add("revocation_code", this.RevocationCode.Substring(1));
             postData.Add("access_token", this.Session.OAuthToken);
 
             try
@@ -136,7 +136,8 @@ namespace SteamAuth
             if (this.SharedSecret == null || this.SharedSecret.Length == 0)
                 return "";
 
-            byte[] sharedSecretArray = Convert.FromBase64String(this.SharedSecret);
+            string sharedSecretUnescaped = Regex.Unescape(this.SharedSecret);
+            byte[] sharedSecretArray = Convert.FromBase64String(sharedSecretUnescaped);
             byte[] timeArray = new byte[8];
 
             time /= 30L;
@@ -277,7 +278,7 @@ namespace SteamAuth
                 }
                 else if (!string.IsNullOrEmpty(response) && !response.Contains("<div>Nothing to confirm</div>"))
                 {
-                    _2FAuthAndroidLibrary.Logging.LogError("Sometinhs strange with confirmations response: (" + response + ")");
+                    _2FAuthAndroidLibrary.Logging.LogError("Sometinhs strange with pendings response: (" + response + ")");
                     return new Confirmation[0];
                 }
                 return new Confirmation[0];

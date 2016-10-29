@@ -14,12 +14,14 @@ namespace _2FAuthAndroidLibrary
 {
     public class CSteamAuth
     {
+
+
         private UserLogin userLogin;
         private AuthenticatorLinker linker;
         internal static SteamGuardAccount steamGuardAccount;
         
         public string captchaGID;
-        public const string SGAccountFile = "steamguard.json";
+        public const string SGAccountFile = "steamguard.sga";
         private const byte MinSessionTTL = 15;
         internal static DateTime LastRefresh;
         private const string salt = "There is something";

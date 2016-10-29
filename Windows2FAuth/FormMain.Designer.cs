@@ -39,8 +39,6 @@
             this.pictureBoxCaptcha = new System.Windows.Forms.PictureBox();
             this.panelLoginButton = new System.Windows.Forms.Panel();
             this.buttonLogin = new System.Windows.Forms.Button();
-            this.panelLoadingLogin = new System.Windows.Forms.Panel();
-            this.pictureBoxLoading = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelLinker = new System.Windows.Forms.FlowLayoutPanel();
             this.panelLinkButton = new System.Windows.Forms.Panel();
             this.buttonLink = new System.Windows.Forms.Button();
@@ -50,11 +48,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panelFinalizeLink = new System.Windows.Forms.Panel();
             this.buttonFinalize = new System.Windows.Forms.Button();
-            this.panelLoadingLink = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelTwoFactorCodes = new System.Windows.Forms.FlowLayoutPanel();
             this.panelTwoFactorCodes = new System.Windows.Forms.Panel();
-            this.progressBarTwoFactorCode = new System.Windows.Forms.ProgressBar();
             this.textBoxTwoFactorCode = new System.Windows.Forms.TextBox();
             this.panelRevocationCode = new System.Windows.Forms.Panel();
             this.progressBarRevocationCode = new System.Windows.Forms.ProgressBar();
@@ -65,13 +60,7 @@
             this.buttonShowRevocationCode = new System.Windows.Forms.Button();
             this.panelDeleteTwoFactor = new System.Windows.Forms.Panel();
             this.buttonDeLink = new System.Windows.Forms.Button();
-            this.panelTwoFactorLoading = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelPendingConfirmation = new System.Windows.Forms.FlowLayoutPanel();
-            this.panelPendingsLoading = new System.Windows.Forms.Panel();
-            this.pictureBoxPendingLoading = new System.Windows.Forms.PictureBox();
-            this.panelPendingNothing = new System.Windows.Forms.Panel();
-            this.labelPendingListEmpty = new System.Windows.Forms.Label();
             this.panelPendingButtons = new System.Windows.Forms.Panel();
             this.buttonPendingDeny = new System.Windows.Forms.Button();
             this.buttonPendingAccept = new System.Windows.Forms.Button();
@@ -88,6 +77,8 @@
             this.toolStripDropDownMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonClose = new System.Windows.Forms.ToolStripButton();
+            this.flowLayoutPanelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.defTextBoxCryptoCode = new Windows2FAuth.defTextBox();
             this.checkedListBoxPendings = new Windows2FAuth.CheckedListBoxExtended();
             this.defTextBoxPhone = new Windows2FAuth.defTextBox();
@@ -105,28 +96,19 @@
             this.panelCaptcha.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).BeginInit();
             this.panelLoginButton.SuspendLayout();
-            this.panelLoadingLogin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).BeginInit();
             this.flowLayoutPanelLinker.SuspendLayout();
             this.panelLinkButton.SuspendLayout();
             this.panelPhone.SuspendLayout();
             this.panelSMS.SuspendLayout();
             this.panelSecret.SuspendLayout();
             this.panelFinalizeLink.SuspendLayout();
-            this.panelLoadingLink.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanelTwoFactorCodes.SuspendLayout();
             this.panelTwoFactorCodes.SuspendLayout();
             this.panelRevocationCode.SuspendLayout();
             this.panelGoToPending.SuspendLayout();
             this.panelShowRevocationCode.SuspendLayout();
             this.panelDeleteTwoFactor.SuspendLayout();
-            this.panelTwoFactorLoading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.flowLayoutPanelPendingConfirmation.SuspendLayout();
-            this.panelPendingsLoading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).BeginInit();
-            this.panelPendingNothing.SuspendLayout();
             this.panelPendingButtons.SuspendLayout();
             this.panelGoToCodes.SuspendLayout();
             this.contextMenuStripNotifyIcon.SuspendLayout();
@@ -138,7 +120,8 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(313, 422);
+            this.labelStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.labelStatus.Location = new System.Drawing.Point(4, 0);
             this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(39, 15);
@@ -153,41 +136,37 @@
             this.flowLayoutPanelLogin.Controls.Add(this.panelTwoFactorCode);
             this.flowLayoutPanelLogin.Controls.Add(this.panelCaptcha);
             this.flowLayoutPanelLogin.Controls.Add(this.panelLoginButton);
-            this.flowLayoutPanelLogin.Controls.Add(this.panelLoadingLogin);
             this.flowLayoutPanelLogin.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelLogin.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanelLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanelLogin.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelLogin.Name = "flowLayoutPanelLogin";
             this.flowLayoutPanelLogin.Size = new System.Drawing.Size(305, 412);
             this.flowLayoutPanelLogin.TabIndex = 0;
             // 
             // panelLoginPass
             // 
+            this.panelLoginPass.BackColor = System.Drawing.Color.Transparent;
             this.panelLoginPass.Controls.Add(this.defTextBoxUsername);
             this.panelLoginPass.Controls.Add(this.defTextBoxPassword);
-            this.panelLoginPass.Location = new System.Drawing.Point(4, 5);
-            this.panelLoginPass.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelLoginPass.Location = new System.Drawing.Point(3, 3);
             this.panelLoginPass.Name = "panelLoginPass";
-            this.panelLoginPass.Size = new System.Drawing.Size(300, 91);
+            this.panelLoginPass.Size = new System.Drawing.Size(298, 91);
             this.panelLoginPass.TabIndex = 0;
             // 
             // panelEmailCode
             // 
             this.panelEmailCode.Controls.Add(this.defTextBoxEmailCode);
-            this.panelEmailCode.Location = new System.Drawing.Point(4, 106);
-            this.panelEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelEmailCode.Location = new System.Drawing.Point(3, 100);
             this.panelEmailCode.Name = "panelEmailCode";
-            this.panelEmailCode.Size = new System.Drawing.Size(300, 36);
+            this.panelEmailCode.Size = new System.Drawing.Size(302, 36);
             this.panelEmailCode.TabIndex = 6;
             this.panelEmailCode.Visible = false;
             // 
             // panelTwoFactorCode
             // 
             this.panelTwoFactorCode.Controls.Add(this.defTextBoxTwoFactorCode);
-            this.panelTwoFactorCode.Location = new System.Drawing.Point(4, 152);
-            this.panelTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelTwoFactorCode.Location = new System.Drawing.Point(3, 142);
             this.panelTwoFactorCode.Name = "panelTwoFactorCode";
-            this.panelTwoFactorCode.Size = new System.Drawing.Size(300, 36);
+            this.panelTwoFactorCode.Size = new System.Drawing.Size(302, 36);
             this.panelTwoFactorCode.TabIndex = 7;
             this.panelTwoFactorCode.Visible = false;
             // 
@@ -195,9 +174,9 @@
             // 
             this.panelCaptcha.Controls.Add(this.defTextBoxCaptcha);
             this.panelCaptcha.Controls.Add(this.pictureBoxCaptcha);
-            this.panelCaptcha.Location = new System.Drawing.Point(3, 196);
+            this.panelCaptcha.Location = new System.Drawing.Point(3, 184);
             this.panelCaptcha.Name = "panelCaptcha";
-            this.panelCaptcha.Size = new System.Drawing.Size(301, 78);
+            this.panelCaptcha.Size = new System.Drawing.Size(302, 78);
             this.panelCaptcha.TabIndex = 9;
             this.panelCaptcha.Visible = false;
             // 
@@ -214,43 +193,25 @@
             // panelLoginButton
             // 
             this.panelLoginButton.Controls.Add(this.buttonLogin);
-            this.panelLoginButton.Location = new System.Drawing.Point(4, 282);
-            this.panelLoginButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelLoginButton.Location = new System.Drawing.Point(3, 268);
             this.panelLoginButton.Name = "panelLoginButton";
-            this.panelLoginButton.Size = new System.Drawing.Size(300, 47);
+            this.panelLoginButton.Size = new System.Drawing.Size(302, 47);
             this.panelLoginButton.TabIndex = 4;
             // 
             // buttonLogin
             // 
+            this.buttonLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLogin.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonLogin.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonLogin.Location = new System.Drawing.Point(97, 5);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(100, 37);
             this.buttonLogin.TabIndex = 0;
             this.buttonLogin.Text = "Login";
-            this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.UseVisualStyleBackColor = false;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
-            // 
-            // panelLoadingLogin
-            // 
-            this.panelLoadingLogin.Controls.Add(this.pictureBoxLoading);
-            this.panelLoadingLogin.Location = new System.Drawing.Point(311, 3);
-            this.panelLoadingLogin.Name = "panelLoadingLogin";
-            this.panelLoadingLogin.Size = new System.Drawing.Size(302, 110);
-            this.panelLoadingLogin.TabIndex = 7;
-            this.panelLoadingLogin.Visible = false;
-            // 
-            // pictureBoxLoading
-            // 
-            this.pictureBoxLoading.ErrorImage = null;
-            this.pictureBoxLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBoxLoading.InitialImage = null;
-            this.pictureBoxLoading.Location = new System.Drawing.Point(109, 12);
-            this.pictureBoxLoading.Name = "pictureBoxLoading";
-            this.pictureBoxLoading.Size = new System.Drawing.Size(80, 80);
-            this.pictureBoxLoading.TabIndex = 0;
-            this.pictureBoxLoading.TabStop = false;
             // 
             // flowLayoutPanelLinker
             // 
@@ -259,7 +220,6 @@
             this.flowLayoutPanelLinker.Controls.Add(this.panelSMS);
             this.flowLayoutPanelLinker.Controls.Add(this.panelSecret);
             this.flowLayoutPanelLinker.Controls.Add(this.panelFinalizeLink);
-            this.flowLayoutPanelLinker.Controls.Add(this.panelLoadingLink);
             this.flowLayoutPanelLinker.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLinker.Location = new System.Drawing.Point(311, 0);
             this.flowLayoutPanelLinker.Name = "flowLayoutPanelLinker";
@@ -270,37 +230,43 @@
             // panelLinkButton
             // 
             this.panelLinkButton.Controls.Add(this.buttonLink);
-            this.panelLinkButton.Location = new System.Drawing.Point(3, 3);
+            this.panelLinkButton.Location = new System.Drawing.Point(2, 2);
+            this.panelLinkButton.Margin = new System.Windows.Forms.Padding(2);
             this.panelLinkButton.Name = "panelLinkButton";
-            this.panelLinkButton.Size = new System.Drawing.Size(299, 54);
+            this.panelLinkButton.Size = new System.Drawing.Size(305, 54);
             this.panelLinkButton.TabIndex = 0;
             // 
             // buttonLink
             // 
+            this.buttonLink.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonLink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLink.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonLink.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonLink.Location = new System.Drawing.Point(99, 11);
             this.buttonLink.Name = "buttonLink";
             this.buttonLink.Size = new System.Drawing.Size(100, 32);
             this.buttonLink.TabIndex = 0;
             this.buttonLink.Text = "Link";
-            this.buttonLink.UseVisualStyleBackColor = true;
+            this.buttonLink.UseVisualStyleBackColor = false;
             this.buttonLink.Click += new System.EventHandler(this.buttonLink_Click);
             // 
             // panelPhone
             // 
             this.panelPhone.Controls.Add(this.defTextBoxPhone);
-            this.panelPhone.Location = new System.Drawing.Point(3, 63);
+            this.panelPhone.Location = new System.Drawing.Point(2, 60);
+            this.panelPhone.Margin = new System.Windows.Forms.Padding(2);
             this.panelPhone.Name = "panelPhone";
-            this.panelPhone.Size = new System.Drawing.Size(298, 38);
+            this.panelPhone.Size = new System.Drawing.Size(305, 38);
             this.panelPhone.TabIndex = 9;
             this.panelPhone.Visible = false;
             // 
             // panelSMS
             // 
             this.panelSMS.Controls.Add(this.defTextBoxSMS);
-            this.panelSMS.Location = new System.Drawing.Point(3, 107);
+            this.panelSMS.Location = new System.Drawing.Point(2, 102);
+            this.panelSMS.Margin = new System.Windows.Forms.Padding(2);
             this.panelSMS.Name = "panelSMS";
-            this.panelSMS.Size = new System.Drawing.Size(298, 40);
+            this.panelSMS.Size = new System.Drawing.Size(305, 40);
             this.panelSMS.TabIndex = 10;
             this.panelSMS.Visible = false;
             // 
@@ -308,9 +274,10 @@
             // 
             this.panelSecret.Controls.Add(this.label2);
             this.panelSecret.Controls.Add(this.defTextBoxSecret);
-            this.panelSecret.Location = new System.Drawing.Point(3, 153);
+            this.panelSecret.Location = new System.Drawing.Point(2, 146);
+            this.panelSecret.Margin = new System.Windows.Forms.Padding(2);
             this.panelSecret.Name = "panelSecret";
-            this.panelSecret.Size = new System.Drawing.Size(298, 86);
+            this.panelSecret.Size = new System.Drawing.Size(305, 86);
             this.panelSecret.TabIndex = 11;
             this.panelSecret.Visible = false;
             // 
@@ -318,6 +285,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.label2.Location = new System.Drawing.Point(39, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(234, 42);
@@ -328,42 +296,26 @@
             // panelFinalizeLink
             // 
             this.panelFinalizeLink.Controls.Add(this.buttonFinalize);
-            this.panelFinalizeLink.Location = new System.Drawing.Point(3, 245);
+            this.panelFinalizeLink.Location = new System.Drawing.Point(2, 236);
+            this.panelFinalizeLink.Margin = new System.Windows.Forms.Padding(2);
             this.panelFinalizeLink.Name = "panelFinalizeLink";
-            this.panelFinalizeLink.Size = new System.Drawing.Size(299, 54);
+            this.panelFinalizeLink.Size = new System.Drawing.Size(305, 54);
             this.panelFinalizeLink.TabIndex = 1;
             this.panelFinalizeLink.Visible = false;
             // 
             // buttonFinalize
             // 
+            this.buttonFinalize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonFinalize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFinalize.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonFinalize.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonFinalize.Location = new System.Drawing.Point(93, 12);
             this.buttonFinalize.Name = "buttonFinalize";
             this.buttonFinalize.Size = new System.Drawing.Size(112, 32);
             this.buttonFinalize.TabIndex = 0;
             this.buttonFinalize.Text = "Finalize link";
-            this.buttonFinalize.UseVisualStyleBackColor = true;
+            this.buttonFinalize.UseVisualStyleBackColor = false;
             this.buttonFinalize.Click += new System.EventHandler(this.buttonFinalize_Click);
-            // 
-            // panelLoadingLink
-            // 
-            this.panelLoadingLink.Controls.Add(this.pictureBox1);
-            this.panelLoadingLink.Location = new System.Drawing.Point(308, 3);
-            this.panelLoadingLink.Name = "panelLoadingLink";
-            this.panelLoadingLink.Size = new System.Drawing.Size(302, 110);
-            this.panelLoadingLink.TabIndex = 8;
-            this.panelLoadingLink.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(109, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(80, 80);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // flowLayoutPanelTwoFactorCodes
             // 
@@ -372,7 +324,6 @@
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelGoToPending);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelShowRevocationCode);
             this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelDeleteTwoFactor);
-            this.flowLayoutPanelTwoFactorCodes.Controls.Add(this.panelTwoFactorLoading);
             this.flowLayoutPanelTwoFactorCodes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelTwoFactorCodes.Location = new System.Drawing.Point(623, 0);
             this.flowLayoutPanelTwoFactorCodes.Name = "flowLayoutPanelTwoFactorCodes";
@@ -382,24 +333,18 @@
             // 
             // panelTwoFactorCodes
             // 
-            this.panelTwoFactorCodes.Controls.Add(this.progressBarTwoFactorCode);
             this.panelTwoFactorCodes.Controls.Add(this.textBoxTwoFactorCode);
-            this.panelTwoFactorCodes.Location = new System.Drawing.Point(3, 3);
+            this.panelTwoFactorCodes.Location = new System.Drawing.Point(2, 2);
+            this.panelTwoFactorCodes.Margin = new System.Windows.Forms.Padding(2);
             this.panelTwoFactorCodes.Name = "panelTwoFactorCodes";
-            this.panelTwoFactorCodes.Size = new System.Drawing.Size(302, 65);
+            this.panelTwoFactorCodes.Size = new System.Drawing.Size(305, 54);
             this.panelTwoFactorCodes.TabIndex = 0;
-            // 
-            // progressBarTwoFactorCode
-            // 
-            this.progressBarTwoFactorCode.Location = new System.Drawing.Point(3, 55);
-            this.progressBarTwoFactorCode.Maximum = 30;
-            this.progressBarTwoFactorCode.Name = "progressBarTwoFactorCode";
-            this.progressBarTwoFactorCode.Size = new System.Drawing.Size(296, 10);
-            this.progressBarTwoFactorCode.TabIndex = 1;
             // 
             // textBoxTwoFactorCode
             // 
+            this.textBoxTwoFactorCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.textBoxTwoFactorCode.Font = new System.Drawing.Font("Segoe UI", 18F);
+            this.textBoxTwoFactorCode.ForeColor = System.Drawing.Color.Gainsboro;
             this.textBoxTwoFactorCode.Location = new System.Drawing.Point(99, 10);
             this.textBoxTwoFactorCode.MaxLength = 5;
             this.textBoxTwoFactorCode.Name = "textBoxTwoFactorCode";
@@ -413,9 +358,10 @@
             // 
             this.panelRevocationCode.Controls.Add(this.progressBarRevocationCode);
             this.panelRevocationCode.Controls.Add(this.textBoxRevocationCode);
-            this.panelRevocationCode.Location = new System.Drawing.Point(3, 74);
+            this.panelRevocationCode.Location = new System.Drawing.Point(2, 60);
+            this.panelRevocationCode.Margin = new System.Windows.Forms.Padding(2);
             this.panelRevocationCode.Name = "panelRevocationCode";
-            this.panelRevocationCode.Size = new System.Drawing.Size(302, 63);
+            this.panelRevocationCode.Size = new System.Drawing.Size(305, 63);
             this.panelRevocationCode.TabIndex = 2;
             this.panelRevocationCode.Visible = false;
             // 
@@ -429,7 +375,9 @@
             // 
             // textBoxRevocationCode
             // 
+            this.textBoxRevocationCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.textBoxRevocationCode.Font = new System.Drawing.Font("Segoe UI", 18F);
+            this.textBoxRevocationCode.ForeColor = System.Drawing.Color.Gainsboro;
             this.textBoxRevocationCode.Location = new System.Drawing.Point(99, 7);
             this.textBoxRevocationCode.MaxLength = 5;
             this.textBoxRevocationCode.Name = "textBoxRevocationCode";
@@ -441,84 +389,74 @@
             // panelGoToPending
             // 
             this.panelGoToPending.Controls.Add(this.buttonGoToPendings);
-            this.panelGoToPending.Location = new System.Drawing.Point(3, 143);
+            this.panelGoToPending.Location = new System.Drawing.Point(2, 127);
+            this.panelGoToPending.Margin = new System.Windows.Forms.Padding(2);
             this.panelGoToPending.Name = "panelGoToPending";
-            this.panelGoToPending.Size = new System.Drawing.Size(302, 42);
+            this.panelGoToPending.Size = new System.Drawing.Size(305, 42);
             this.panelGoToPending.TabIndex = 10;
             // 
             // buttonGoToPendings
             // 
+            this.buttonGoToPendings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonGoToPendings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGoToPendings.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonGoToPendings.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonGoToPendings.Location = new System.Drawing.Point(82, 3);
             this.buttonGoToPendings.Name = "buttonGoToPendings";
             this.buttonGoToPendings.Size = new System.Drawing.Size(136, 35);
             this.buttonGoToPendings.TabIndex = 0;
             this.buttonGoToPendings.Text = "Pendings";
-            this.buttonGoToPendings.UseVisualStyleBackColor = true;
+            this.buttonGoToPendings.UseVisualStyleBackColor = false;
             this.buttonGoToPendings.Click += new System.EventHandler(this.buttonGoToPendings_Click);
             // 
             // panelShowRevocationCode
             // 
             this.panelShowRevocationCode.Controls.Add(this.buttonShowRevocationCode);
-            this.panelShowRevocationCode.Location = new System.Drawing.Point(3, 191);
+            this.panelShowRevocationCode.Location = new System.Drawing.Point(2, 173);
+            this.panelShowRevocationCode.Margin = new System.Windows.Forms.Padding(2);
             this.panelShowRevocationCode.Name = "panelShowRevocationCode";
-            this.panelShowRevocationCode.Size = new System.Drawing.Size(302, 45);
+            this.panelShowRevocationCode.Size = new System.Drawing.Size(305, 45);
             this.panelShowRevocationCode.TabIndex = 2;
             // 
             // buttonShowRevocationCode
             // 
+            this.buttonShowRevocationCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonShowRevocationCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonShowRevocationCode.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonShowRevocationCode.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonShowRevocationCode.Location = new System.Drawing.Point(63, 5);
             this.buttonShowRevocationCode.Name = "buttonShowRevocationCode";
             this.buttonShowRevocationCode.Size = new System.Drawing.Size(179, 34);
             this.buttonShowRevocationCode.TabIndex = 0;
             this.buttonShowRevocationCode.Text = "Show Revocation code";
-            this.buttonShowRevocationCode.UseVisualStyleBackColor = true;
+            this.buttonShowRevocationCode.UseVisualStyleBackColor = false;
             this.buttonShowRevocationCode.Click += new System.EventHandler(this.buttonShowRevocationCode_Click);
             // 
             // panelDeleteTwoFactor
             // 
             this.panelDeleteTwoFactor.Controls.Add(this.buttonDeLink);
-            this.panelDeleteTwoFactor.Location = new System.Drawing.Point(3, 242);
+            this.panelDeleteTwoFactor.Location = new System.Drawing.Point(2, 222);
+            this.panelDeleteTwoFactor.Margin = new System.Windows.Forms.Padding(2);
             this.panelDeleteTwoFactor.Name = "panelDeleteTwoFactor";
-            this.panelDeleteTwoFactor.Size = new System.Drawing.Size(302, 45);
+            this.panelDeleteTwoFactor.Size = new System.Drawing.Size(305, 45);
             this.panelDeleteTwoFactor.TabIndex = 1;
             // 
             // buttonDeLink
             // 
+            this.buttonDeLink.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonDeLink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDeLink.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonDeLink.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonDeLink.Location = new System.Drawing.Point(66, 5);
             this.buttonDeLink.Name = "buttonDeLink";
             this.buttonDeLink.Size = new System.Drawing.Size(170, 34);
             this.buttonDeLink.TabIndex = 0;
             this.buttonDeLink.Text = "Delete authenticator";
-            this.buttonDeLink.UseVisualStyleBackColor = true;
+            this.buttonDeLink.UseVisualStyleBackColor = false;
             this.buttonDeLink.Click += new System.EventHandler(this.buttonDeLink_Click);
-            // 
-            // panelTwoFactorLoading
-            // 
-            this.panelTwoFactorLoading.Controls.Add(this.pictureBox2);
-            this.panelTwoFactorLoading.Location = new System.Drawing.Point(3, 293);
-            this.panelTwoFactorLoading.Name = "panelTwoFactorLoading";
-            this.panelTwoFactorLoading.Size = new System.Drawing.Size(302, 110);
-            this.panelTwoFactorLoading.TabIndex = 9;
-            this.panelTwoFactorLoading.Visible = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(109, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(80, 80);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
             // 
             // flowLayoutPanelPendingConfirmation
             // 
-            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingsLoading);
-            this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingNothing);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.checkedListBoxPendings);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelPendingButtons);
             this.flowLayoutPanelPendingConfirmation.Controls.Add(this.panelGoToCodes);
@@ -529,94 +467,66 @@
             this.flowLayoutPanelPendingConfirmation.TabIndex = 3;
             this.flowLayoutPanelPendingConfirmation.Visible = false;
             // 
-            // panelPendingsLoading
-            // 
-            this.panelPendingsLoading.Controls.Add(this.pictureBoxPendingLoading);
-            this.panelPendingsLoading.Location = new System.Drawing.Point(3, 3);
-            this.panelPendingsLoading.Name = "panelPendingsLoading";
-            this.panelPendingsLoading.Size = new System.Drawing.Size(302, 110);
-            this.panelPendingsLoading.TabIndex = 12;
-            this.panelPendingsLoading.Visible = false;
-            // 
-            // pictureBoxPendingLoading
-            // 
-            this.pictureBoxPendingLoading.ErrorImage = null;
-            this.pictureBoxPendingLoading.Image = global::Windows2FAuth.Properties.Resources.loading80;
-            this.pictureBoxPendingLoading.InitialImage = null;
-            this.pictureBoxPendingLoading.Location = new System.Drawing.Point(109, 12);
-            this.pictureBoxPendingLoading.Name = "pictureBoxPendingLoading";
-            this.pictureBoxPendingLoading.Size = new System.Drawing.Size(80, 80);
-            this.pictureBoxPendingLoading.TabIndex = 0;
-            this.pictureBoxPendingLoading.TabStop = false;
-            // 
-            // panelPendingNothing
-            // 
-            this.panelPendingNothing.Controls.Add(this.labelPendingListEmpty);
-            this.panelPendingNothing.Location = new System.Drawing.Point(3, 119);
-            this.panelPendingNothing.Name = "panelPendingNothing";
-            this.panelPendingNothing.Size = new System.Drawing.Size(302, 100);
-            this.panelPendingNothing.TabIndex = 10;
-            this.panelPendingNothing.Visible = false;
-            // 
-            // labelPendingListEmpty
-            // 
-            this.labelPendingListEmpty.AutoSize = true;
-            this.labelPendingListEmpty.Font = new System.Drawing.Font("Segoe UI", 15F);
-            this.labelPendingListEmpty.Location = new System.Drawing.Point(58, 37);
-            this.labelPendingListEmpty.Name = "labelPendingListEmpty";
-            this.labelPendingListEmpty.Size = new System.Drawing.Size(192, 28);
-            this.labelPendingListEmpty.TabIndex = 0;
-            this.labelPendingListEmpty.Text = "Pending list is empty";
-            // 
             // panelPendingButtons
             // 
             this.panelPendingButtons.Controls.Add(this.buttonPendingDeny);
             this.panelPendingButtons.Controls.Add(this.buttonPendingAccept);
-            this.panelPendingButtons.Location = new System.Drawing.Point(3, 331);
+            this.panelPendingButtons.Location = new System.Drawing.Point(2, 221);
+            this.panelPendingButtons.Margin = new System.Windows.Forms.Padding(2);
             this.panelPendingButtons.Name = "panelPendingButtons";
-            this.panelPendingButtons.Size = new System.Drawing.Size(302, 46);
+            this.panelPendingButtons.Size = new System.Drawing.Size(305, 43);
             this.panelPendingButtons.TabIndex = 1;
             this.panelPendingButtons.Visible = false;
             // 
             // buttonPendingDeny
             // 
+            this.buttonPendingDeny.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonPendingDeny.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPendingDeny.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonPendingDeny.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonPendingDeny.Location = new System.Drawing.Point(179, 4);
             this.buttonPendingDeny.Name = "buttonPendingDeny";
             this.buttonPendingDeny.Size = new System.Drawing.Size(120, 35);
             this.buttonPendingDeny.TabIndex = 1;
             this.buttonPendingDeny.Text = "Deny";
-            this.buttonPendingDeny.UseVisualStyleBackColor = true;
+            this.buttonPendingDeny.UseVisualStyleBackColor = false;
             this.buttonPendingDeny.Click += new System.EventHandler(this.buttonPendingDeny_Click);
             // 
             // buttonPendingAccept
             // 
+            this.buttonPendingAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonPendingAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPendingAccept.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonPendingAccept.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonPendingAccept.Location = new System.Drawing.Point(3, 4);
             this.buttonPendingAccept.Name = "buttonPendingAccept";
             this.buttonPendingAccept.Size = new System.Drawing.Size(120, 35);
             this.buttonPendingAccept.TabIndex = 0;
             this.buttonPendingAccept.Text = "Accept";
-            this.buttonPendingAccept.UseVisualStyleBackColor = true;
+            this.buttonPendingAccept.UseVisualStyleBackColor = false;
             this.buttonPendingAccept.Click += new System.EventHandler(this.buttonPendingAccept_Click);
             // 
             // panelGoToCodes
             // 
             this.panelGoToCodes.Controls.Add(this.buttonGoToCodes);
-            this.panelGoToCodes.Location = new System.Drawing.Point(311, 3);
+            this.panelGoToCodes.Location = new System.Drawing.Point(2, 268);
+            this.panelGoToCodes.Margin = new System.Windows.Forms.Padding(2);
             this.panelGoToCodes.Name = "panelGoToCodes";
-            this.panelGoToCodes.Size = new System.Drawing.Size(302, 42);
+            this.panelGoToCodes.Size = new System.Drawing.Size(305, 42);
             this.panelGoToCodes.TabIndex = 11;
             // 
             // buttonGoToCodes
             // 
+            this.buttonGoToCodes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.buttonGoToCodes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGoToCodes.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.buttonGoToCodes.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonGoToCodes.Location = new System.Drawing.Point(82, 3);
             this.buttonGoToCodes.Name = "buttonGoToCodes";
             this.buttonGoToCodes.Size = new System.Drawing.Size(136, 35);
             this.buttonGoToCodes.TabIndex = 0;
             this.buttonGoToCodes.Text = "Codes";
-            this.buttonGoToCodes.UseVisualStyleBackColor = true;
+            this.buttonGoToCodes.UseVisualStyleBackColor = false;
             this.buttonGoToCodes.Click += new System.EventHandler(this.buttonGoToCodes_Click);
             // 
             // notifyIconMain
@@ -669,15 +579,17 @@
             // 
             this.panelCryptoCode.Controls.Add(this.label1);
             this.panelCryptoCode.Controls.Add(this.defTextBoxCryptoCode);
-            this.panelCryptoCode.Location = new System.Drawing.Point(3, 3);
+            this.panelCryptoCode.Location = new System.Drawing.Point(2, 2);
+            this.panelCryptoCode.Margin = new System.Windows.Forms.Padding(2);
             this.panelCryptoCode.Name = "panelCryptoCode";
-            this.panelCryptoCode.Size = new System.Drawing.Size(299, 100);
+            this.panelCryptoCode.Size = new System.Drawing.Size(305, 100);
             this.panelCryptoCode.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.label1.Location = new System.Drawing.Point(47, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(195, 25);
@@ -687,16 +599,23 @@
             // toolStripMain
             // 
             this.toolStripMain.AllowMerge = false;
+            this.toolStripMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.toolStripMain.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.toolStripMain.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.toolStripMain.GripMargin = new System.Windows.Forms.Padding(0);
+            this.toolStripMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownMenu});
-            this.toolStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStripDropDownMenu,
+            this.toolStripButtonClose});
+            this.toolStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1243, 26);
+            this.toolStripMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStripMain.Size = new System.Drawing.Size(1243, 25);
             this.toolStripMain.TabIndex = 11;
             this.toolStripMain.Text = "Tool Strip";
-            this.toolStripMain.Visible = false;
+            this.toolStripMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMain_MouseDown);
             // 
             // toolStripDropDownMenu
             // 
@@ -705,12 +624,14 @@
             this.exportToolStripMenuItem,
             this.importToolStripMenuItem});
             this.toolStripDropDownMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownMenu.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripDropDownMenu.Name = "toolStripDropDownMenu";
-            this.toolStripDropDownMenu.Size = new System.Drawing.Size(42, 23);
+            this.toolStripDropDownMenu.Size = new System.Drawing.Size(42, 25);
             this.toolStripDropDownMenu.Text = "File";
             // 
             // exportToolStripMenuItem
             // 
+            this.exportToolStripMenuItem.BackColor = this.toolStripMain.BackColor;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
             this.exportToolStripMenuItem.Text = "Export";
@@ -719,16 +640,41 @@
             // 
             // importToolStripMenuItem
             // 
+            this.importToolStripMenuItem.BackColor = this.toolStripMain.BackColor;
+            this.importToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
             this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Visible = false;
+            this.importToolStripMenuItem.Visible = true;
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
+            // toolStripButtonClose
+            // 
+            this.toolStripButtonClose.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonClose.AutoToolTip = false;
+            this.toolStripButtonClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonClose.Image = global::Windows2FAuth.Properties.Resources._1477581620_close;
+            this.toolStripButtonClose.ImageTransparentColor = System.Drawing.Color.Black;
+            this.toolStripButtonClose.Margin = new System.Windows.Forms.Padding(0);
+            this.toolStripButtonClose.Name = "toolStripButtonClose";
+            this.toolStripButtonClose.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.toolStripButtonClose.Size = new System.Drawing.Size(24, 25);
+            this.toolStripButtonClose.Click += new System.EventHandler(this.toolStripButtonClose_Click);
+            // 
+            // flowLayoutPanelMain
+            // 
+            this.flowLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelMain.Name = "flowLayoutPanelMain";
+            this.flowLayoutPanelMain.Size = new System.Drawing.Size(1243, 733);
+            this.flowLayoutPanelMain.TabIndex = 13;
             // 
             // defTextBoxCryptoCode
             // 
+            this.defTextBoxCryptoCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxCryptoCode.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.defTextBoxCryptoCode.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxCryptoCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.defTextBoxCryptoCode.Location = new System.Drawing.Point(86, 42);
             this.defTextBoxCryptoCode.MaxLength = 4;
             this.defTextBoxCryptoCode.Name = "defTextBoxCryptoCode";
@@ -741,17 +687,18 @@
             // 
             // checkedListBoxPendings
             // 
-            this.checkedListBoxPendings.Location = new System.Drawing.Point(3, 225);
+            this.checkedListBoxPendings.Enabled = false;
+            this.checkedListBoxPendings.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxPendings.Name = "checkedListBoxPendings";
-            this.checkedListBoxPendings.Size = new System.Drawing.Size(300, 100);
+            this.checkedListBoxPendings.Size = new System.Drawing.Size(305, 213);
             this.checkedListBoxPendings.TabIndex = 0;
-            this.checkedListBoxPendings.Visible = false;
             this.checkedListBoxPendings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedListBoxPendings_MouseDown);
             // 
             // defTextBoxPhone
             // 
+            this.defTextBoxPhone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxPhone.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxPhone.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxPhone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.defTextBoxPhone.Location = new System.Drawing.Point(89, 5);
             this.defTextBoxPhone.MaxLength = 12;
             this.defTextBoxPhone.Name = "defTextBoxPhone";
@@ -763,8 +710,9 @@
             // 
             // defTextBoxSMS
             // 
+            this.defTextBoxSMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxSMS.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSMS.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSMS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.defTextBoxSMS.Location = new System.Drawing.Point(107, 5);
             this.defTextBoxSMS.MaxLength = 5;
             this.defTextBoxSMS.Name = "defTextBoxSMS";
@@ -775,8 +723,9 @@
             // 
             // defTextBoxSecret
             // 
+            this.defTextBoxSecret.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxSecret.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.defTextBoxSecret.ForeColor = System.Drawing.Color.LightGray;
+            this.defTextBoxSecret.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.defTextBoxSecret.Location = new System.Drawing.Point(106, 52);
             this.defTextBoxSecret.MaxLength = 4;
             this.defTextBoxSecret.Name = "defTextBoxSecret";
@@ -788,10 +737,12 @@
             // 
             // defTextBoxUsername
             // 
+            this.defTextBoxUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxUsername.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxUsername.Location = new System.Drawing.Point(47, 15);
+            this.defTextBoxUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.defTextBoxUsername.Location = new System.Drawing.Point(48, 15);
             this.defTextBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxUsername.MaxLength = 50;
             this.defTextBoxUsername.Name = "defTextBoxUsername";
             this.defTextBoxUsername.Size = new System.Drawing.Size(212, 25);
             this.defTextBoxUsername.TabIndex = 0;
@@ -801,10 +752,12 @@
             // 
             // defTextBoxPassword
             // 
+            this.defTextBoxPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.defTextBoxPassword.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxPassword.Location = new System.Drawing.Point(47, 55);
+            this.defTextBoxPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.defTextBoxPassword.Location = new System.Drawing.Point(48, 55);
             this.defTextBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.defTextBoxPassword.MaxLength = 50;
             this.defTextBoxPassword.Name = "defTextBoxPassword";
             this.defTextBoxPassword.Size = new System.Drawing.Size(212, 25);
             this.defTextBoxPassword.TabIndex = 1;
@@ -815,10 +768,11 @@
             // 
             // defTextBoxEmailCode
             // 
+            this.defTextBoxEmailCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxEmailCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.defTextBoxEmailCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxEmailCode.Location = new System.Drawing.Point(79, 5);
+            this.defTextBoxEmailCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.defTextBoxEmailCode.Location = new System.Drawing.Point(84, 5);
             this.defTextBoxEmailCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.defTextBoxEmailCode.MaxLength = 5;
             this.defTextBoxEmailCode.Name = "defTextBoxEmailCode";
@@ -830,10 +784,11 @@
             // 
             // defTextBoxTwoFactorCode
             // 
+            this.defTextBoxTwoFactorCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
             this.defTextBoxTwoFactorCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.defTextBoxTwoFactorCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.LightGray;
-            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(100, 0);
+            this.defTextBoxTwoFactorCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.defTextBoxTwoFactorCode.Location = new System.Drawing.Point(105, 5);
             this.defTextBoxTwoFactorCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.defTextBoxTwoFactorCode.MaxLength = 10;
             this.defTextBoxTwoFactorCode.Name = "defTextBoxTwoFactorCode";
@@ -845,6 +800,8 @@
             // 
             // defTextBoxCaptcha
             // 
+            this.defTextBoxCaptcha.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(110)))), ((int)(((byte)(110)))));
+            this.defTextBoxCaptcha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.defTextBoxCaptcha.Location = new System.Drawing.Point(50, 49);
             this.defTextBoxCaptcha.Name = "defTextBoxCaptcha";
             this.defTextBoxCaptcha.Size = new System.Drawing.Size(200, 23);
@@ -856,17 +813,21 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1243, 733);
+            this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.flowLayoutPanelCrypto);
             this.Controls.Add(this.flowLayoutPanelPendingConfirmation);
             this.Controls.Add(this.flowLayoutPanelTwoFactorCodes);
             this.Controls.Add(this.flowLayoutPanelLinker);
             this.Controls.Add(this.flowLayoutPanelLogin);
-            this.Controls.Add(this.toolStripMain);
+            this.Controls.Add(this.flowLayoutPanelMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";
@@ -884,8 +845,6 @@
             this.panelCaptcha.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).EndInit();
             this.panelLoginButton.ResumeLayout(false);
-            this.panelLoadingLogin.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).EndInit();
             this.flowLayoutPanelLinker.ResumeLayout(false);
             this.panelLinkButton.ResumeLayout(false);
             this.panelPhone.ResumeLayout(false);
@@ -895,8 +854,6 @@
             this.panelSecret.ResumeLayout(false);
             this.panelSecret.PerformLayout();
             this.panelFinalizeLink.ResumeLayout(false);
-            this.panelLoadingLink.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.flowLayoutPanelTwoFactorCodes.ResumeLayout(false);
             this.panelTwoFactorCodes.ResumeLayout(false);
             this.panelTwoFactorCodes.PerformLayout();
@@ -905,13 +862,7 @@
             this.panelGoToPending.ResumeLayout(false);
             this.panelShowRevocationCode.ResumeLayout(false);
             this.panelDeleteTwoFactor.ResumeLayout(false);
-            this.panelTwoFactorLoading.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.flowLayoutPanelPendingConfirmation.ResumeLayout(false);
-            this.panelPendingsLoading.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPendingLoading)).EndInit();
-            this.panelPendingNothing.ResumeLayout(false);
-            this.panelPendingNothing.PerformLayout();
             this.panelPendingButtons.ResumeLayout(false);
             this.panelGoToCodes.ResumeLayout(false);
             this.contextMenuStripNotifyIcon.ResumeLayout(false);
@@ -940,10 +891,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLinker;
         private System.Windows.Forms.Panel panelLinkButton;
         private System.Windows.Forms.Button buttonLink;
-        private System.Windows.Forms.Panel panelLoadingLogin;
-        private System.Windows.Forms.PictureBox pictureBoxLoading;
-        private System.Windows.Forms.Panel panelLoadingLink;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panelCaptcha;
         private System.Windows.Forms.PictureBox pictureBoxCaptcha;
         private defTextBox defTextBoxCaptcha;
@@ -959,28 +906,21 @@
         private System.Windows.Forms.Panel panelRevocationCode;
         private System.Windows.Forms.Panel panelDeleteTwoFactor;
         private System.Windows.Forms.Button buttonDeLink;
-        private System.Windows.Forms.Panel panelTwoFactorLoading;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panelFinalizeLink;
         private System.Windows.Forms.Button buttonFinalize;
         private System.Windows.Forms.Panel panelShowRevocationCode;
         private System.Windows.Forms.Button buttonShowRevocationCode;
         private System.Windows.Forms.TextBox textBoxRevocationCode;
-        private System.Windows.Forms.ProgressBar progressBarTwoFactorCode;
         private System.Windows.Forms.ProgressBar progressBarRevocationCode;
         private System.Windows.Forms.Panel panelGoToPending;
         private System.Windows.Forms.Button buttonGoToPendings;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPendingConfirmation;
-        private System.Windows.Forms.Panel panelPendingNothing;
-        private System.Windows.Forms.Label labelPendingListEmpty;
         private CheckedListBoxExtended checkedListBoxPendings;
         private System.Windows.Forms.Panel panelPendingButtons;
         private System.Windows.Forms.Button buttonPendingDeny;
         private System.Windows.Forms.Button buttonPendingAccept;
         private System.Windows.Forms.Panel panelGoToCodes;
         private System.Windows.Forms.Button buttonGoToCodes;
-        private System.Windows.Forms.Panel panelPendingsLoading;
-        private System.Windows.Forms.PictureBox pictureBoxPendingLoading;
         private System.Windows.Forms.NotifyIcon notifyIconMain;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelCrypto;
         private System.Windows.Forms.Panel panelCryptoCode;
@@ -996,6 +936,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripNotifyIcon;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2FACodes;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItemClose;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelMain;
+        private System.Windows.Forms.ToolStripButton toolStripButtonClose;
     }
 }
 
