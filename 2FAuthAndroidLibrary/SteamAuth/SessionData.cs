@@ -27,7 +27,7 @@ namespace SteamAuth
         public void AddCookies(CookieContainer cookies)
         {
             System.Uri url = new System.Uri("http://steamcommunity.com");
-            cookies.Add(url,new Cookie("mobileClientVersion", "3067969+%282.1.3%29", "/", ".steamcommunity.com")) ;
+            cookies.Add(url, new Cookie("mobileClientVersion", "0 (2.1.3)", "/", ".steamcommunity.com"));
             cookies.Add(url,new Cookie("mobileClient", "android", "/", ".steamcommunity.com"));
 
             cookies.Add(url, new Cookie("steamid", SteamID.ToString(), "/", ".steamcommunity.com"));

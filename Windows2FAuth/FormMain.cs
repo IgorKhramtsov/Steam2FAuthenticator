@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -11,15 +11,25 @@ using System.Windows.Forms;
 using _2FAuthAndroidLibrary;
 using System.IO;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 
 namespace Windows2FAuth
 {
     public partial class FormMain : Form
     {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        public const int WM_LBUTTONDOWN = 0x0201;
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
         CSteamAuth cSteamAuth;
         bool keepRefreshCode;
         bool keepRefreshPendings;
         private bool WantClose = false;
+        private bool loading;
         const string Programmname = "Steam authenticator";
         private string _secret = "";
         private string sgaPath = "";
@@ -30,19 +40,13 @@ namespace Windows2FAuth
             this.Width = 320; // Change width
             this.Height = 420; // and height
             labelStatus.Location = new Point(0, this.Height - labelStatus.Height - 40 /*Magick number*/ );
-            foreach (var contr in this.Controls) { // Center all ours controls
-                if (contr is FlowLayoutPanel && contr != flowLayoutPanelCrypto)
+            foreach (var contr in this.Controls)
+                if (contr is FlowLayoutPanel)
                 {
                     (contr as Control).Location = new Point(0, 26);
                     (contr as Control).Width = 305;
                     (contr as Control).Height = 410;
                 }
-                if (contr == flowLayoutPanelCrypto)
-                    (contr as Control).Location = new Point(0, 0);
-                if (contr is defTextBox || (contr is Button) || contr is TextBox || contr is PictureBox || (contr is Label && contr != labelStatus))
-                    (contr as Control).Center();
-            }
-
             cSteamAuth = new CSteamAuth();
 
             flowLayoutPanelLinker.Visible = false;
@@ -50,13 +54,8 @@ namespace Windows2FAuth
             flowLayoutPanelTwoFactorCodes.Visible = false;
             flowLayoutPanelLogin.Visible = false;
             flowLayoutPanelCrypto.Visible = false;
-
-            // TODO: Make panel transparent by rewriting base class like http://stackoverflow.com/questions/9358500/making-a-control-transparent
-            panelLoading.BackColor = Color.FromArgb(255, Color.White); 
-            panelLoading.Location = new Point(0, 0);
-            panelLoading.BringToFront();
-            panelLoading.Visible = false;
-            pictureBoxLoading.Center();
+            toolStripMain.Renderer = new WithoutBorder();
+            labelStatus.Location = new Point(0, this.Height - labelStatus.Height);
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -64,7 +63,7 @@ namespace Windows2FAuth
             Logging.LogInfo("==============Program start==============");
             if (File.Exists(CSteamAuth.SGAccountFile))
             {
-                var fileInfo = new FileInfo(CSteamAuth.SGAccountFile);
+               var fileInfo = new FileInfo(CSteamAuth.SGAccountFile);
                 if (fileInfo.Length > 0)
                 {
                     flowLayoutPanelCrypto.Visible = true;
@@ -74,8 +73,6 @@ namespace Windows2FAuth
                 else
                     File.Delete(CSteamAuth.SGAccountFile);
             }
-
-            toolStripMain.Visible = true;
             importToolStripMenuItem.Visible = true;
             flowLayoutPanelLogin.Visible = true;
         }
@@ -92,7 +89,7 @@ namespace Windows2FAuth
                 e.Cancel = !WantClose; // Hide if user dont wanna close
                 this.Hide();
             }
-        }
+         }
 
         public async Task Login()
         {
@@ -136,8 +133,7 @@ namespace Windows2FAuth
                     defTextBoxCaptcha.Reset();
                     defTextBoxTwoFactorCode.Reset();
                     
-                    toolStripMain.Visible = false;
-                    importToolStripMenuItem.Visible = false;
+                    toolStripDropDownMenu.Visible = false;
                     break;
                 case SteamAuth.UserLogin.LoginResult.Need2FA:
                     MessageBox.Show("This account already have authenticator. You must delete him.", "Authenticator already exist", MessageBoxButtons.OK);
@@ -214,16 +210,14 @@ namespace Windows2FAuth
                     defTextBoxPhone.Reset();
                     defTextBoxSecret.Reset();
                     OpenCodesTab();
-                    toolStripMain.Visible = true;
-                    exportToolStripMenuItem.Visible = true;
+                    toolStripDropDownMenu.Visible = true;
                     break;
                 case FinalizeResult.Success:
                     defTextBoxSMS.Reset();
                     defTextBoxPhone.Reset();
                     defTextBoxSecret.Reset();
                     OpenCodesTab();
-                    toolStripMain.Visible = true;
-                    exportToolStripMenuItem.Visible = true;
+                    toolStripDropDownMenu.Visible = true;
                     break;
             }
             buttonFinalize.Enabled = true;
@@ -243,12 +237,9 @@ namespace Windows2FAuth
             }
             else
             {
+                LoadingOff();
                 labelStatus.Text = "Cant delete authenticator!";
-                buttonDeLink.Enabled = true;
             }
-
-
-            LoadingOff();
         }
         private async Task ShowRevocationCode()
         {
@@ -275,6 +266,7 @@ namespace Windows2FAuth
         private void LoadSGAccount(string secret)
         {
             defTextBoxCryptoCode.Reset(); // Reset text box
+            toolStripDropDownMenu.Visible = true;
             if (secret.Length < 4)
                 return;
             _secret = secret;
@@ -282,7 +274,6 @@ namespace Windows2FAuth
             if (cSteamAuth.LoadAuthenticator(secret,sgaPath))
             {
                 OpenCodesTab();
-                toolStripMain.Visible = true;
                 exportToolStripMenuItem.Visible = true;
                 importToolStripMenuItem.Visible = false;
                 RefreshPendings().Forget();
@@ -325,10 +316,6 @@ namespace Windows2FAuth
                 {
                     this.BeginInvoke(new MethodInvoker(delegate
                     {
-                        progressBarTwoFactorCode.Value = iTwoFactorCodeTime;
-                        if (!keepRefreshCode)
-                            progressBarTwoFactorCode.Value = 0;
-
                         if (!(string.IsNullOrEmpty(sTwoFactorCode) || textBoxTwoFactorCode.Text == sTwoFactorCode))
                             textBoxTwoFactorCode.Text = sTwoFactorCode;
                         if (toolStripTextBox2FACodes.Text != sTwoFactorCode)
@@ -346,7 +333,7 @@ namespace Windows2FAuth
         private async Task RefreshPendings()
         {
             panelPendingButtons.Visible = false;
-            panelLoading.Visible = true;
+            LoadingOn();
 
             if (keepRefreshPendings == false)
                 keepRefreshPendings = true;
@@ -361,7 +348,7 @@ namespace Windows2FAuth
                         AddedNew = true;
                     }
 
-                panelLoading.Visible = false;
+                LoadingOff();
                 bool empty = (checkedListBoxPendings.checkedListBox.Items.Count <= 0);
                 panelPendingButtons.Visible = !empty;
                 checkedListBoxPendings.Enabled = !empty;
@@ -392,30 +379,47 @@ namespace Windows2FAuth
                 pictureBoxCaptcha.Image = Image.FromStream(stream);
             }
         }
-        private void LoadingOn()
+        private async Task LoadingOn()
         {
-            labelStatus.Text = "";
-            panelLoading.Visible = true;
-
-            panelTwoFactorCode.Visible = false;
+            loading = true;
+            while (loading)
+            {
+                labelStatus.Text = ".";
+                await Task.Delay(300);
+                if (loading)
+                {
+                    labelStatus.Text = "..";
+                    await Task.Delay(300);
+                }
+                if (loading)
+                {
+                    labelStatus.Text = "...";
+                    await Task.Delay(300);
+                }
+            }
         }
         private void LoadingOff()
         {
-            panelLoading.Visible = false;
+            loading = false;
+            if(labelStatus.Text.StartsWith("."))
+                labelStatus.Text = "";
         }
 
-        private void buttonLogin_Click(object sender, EventArgs e){
+        private async void buttonLogin_Click(object sender, EventArgs e){
             ((Button)sender).Enabled = false;
-            Login().Forget();
+            await Login();
+            ((Button)sender).Enabled = true;
         } //Login button
-        private void buttonLink_Click(object sender, EventArgs e){
+        private async void buttonLink_Click(object sender, EventArgs e){
             ((Button)sender).Enabled = false;
-            Link().Forget();
+            await Link();
+            ((Button)sender).Enabled = true;
         } // LinkButton
-        private void buttonFinalize_Click(object sender, EventArgs e)
+        private async void buttonFinalize_Click(object sender, EventArgs e)
         {
             buttonFinalize.Enabled = false;
-            FinalizeLink().Forget();
+            await FinalizeLink();
+            ((Button)sender).Enabled = true;
         } // Finalize link button
         private void buttonGoToPendings_Click(object sender, EventArgs e)
         {
@@ -425,19 +429,21 @@ namespace Windows2FAuth
 
             OpenPendingsTab();
         } // Go to pendings tab
-        private void buttonShowRevocationCode_Click(object sender, EventArgs e)
+        private async void buttonShowRevocationCode_Click(object sender, EventArgs e)
         {
             ((Button)sender).Enabled = false;
-            ShowRevocationCode().Forget();
+            await ShowRevocationCode();
+            ((Button)sender).Enabled = true;
         } // Show revocation code button
-        private void buttonDeLink_Click(object sender, EventArgs e)
+        private async void buttonDeLink_Click(object sender, EventArgs e)
         {
             // TODO: Show main menu, after delinking, and delete sga file?
-            if (MessageBox.Show("Are u sure?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK)
+            if (MessageBox.Show("Are you sure?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK)
                 return;
 
             ((Button)sender).Enabled = false;
-            DeLink().Forget();
+            await DeLink();
+            ((Button)sender).Enabled = true;
         } // Delete authenticator button
         private async void buttonPendingAccept_Click(object sender, EventArgs e)
         {
@@ -492,7 +498,7 @@ namespace Windows2FAuth
                 return;
 
             var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "json files (*.json)|*.json";
+            saveDialog.Filter = "sga files (*.sga)|*.sga";
             var dialogRes = saveDialog.ShowDialog();
             if (dialogRes == DialogResult.OK)
                 labelStatus.Text = "Saving result: " + cSteamAuth.SaveSGAccount(_secret, saveDialog.FileName);
@@ -504,11 +510,11 @@ namespace Windows2FAuth
             flowLayoutPanelLogin.Visible = false;
             flowLayoutPanelPendingConfirmation.Visible = false;
             flowLayoutPanelTwoFactorCodes.Visible = false;
-            toolStripMain.Visible = false;
+            toolStripDropDownMenu.Visible = false;
             keepRefreshCode = false;
             keepRefreshPendings = false;
 
-            var openDialog = new OpenFileDialog() { Filter = "json files (*.json)|*.json" };
+            var openDialog = new OpenFileDialog() { Filter = "sga files (*.sga)|*.sga" };
             var dialogRes = openDialog.ShowDialog();
             if (dialogRes == DialogResult.OK && !string.IsNullOrEmpty(openDialog.FileName))
             {
@@ -519,6 +525,7 @@ namespace Windows2FAuth
             {
                 flowLayoutPanelLogin.Visible = true;
                 toolStripMain.Visible = true;
+                toolStripDropDownMenu.Visible = true;
             }
         } // Import steamguard file
         private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -574,11 +581,23 @@ namespace Windows2FAuth
             Clipboard.SetText(textBoxTwoFactorCode.Text);
             notifyIconMain.ShowBalloonTip(1000, "Copy to clipboard", "Two factor code was copied to clipboard.", ToolTipIcon.Info);
         }// Copy 2fa code from form to clipboard
+        private void toolStripButtonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }// Close form
 
         private void TimerRevocationCode_Tick(object sender, EventArgs e)
         {
             progressBarRevocationCode.Increment(10);
         } // Revocation code showing timer
+
+        private void toolStripMain_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+            ReleaseCapture();
+            SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+        }
     }
     public static class Extensions
     {
@@ -590,10 +609,10 @@ namespace Windows2FAuth
                     contr.Location = new Point((contr.Parent.Width - contr.Width) / 2, contr.Location.Y);
         }
     }
-    // TODO: custom textbox for 2fa code with progress bar
     public class defTextBox : TextBox
     {
         private string defText;
+        private Color foreColor;
         public string text { get { return isDef() ? null : Text; } }
         public bool isDef()
         {
@@ -605,13 +624,11 @@ namespace Windows2FAuth
         {
             Text = defText;
         }
-        public defTextBox()
-        {
-
-        }
         protected override void OnCreateControl()
         {
             defText = this.Text;
+            foreColor = this.ForeColor;
+            this.ForeColor = Color.FromArgb(160, 160, 160);
             base.OnCreateControl();
         }
         protected override void OnLeave(EventArgs e)
@@ -619,16 +636,17 @@ namespace Windows2FAuth
             if(this.Text == "")
             {
                 this.Text = defText;
-                this.ForeColor = Color.Gray;
+                this.ForeColor = Color.FromArgb(160, 160, 160);
             }
             base.OnLeave(e);
         }
         protected override void OnEnter(EventArgs e)
         {
+
             if (this.Text == defText)
             {
                 this.Text = "";
-                this.ForeColor = Color.Black;
+                this.ForeColor = foreColor;
             }
             base.OnEnter(e);
         }
@@ -677,45 +695,25 @@ namespace Windows2FAuth
             manualCheckChange = false;
         }
     }
-    public class TransparentPanel : Panel
+    public class WithoutBorder : ToolStripSystemRenderer
     {
         
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
         {
-            base.OnPaint(e);
-
+            //base.OnRenderToolStripBorder(e);
         }
-
-        
-        protected override void OnPaintBackground(PaintEventArgs e)
+        protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
         {
-            base.OnPaintBackground(e);
-
-            Graphics g = e.Graphics;
-            Rectangle bound = e.ClipRectangle;
-            //Rectangle bound = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
-            Brush backBrush = default(Brush);
-            backBrush = new SolidBrush(Color.FromArgb(155,Color.Black));
-            g.FillRectangle(backBrush,bound);
-            backBrush.Dispose();
-            
-            
-            g.Dispose();
+            e.ArrowColor = e.Item.ForeColor;
+            base.OnRenderArrow(e);
         }
-        
-        protected override void OnBackColorChanged(EventArgs e)
+        protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (this.Parent != null)
-            {
-                Parent.Invalidate(this.Bounds, true);
-            }
-            base.OnBackColorChanged(e);
-        }
-
-        protected override void OnParentBackColorChanged(EventArgs e)
-        {
-            this.Invalidate();
-            base.OnParentBackColorChanged(e);
+            if (e.Item.Selected)
+                e.Item.BackColor = Color.FromArgb(150, 200, 0, 0);
+            else
+                e.Item.BackColor = e.ToolStrip.BackColor;
+            base.OnRenderButtonBackground(e);
         }
 
     }

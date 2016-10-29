@@ -87,6 +87,8 @@
     <None Include="Resource\loading80.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resource\1477581035_cross-24.png" />
+    <None Include="Resource\1477581620_close.png" />
     <Content Include="Resource\icon closed.ico" />
     <Content Include="Resource\icon opened.ico" />
   </ItemGroup>
